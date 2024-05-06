@@ -23,28 +23,51 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.head-bar.data-v-8251da79 {
-  padding: 0 30rpx;
-}
-.head-bar .head-bar-top.data-v-8251da79 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 99;
+.health-news.data-v-d298a916 {
   width: 100%;
-  padding: 0px 30rpx 0;
-  box-sizing: border-box;
+  margin: 10rpx 0;
 }
-.head-bar .head-bar-top .head-bar-title.data-v-8251da79 {
+.health-news .news-item.data-v-d298a916 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  padding: 0 10px;
+  margin: 40rpx 10rpx;
+}
+.health-news .news-item .news-cover.data-v-d298a916 {
+  width: 240rpx;
+  height: 172rpx;
+}
+.health-news .news-item .item-detail.data-v-d298a916 {
+  flex: 1;
+}
+.health-news .news-item .item-detail .news-title.data-v-d298a916 {
+  font-weight: 500;
+  font-size: 32rpx;
+  color: #09244B;
+  font-weight: 600;
+}
+.health-news .news-item .item-detail .news-keyword.data-v-d298a916 {
+  margin-top: 10rpx;
+  min-height: 100rpx;
+  font-size: 24rpx;
+}
+.health-news .news-item .item-detail .news-keyword-item.data-v-d298a916 {
+  color: #3DBEDF;
+  background-color: rgba(61, 190, 223, 0.1);
+  padding: 4rpx 12rpx;
+  border-radius: 4rpx;
+  margin: 0 10rpx 0 0;
+}
+.health-news .news-item .item-detail .news-keyword .news-date.data-v-d298a916 {
+  color: #6B7C93;
+}
+.health-news .news-item .item-detail .news-footer.data-v-d298a916 {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: nowrap;
   flex-direction: row;
-  font-weight: 500;
-  font-size: 36rpx;
-  color: #09244B;
-  text-align: left;
-  font-style: normal;
-  text-transform: none;
 }

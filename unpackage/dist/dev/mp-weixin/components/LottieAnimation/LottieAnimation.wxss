@@ -1,10 +1,3 @@
-
-	/*每个页面公共css */
-page {
-		width: 100%;
-		height: 100%;
-}
-
 /**
  * 这里是uni-app内置的常用样式变量
  *
@@ -30,13 +23,3 @@ page {
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-page {
-  --base-color: #f25037;
-  font-family: Source Han Sans CN;
-  width: 100%;
-  height: 100%;
-}
-
-.mb-10 {
-  margin-bottom: 10px;
-}page{--status-bar-height:25px;--top-window-height:0px;--window-top:0px;--window-bottom:0px;--window-left:0px;--window-right:0px;--window-magin:0px}[data-c-h="true"]{display: none !important;}

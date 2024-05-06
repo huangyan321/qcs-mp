@@ -1,0 +1,1 @@
+<view class="lottie data-v-1517013b"><block wx:if="{{r0}}"><canvas class="data-v-1517013b" id="{{a}}" type="2d" style="{{'width:' + b + ';' + ('height:' + c)}}"></canvas></block></view>

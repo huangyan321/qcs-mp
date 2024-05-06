@@ -9,6 +9,9 @@
 				<text>在家轻松挂号</text>
 			</view>
 			<button class="regi-btn" type="default" size="mini">去挂号</button>
+			<LottieAnimation style="position: absolute; bottom: -30rpx;right: -10rpx;" :width="220" :height="220"
+				uid="doctor" :animation-data="animationData">
+			</LottieAnimation>
 		</view>
 		<view class="sign">
 			<!-- 在线签到 -->
@@ -52,7 +55,8 @@
 	</view>
 </template>
 
-<script>
+<script setup lang="ts">
+	import animationData from '@/lib/json/doctor-woman.json'
 </script>
 
 <style lang="scss" scoped>
@@ -66,6 +70,7 @@
 		grid-template: repeat(3, 31.2%) / repeat(4, 1fr);
 		gap: 16rpx;
 		box-sizing: border-box;
+
 		.registration {
 			grid-row: 1 / 3;
 			grid-column: 1 / 3;
@@ -73,6 +78,8 @@
 			border-radius: 16rpx;
 			padding: 20rpx;
 			color: #ffffff;
+
+			position: relative;
 
 			.regi-title {
 				font-size: 40rpx;

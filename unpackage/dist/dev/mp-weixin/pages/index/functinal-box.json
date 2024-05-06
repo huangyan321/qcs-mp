@@ -1,4 +1,6 @@
 {
   "component": true,
-  "usingComponents": {}
+  "usingComponents": {
+    "lottie-animation": "../../components/LottieAnimation/LottieAnimation"
+  }
 }

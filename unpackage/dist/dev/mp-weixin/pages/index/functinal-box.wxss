@@ -41,6 +41,7 @@
   border-radius: 16rpx;
   padding: 20rpx;
   color: #ffffff;
+  position: relative;
 }
 .functinal-box .registration .regi-title.data-v-d74eb31f {
   font-size: 40rpx;

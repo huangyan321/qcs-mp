@@ -30,39 +30,6 @@
   flex-wrap: nowrap;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 30rpx;
-}
-.content .health-news.data-v-1cf27b2a {
-  width: 100%;
-  margin: 10rpx 0;
-}
-.content .health-news .news-item.data-v-1cf27b2a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: nowrap;
-  flex-direction: row;
-}
-.content .health-news .news-item .news-cover.data-v-1cf27b2a {
-  width: 240rpx;
-  height: 172rpx;
-}
-.content .health-news .news-item .item-detail.data-v-1cf27b2a {
-  flex: 1;
-}
-.content .health-news .news-item .item-detail .news-title.data-v-1cf27b2a {
-  font-weight: 500;
-  font-size: 32rpx;
-  color: #09244B;
-}
-.content .health-news .news-item .item-detail .news-keyword.data-v-1cf27b2a {
-  margin-top: 10rpx;
-  min-height: 100rpx;
-}
-.content .health-news .news-item .item-detail .news-footer.data-v-1cf27b2a {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-  flex-direction: row;
+  padding: 0 32rpx;
+  background: linear-gradient(180deg, #D3F2FF 0%, #F7FAFB 45%);
 }

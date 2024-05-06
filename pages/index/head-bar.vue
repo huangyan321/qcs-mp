@@ -38,6 +38,8 @@
 
 <style scoped lang="scss">
 	.head-bar {
+		padding: 0 30rpx;
+
 		.head-bar-top {
 			position: fixed;
 			top: 0;
