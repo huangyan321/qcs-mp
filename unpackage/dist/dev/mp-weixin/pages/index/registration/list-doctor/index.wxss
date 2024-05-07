@@ -45,6 +45,7 @@ page {
   padding: 0 32rpx;
 }
 .list-filter .content.data-v-81f8c34c {
+  box-sizing: border-box;
   padding: 0 32rpx;
   display: flex;
   align-items: center;

@@ -70,6 +70,7 @@
 		padding: 0 32rpx;
 
 		.content {
+			box-sizing: border-box;
 			padding: 0 32rpx;
 			@include flex(flex-start);
 			background: rgba(255, 255, 255, 0.5);
