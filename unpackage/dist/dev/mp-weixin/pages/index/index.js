@@ -10,8 +10,15 @@ const News = () => "./news.js";
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "index",
   setup(__props) {
+    function navigate(url) {
+      common_vendor.index.navigateTo({
+        url
+      });
+    }
     return (_ctx, _cache) => {
-      return {};
+      return {
+        a: common_vendor.o(navigate)
+      };
     };
   }
 });

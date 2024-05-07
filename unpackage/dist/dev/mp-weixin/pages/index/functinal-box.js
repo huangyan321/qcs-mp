@@ -16757,10 +16757,21 @@ if (!Math) {
 }
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "functinal-box",
-  setup(__props) {
+  emits: ["navigate"],
+  setup(__props, { emit: __emit }) {
+    const emit = __emit;
+    function handleClick(type) {
+      switch (type) {
+        case "regist":
+          return emit("navigate", "/pages/index/registration/dept-select/index");
+        default:
+          return;
+      }
+    }
     return (_ctx, _cache) => {
       return {
-        a: common_vendor.p({
+        a: common_vendor.o(($event) => handleClick("regist")),
+        b: common_vendor.p({
           width: 220,
           height: 220,
           uid: "doctor",

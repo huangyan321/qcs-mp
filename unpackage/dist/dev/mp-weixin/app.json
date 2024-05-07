@@ -1,8 +1,10 @@
 {
   "pages": [
-    "pages/profile/index",
+    "pages/index/registration/list-doctor/index",
+    "pages/index/index",
+    "pages/index/registration/dept-select/index",
     "pages/message/index",
-    "pages/index/index"
+    "pages/profile/index"
   ],
   "window": {
     "navigationBarTextStyle": "black",

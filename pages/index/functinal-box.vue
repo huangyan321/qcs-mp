@@ -8,7 +8,7 @@
 			<view class="regi-title-subhead">
 				<text>在家轻松挂号</text>
 			</view>
-			<button class="regi-btn" type="default" size="mini">去挂号</button>
+			<button class="regi-btn" type="default" size="mini" @click="handleClick('regist')">去挂号</button>
 			<LottieAnimation style="position: absolute; bottom: -30rpx;right: -10rpx;" :width="220" :height="220"
 				uid="doctor" :animation-data="animationData">
 			</LottieAnimation>
@@ -57,6 +57,15 @@
 
 <script setup lang="ts">
 	import animationData from '@/lib/json/doctor-woman.json'
+	const emit = defineEmits(['navigate'])
+	function handleClick(type : string) {
+		switch (type) {
+			case 'regist':
+				return emit('navigate', '/pages/index/registration/dept-select/index')
+			default: return
+
+		}
+	}
 </script>
 
 <style lang="scss" scoped>

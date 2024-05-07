@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "加载中",
+  "usingComponents": {
+    "date-picker": "./date-picker"
+  }
+}

@@ -1,0 +1,1 @@
+<view class="dept-item data-v-fb3b24ef" bindtap="{{c}}"><image class="dept-icon data-v-fb3b24ef" src="{{a}}" mode="aspectFit"></image><text class="dept-name data-v-fb3b24ef">{{b}}</text></view>
