@@ -56,5 +56,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-1517013b"], ["__file", "C:/Users/16045/Desktop/code/my-project/miniPrograms/qcs-mp/components/LottieAnimation/LottieAnimation.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-1517013b"], ["__file", "C:/Users/vanweiping/Desktop/code/myproject/hbuilderx/qcs-mp/components/LottieAnimation/LottieAnimation.vue"]]);
 wx.createComponent(Component);

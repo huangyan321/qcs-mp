@@ -35,6 +35,7 @@
   flex-direction: row;
 }
 .date-picker-container .date-box.data-v-47738aae {
+  position: relative;
   margin: 0 10rpx;
   padding: 20rpx 24rpx;
   background: #FFFFFF;
@@ -47,6 +48,14 @@
 }
 .date-picker-container .date-box .date.data-v-47738aae {
   margin-top: 10rpx;
+}
+.date-picker-container .date-box .dot-today.data-v-47738aae {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  background: #FF5656;
+  color: #FFFFFF;
+  border-top-left-radius: 16rpx;
 }
 .date-picker-container .date-box.data-v-47738aae:first-child {
   margin-left: 32rpx;

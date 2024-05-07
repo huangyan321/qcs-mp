@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<SearchBar></SearchBar>
+		<SearchBar @toast="showModal"></SearchBar>
 		<view class="dept-item-wrapper">
 			<DeptItem v-for="dept in deptList" :key="dept.id" :icon="dept.icon" :name="dept.name" @click="handleClick">
 			</DeptItem>
@@ -20,6 +20,19 @@
 		uni.navigateTo({
 			url: `/pages/index/registration/list-doctor/index?query=` + encodeURIComponent(JSON.stringify({ name }))
 		})
+	}
+	function showModal() {
+		uni.showModal({
+			title: '预约须知',
+			content: '预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容',
+			showCancel: false,
+			confirmText: '知道了',
+			success: function (res) {
+				if (res.confirm) {
+					console.log('用户点击确定');
+				}
+			}
+		});
 	}
 	const deptList = [
 		{

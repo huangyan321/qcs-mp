@@ -6,14 +6,13 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-/**
-* @vue/shared v3.4.21
-* (c) 2018-present Yuxi (Evan) You and Vue contributors
-* @license MIT
-**/
 function makeMap(str, expectsLowerCase) {
-  const set2 = new Set(str.split(","));
-  return expectsLowerCase ? (val2) => set2.has(val2.toLowerCase()) : (val2) => set2.has(val2);
+  const map = /* @__PURE__ */ Object.create(null);
+  const list = str.split(",");
+  for (let i2 = 0; i2 < list.length; i2++) {
+    map[list[i2]] = true;
+  }
+  return expectsLowerCase ? (val2) => !!map[val2.toLowerCase()] : (val2) => !!map[val2];
 }
 const EMPTY_OBJ = Object.freeze({});
 const EMPTY_ARR = Object.freeze([]);
@@ -95,10 +94,6 @@ const looseToNumber = (val2) => {
   const n2 = parseFloat(val2);
   return isNaN(n2) ? val2 : n2;
 };
-let _globalThis;
-const getGlobalThis = () => {
-  return _globalThis || (_globalThis = typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : {});
-};
 function normalizeStyle(value2) {
   if (isArray(value2)) {
     const res = {};
@@ -177,8 +172,8 @@ const replacer = (_key, val2) => {
   return val2;
 };
 const stringifySymbol = (v, i2 = "") => {
-  var _a;
-  return isSymbol(v) ? `Symbol(${(_a = v.description) != null ? _a : i2})` : v;
+  var _a2;
+  return isSymbol(v) ? `Symbol(${(_a2 = v.description) != null ? _a2 : i2})` : v;
 };
 const LINEFEED = "\n";
 const SLOT_DEFAULT_NAME = "d";
@@ -374,9 +369,9 @@ E.prototype = {
     return this;
   },
   once: function(name, callback, ctx) {
-    var self2 = this;
+    var self = this;
     function listener() {
-      self2.off(name, listener);
+      self.off(name, listener);
       callback.apply(ctx, arguments);
     }
     listener._ = callback;
@@ -540,7 +535,7 @@ function normalizeLocale(locale, messages) {
   }
 }
 class I18n {
-  constructor({ locale, fallbackLocale, messages, watcher, formater: formater2 }) {
+  constructor({ locale, fallbackLocale, messages, watcher, formater }) {
     this.locale = LOCALE_EN;
     this.fallbackLocale = LOCALE_EN;
     this.message = {};
@@ -549,7 +544,7 @@ class I18n {
     if (fallbackLocale) {
       this.fallbackLocale = fallbackLocale;
     }
-    this.formater = formater2 || defaultFormatter;
+    this.formater = formater || defaultFormatter;
     this.messages = messages || {};
     this.setLocale(locale || LOCALE_EN);
     if (watcher) {
@@ -900,7 +895,7 @@ function wrapperHook(hook, params) {
     return hook(data2, params) || data2;
   };
 }
-function queue$2(hooks, data2, params) {
+function queue$1(hooks, data2, params) {
   let promise = false;
   for (let i2 = 0; i2 < hooks.length; i2++) {
     const hook = hooks[i2];
@@ -937,7 +932,7 @@ function wrapperOptions(interceptors2, options = {}) {
     }
     const oldCallback = options[name];
     options[name] = function callbackInterceptor(res) {
-      queue$2(hooks, res, options).then((res2) => {
+      queue$1(hooks, res, options).then((res2) => {
         return isFunction(oldCallback) && oldCallback(res2) || res2;
       });
     };
@@ -979,7 +974,7 @@ function invokeApi(method, api, options, params) {
   const interceptor = getApiInterceptorHooks(method);
   if (interceptor && Object.keys(interceptor).length) {
     if (isArray(interceptor.invoke)) {
-      const res = queue$2(interceptor.invoke, options);
+      const res = queue$1(interceptor.invoke, options);
       return res.then((options2) => {
         return api(wrapperOptions(getApiInterceptorHooks(method), options2), ...params);
       });
@@ -1039,8 +1034,7 @@ function invokeSuccess(id, name, res) {
 function invokeFail(id, name, errMsg, errRes = {}) {
   const apiErrMsg = name + ":fail" + (errMsg ? " " + errMsg : "");
   delete errRes.errCode;
-  let res = extend({ errMsg: apiErrMsg }, errRes);
-  return invokeCallback(id, res);
+  return invokeCallback(id, typeof UniError !== "undefined" ? typeof errRes.errCode !== "undefined" ? new UniError(name, errRes.errCode, apiErrMsg) : new UniError(apiErrMsg, errRes) : extend({ errMsg: apiErrMsg }, errRes));
 }
 function beforeInvokeApi(name, args, protocol, options) {
   {
@@ -1538,8 +1532,8 @@ function populateParameters(fromRes, toRes) {
     appVersion: "1.0.0",
     appVersionCode: "100",
     appLanguage: getAppLanguage(hostLanguage),
-    uniCompileVersion: "4.14",
-    uniRuntimeVersion: "4.14",
+    uniCompileVersion: "4.08",
+    uniRuntimeVersion: "4.08",
     uniPlatform: "mp-weixin",
     deviceBrand,
     deviceModel: model,
@@ -1853,509 +1847,7 @@ var protocols = /* @__PURE__ */ Object.freeze({
 });
 const wx$1 = initWx();
 var index = initUni(shims, protocols, wx$1);
-new Set(
-  /* @__PURE__ */ Object.getOwnPropertyNames(Symbol).filter((key) => key !== "arguments" && key !== "caller").map((key) => Symbol[key]).filter(isSymbol)
-);
-function toRaw$1(observed) {
-  const raw = observed && observed["__v_raw"];
-  return raw ? toRaw$1(raw) : observed;
-}
-function isRef$1(r2) {
-  return !!(r2 && r2.__v_isRef === true);
-}
-/**
-* @vue/runtime-core v3.4.21
-* (c) 2018-present Yuxi (Evan) You and Vue contributors
-* @license MIT
-**/
-const stack$1 = [];
-function pushWarningContext$1(vnode) {
-  stack$1.push(vnode);
-}
-function popWarningContext$1() {
-  stack$1.pop();
-}
-function warn$1$1(msg, ...args) {
-  const instance = stack$1.length ? stack$1[stack$1.length - 1].component : null;
-  const appWarnHandler = instance && instance.appContext.config.warnHandler;
-  const trace = getComponentTrace$1();
-  if (appWarnHandler) {
-    callWithErrorHandling$1(
-      appWarnHandler,
-      instance,
-      11,
-      [
-        msg + args.map((a) => {
-          var _a, _b;
-          return (_b = (_a = a.toString) == null ? void 0 : _a.call(a)) != null ? _b : JSON.stringify(a);
-        }).join(""),
-        instance && instance.proxy,
-        trace.map(
-          ({ vnode }) => `at <${formatComponentName$1(instance, vnode.type)}>`
-        ).join("\n"),
-        trace
-      ]
-    );
-  } else {
-    const warnArgs = [`[Vue warn]: ${msg}`, ...args];
-    if (trace.length && // avoid spamming console during tests
-    true) {
-      warnArgs.push(`
-`, ...formatTrace$1(trace));
-    }
-    console.warn(...warnArgs);
-  }
-}
-function getComponentTrace$1() {
-  let currentVNode = stack$1[stack$1.length - 1];
-  if (!currentVNode) {
-    return [];
-  }
-  const normalizedStack = [];
-  while (currentVNode) {
-    const last = normalizedStack[0];
-    if (last && last.vnode === currentVNode) {
-      last.recurseCount++;
-    } else {
-      normalizedStack.push({
-        vnode: currentVNode,
-        recurseCount: 0
-      });
-    }
-    const parentInstance = currentVNode.component && currentVNode.component.parent;
-    currentVNode = parentInstance && parentInstance.vnode;
-  }
-  return normalizedStack;
-}
-function formatTrace$1(trace) {
-  const logs = [];
-  trace.forEach((entry, i2) => {
-    logs.push(...i2 === 0 ? [] : [`
-`], ...formatTraceEntry$1(entry));
-  });
-  return logs;
-}
-function formatTraceEntry$1({ vnode, recurseCount }) {
-  const postfix = recurseCount > 0 ? `... (${recurseCount} recursive calls)` : ``;
-  const isRoot = vnode.component ? vnode.component.parent == null : false;
-  const open = ` at <${formatComponentName$1(
-    vnode.component,
-    vnode.type,
-    isRoot
-  )}`;
-  const close = `>` + postfix;
-  return vnode.props ? [open, ...formatProps$1(vnode.props), close] : [open + close];
-}
-function formatProps$1(props) {
-  const res = [];
-  const keys = Object.keys(props);
-  keys.slice(0, 3).forEach((key) => {
-    res.push(...formatProp$1(key, props[key]));
-  });
-  if (keys.length > 3) {
-    res.push(` ...`);
-  }
-  return res;
-}
-function formatProp$1(key, value2, raw) {
-  if (isString(value2)) {
-    value2 = JSON.stringify(value2);
-    return raw ? value2 : [`${key}=${value2}`];
-  } else if (typeof value2 === "number" || typeof value2 === "boolean" || value2 == null) {
-    return raw ? value2 : [`${key}=${value2}`];
-  } else if (isRef$1(value2)) {
-    value2 = formatProp$1(key, toRaw$1(value2.value), true);
-    return raw ? value2 : [`${key}=Ref<`, value2, `>`];
-  } else if (isFunction(value2)) {
-    return [`${key}=fn${value2.name ? `<${value2.name}>` : ``}`];
-  } else {
-    value2 = toRaw$1(value2);
-    return raw ? value2 : [`${key}=`, value2];
-  }
-}
-const ErrorTypeStrings$1 = {
-  ["sp"]: "serverPrefetch hook",
-  ["bc"]: "beforeCreate hook",
-  ["c"]: "created hook",
-  ["bm"]: "beforeMount hook",
-  ["m"]: "mounted hook",
-  ["bu"]: "beforeUpdate hook",
-  ["u"]: "updated",
-  ["bum"]: "beforeUnmount hook",
-  ["um"]: "unmounted hook",
-  ["a"]: "activated hook",
-  ["da"]: "deactivated hook",
-  ["ec"]: "errorCaptured hook",
-  ["rtc"]: "renderTracked hook",
-  ["rtg"]: "renderTriggered hook",
-  [0]: "setup function",
-  [1]: "render function",
-  [2]: "watcher getter",
-  [3]: "watcher callback",
-  [4]: "watcher cleanup function",
-  [5]: "native event handler",
-  [6]: "component event handler",
-  [7]: "vnode hook",
-  [8]: "directive hook",
-  [9]: "transition hook",
-  [10]: "app errorHandler",
-  [11]: "app warnHandler",
-  [12]: "ref function",
-  [13]: "async component loader",
-  [14]: "scheduler flush. This is likely a Vue internals bug. Please open an issue at https://github.com/vuejs/core ."
-};
-function callWithErrorHandling$1(fn, instance, type, args) {
-  try {
-    return args ? fn(...args) : fn();
-  } catch (err) {
-    handleError$1(err, instance, type);
-  }
-}
-function handleError$1(err, instance, type, throwInDev = true) {
-  const contextVNode = instance ? instance.vnode : null;
-  if (instance) {
-    let cur = instance.parent;
-    const exposedInstance = instance.proxy;
-    const errorInfo = ErrorTypeStrings$1[type];
-    while (cur) {
-      const errorCapturedHooks = cur.ec;
-      if (errorCapturedHooks) {
-        for (let i2 = 0; i2 < errorCapturedHooks.length; i2++) {
-          if (errorCapturedHooks[i2](err, exposedInstance, errorInfo) === false) {
-            return;
-          }
-        }
-      }
-      cur = cur.parent;
-    }
-    const appErrorHandler = instance.appContext.config.errorHandler;
-    if (appErrorHandler) {
-      callWithErrorHandling$1(
-        appErrorHandler,
-        null,
-        10,
-        [err, exposedInstance, errorInfo]
-      );
-      return;
-    }
-  }
-  logError$1(err, type, contextVNode, throwInDev);
-}
-function logError$1(err, type, contextVNode, throwInDev = true) {
-  {
-    const info = ErrorTypeStrings$1[type];
-    if (contextVNode) {
-      pushWarningContext$1(contextVNode);
-    }
-    warn$1$1(`Unhandled error${info ? ` during execution of ${info}` : ``}`);
-    if (contextVNode) {
-      popWarningContext$1();
-    }
-    if (throwInDev) {
-      throw err;
-    } else {
-      console.error(err);
-    }
-  }
-}
-let isFlushing$1 = false;
-let isFlushPending$1 = false;
-const queue$1 = [];
-let flushIndex$1 = 0;
-const pendingPostFlushCbs$1 = [];
-let activePostFlushCbs$1 = null;
-let postFlushIndex$1 = 0;
-const resolvedPromise$1 = /* @__PURE__ */ Promise.resolve();
-const RECURSION_LIMIT$1 = 100;
-function findInsertionIndex$1(id) {
-  let start = flushIndex$1 + 1;
-  let end = queue$1.length;
-  while (start < end) {
-    const middle = start + end >>> 1;
-    const middleJob = queue$1[middle];
-    const middleJobId = getId$1(middleJob);
-    if (middleJobId < id || middleJobId === id && middleJob.pre) {
-      start = middle + 1;
-    } else {
-      end = middle;
-    }
-  }
-  return start;
-}
-function queueJob$1(job) {
-  if (!queue$1.length || !queue$1.includes(
-    job,
-    isFlushing$1 && job.allowRecurse ? flushIndex$1 + 1 : flushIndex$1
-  )) {
-    if (job.id == null) {
-      queue$1.push(job);
-    } else {
-      queue$1.splice(findInsertionIndex$1(job.id), 0, job);
-    }
-    queueFlush$1();
-  }
-}
-function queueFlush$1() {
-  if (!isFlushing$1 && !isFlushPending$1) {
-    isFlushPending$1 = true;
-    resolvedPromise$1.then(flushJobs$1);
-  }
-}
-function queuePostFlushCb$1(cb) {
-  if (!isArray(cb)) {
-    if (!activePostFlushCbs$1 || !activePostFlushCbs$1.includes(
-      cb,
-      cb.allowRecurse ? postFlushIndex$1 + 1 : postFlushIndex$1
-    )) {
-      pendingPostFlushCbs$1.push(cb);
-    }
-  } else {
-    pendingPostFlushCbs$1.push(...cb);
-  }
-  queueFlush$1();
-}
-function flushPostFlushCbs$1(seen) {
-  if (pendingPostFlushCbs$1.length) {
-    const deduped = [...new Set(pendingPostFlushCbs$1)].sort(
-      (a, b) => getId$1(a) - getId$1(b)
-    );
-    pendingPostFlushCbs$1.length = 0;
-    if (activePostFlushCbs$1) {
-      activePostFlushCbs$1.push(...deduped);
-      return;
-    }
-    activePostFlushCbs$1 = deduped;
-    {
-      seen = seen || /* @__PURE__ */ new Map();
-    }
-    for (postFlushIndex$1 = 0; postFlushIndex$1 < activePostFlushCbs$1.length; postFlushIndex$1++) {
-      if (checkRecursiveUpdates$1(seen, activePostFlushCbs$1[postFlushIndex$1])) {
-        continue;
-      }
-      activePostFlushCbs$1[postFlushIndex$1]();
-    }
-    activePostFlushCbs$1 = null;
-    postFlushIndex$1 = 0;
-  }
-}
-const getId$1 = (job) => job.id == null ? Infinity : job.id;
-const comparator$1 = (a, b) => {
-  const diff2 = getId$1(a) - getId$1(b);
-  if (diff2 === 0) {
-    if (a.pre && !b.pre)
-      return -1;
-    if (b.pre && !a.pre)
-      return 1;
-  }
-  return diff2;
-};
-function flushJobs$1(seen) {
-  isFlushPending$1 = false;
-  isFlushing$1 = true;
-  {
-    seen = seen || /* @__PURE__ */ new Map();
-  }
-  queue$1.sort(comparator$1);
-  const check = (job) => checkRecursiveUpdates$1(seen, job);
-  try {
-    for (flushIndex$1 = 0; flushIndex$1 < queue$1.length; flushIndex$1++) {
-      const job = queue$1[flushIndex$1];
-      if (job && job.active !== false) {
-        if (check(job)) {
-          continue;
-        }
-        callWithErrorHandling$1(job, null, 14);
-      }
-    }
-  } finally {
-    flushIndex$1 = 0;
-    queue$1.length = 0;
-    flushPostFlushCbs$1(seen);
-    isFlushing$1 = false;
-    if (queue$1.length || pendingPostFlushCbs$1.length) {
-      flushJobs$1(seen);
-    }
-  }
-}
-function checkRecursiveUpdates$1(seen, fn) {
-  if (!seen.has(fn)) {
-    seen.set(fn, 1);
-  } else {
-    const count = seen.get(fn);
-    if (count > RECURSION_LIMIT$1) {
-      const instance = fn.ownerInstance;
-      const componentName = instance && getComponentName$1(instance.type);
-      handleError$1(
-        `Maximum recursive updates exceeded${componentName ? ` in component <${componentName}>` : ``}. This means you have a reactive effect that is mutating its own dependencies and thus recursively triggering itself. Possible sources include component template, render function, updated hook or watcher source function.`,
-        null,
-        10
-      );
-      return true;
-    } else {
-      seen.set(fn, count + 1);
-    }
-  }
-}
-const hmrDirtyComponents = /* @__PURE__ */ new Set();
-{
-  getGlobalThis().__VUE_HMR_RUNTIME__ = {
-    createRecord: tryWrap(createRecord),
-    rerender: tryWrap(rerender),
-    reload: tryWrap(reload)
-  };
-}
-const map = /* @__PURE__ */ new Map();
-function createRecord(id, initialDef) {
-  if (map.has(id)) {
-    return false;
-  }
-  map.set(id, {
-    initialDef: normalizeClassComponent(initialDef),
-    instances: /* @__PURE__ */ new Set()
-  });
-  return true;
-}
-function normalizeClassComponent(component) {
-  return isClassComponent$1(component) ? component.__vccOpts : component;
-}
-function rerender(id, newRender) {
-  const record = map.get(id);
-  if (!record) {
-    return;
-  }
-  record.initialDef.render = newRender;
-  [...record.instances].forEach((instance) => {
-    if (newRender) {
-      instance.render = newRender;
-      normalizeClassComponent(instance.type).render = newRender;
-    }
-    instance.renderCache = [];
-    instance.effect.dirty = true;
-    instance.update();
-  });
-}
-function reload(id, newComp) {
-  const record = map.get(id);
-  if (!record)
-    return;
-  newComp = normalizeClassComponent(newComp);
-  updateComponentDef(record.initialDef, newComp);
-  const instances = [...record.instances];
-  for (const instance of instances) {
-    const oldComp = normalizeClassComponent(instance.type);
-    if (!hmrDirtyComponents.has(oldComp)) {
-      if (oldComp !== record.initialDef) {
-        updateComponentDef(oldComp, newComp);
-      }
-      hmrDirtyComponents.add(oldComp);
-    }
-    instance.appContext.propsCache.delete(instance.type);
-    instance.appContext.emitsCache.delete(instance.type);
-    instance.appContext.optionsCache.delete(instance.type);
-    if (instance.ceReload) {
-      hmrDirtyComponents.add(oldComp);
-      instance.ceReload(newComp.styles);
-      hmrDirtyComponents.delete(oldComp);
-    } else if (instance.parent) {
-      instance.parent.effect.dirty = true;
-      queueJob$1(instance.parent.update);
-    } else if (instance.appContext.reload) {
-      instance.appContext.reload();
-    } else if (typeof window !== "undefined") {
-      window.location.reload();
-    } else {
-      console.warn(
-        "[HMR] Root or manually mounted instance modified. Full reload required."
-      );
-    }
-  }
-  queuePostFlushCb$1(() => {
-    for (const instance of instances) {
-      hmrDirtyComponents.delete(
-        normalizeClassComponent(instance.type)
-      );
-    }
-  });
-}
-function updateComponentDef(oldComp, newComp) {
-  extend(oldComp, newComp);
-  for (const key in oldComp) {
-    if (key !== "__file" && !(key in newComp)) {
-      delete oldComp[key];
-    }
-  }
-}
-function tryWrap(fn) {
-  return (id, arg) => {
-    try {
-      return fn(id, arg);
-    } catch (e2) {
-      console.error(e2);
-      console.warn(
-        `[HMR] Something went wrong during Vue component hot-reload. Full reload required.`
-      );
-    }
-  };
-}
-{
-  const g = getGlobalThis();
-  const registerGlobalSetter = (key, setter) => {
-    let setters;
-    if (!(setters = g[key]))
-      setters = g[key] = [];
-    setters.push(setter);
-    return (v) => {
-      if (setters.length > 1)
-        setters.forEach((set2) => set2(v));
-      else
-        setters[0](v);
-    };
-  };
-  registerGlobalSetter(
-    `__VUE_INSTANCE_SETTERS__`,
-    (v) => v
-  );
-  registerGlobalSetter(
-    `__VUE_SSR_SETTERS__`,
-    (v) => v
-  );
-}
-const classifyRE$1 = /(?:^|[-_])(\w)/g;
-const classify$1 = (str) => str.replace(classifyRE$1, (c2) => c2.toUpperCase()).replace(/[-_]/g, "");
-function getComponentName$1(Component2, includeInferred = true) {
-  return isFunction(Component2) ? Component2.displayName || Component2.name : Component2.name || includeInferred && Component2.__name;
-}
-function formatComponentName$1(instance, Component2, isRoot = false) {
-  let name = getComponentName$1(Component2);
-  if (!name && Component2.__file) {
-    const match = Component2.__file.match(/([^/\\]+)\.\w+$/);
-    if (match) {
-      name = match[1];
-    }
-  }
-  if (!name && instance && instance.parent) {
-    const inferFromRegistry = (registry) => {
-      for (const key in registry) {
-        if (registry[key] === Component2) {
-          return key;
-        }
-      }
-    };
-    name = inferFromRegistry(
-      instance.components || instance.parent.type.components
-    ) || inferFromRegistry(instance.appContext.components);
-  }
-  return name ? classify$1(name) : isRoot ? `App` : `Anonymous`;
-}
-function isClassComponent$1(value2) {
-  return isFunction(value2) && "__vccOpts" in value2;
-}
-/**
-* @dcloudio/uni-mp-vue v3.4.21
-* (c) 2018-present Yuxi (Evan) You and Vue contributors
-* @license MIT
-**/
-function warn$2(msg, ...args) {
+function warn$1(msg, ...args) {
   console.warn(`[Vue warn] ${msg}`, ...args);
 }
 let activeEffectScope;
@@ -2367,9 +1859,7 @@ class EffectScope {
     this.cleanups = [];
     this.parent = activeEffectScope;
     if (!detached && activeEffectScope) {
-      this.index = (activeEffectScope.scopes || (activeEffectScope.scopes = [])).push(
-        this
-      ) - 1;
+      this.index = (activeEffectScope.scopes || (activeEffectScope.scopes = [])).push(this) - 1;
     }
   }
   get active() {
@@ -2385,7 +1875,7 @@ class EffectScope {
         activeEffectScope = currentEffectScope;
       }
     } else {
-      warn$2(`cannot run an inactive effect scope.`);
+      warn$1(`cannot run an inactive effect scope.`);
     }
   }
   /**
@@ -2436,100 +1926,112 @@ function recordEffectScope(effect2, scope = activeEffectScope) {
 function getCurrentScope() {
   return activeEffectScope;
 }
+const createDep = (effects) => {
+  const dep = new Set(effects);
+  dep.w = 0;
+  dep.n = 0;
+  return dep;
+};
+const wasTracked = (dep) => (dep.w & trackOpBit) > 0;
+const newTracked = (dep) => (dep.n & trackOpBit) > 0;
+const initDepMarkers = ({ deps }) => {
+  if (deps.length) {
+    for (let i2 = 0; i2 < deps.length; i2++) {
+      deps[i2].w |= trackOpBit;
+    }
+  }
+};
+const finalizeDepMarkers = (effect2) => {
+  const { deps } = effect2;
+  if (deps.length) {
+    let ptr = 0;
+    for (let i2 = 0; i2 < deps.length; i2++) {
+      const dep = deps[i2];
+      if (wasTracked(dep) && !newTracked(dep)) {
+        dep.delete(effect2);
+      } else {
+        deps[ptr++] = dep;
+      }
+      dep.w &= ~trackOpBit;
+      dep.n &= ~trackOpBit;
+    }
+    deps.length = ptr;
+  }
+};
+const targetMap = /* @__PURE__ */ new WeakMap();
+let effectTrackDepth = 0;
+let trackOpBit = 1;
+const maxMarkerBits = 30;
 let activeEffect;
-class ReactiveEffect2 {
-  constructor(fn, trigger2, scheduler, scope) {
+const ITERATE_KEY = Symbol("iterate");
+const MAP_KEY_ITERATE_KEY = Symbol("Map key iterate");
+class ReactiveEffect {
+  constructor(fn, scheduler = null, scope) {
     this.fn = fn;
-    this.trigger = trigger2;
     this.scheduler = scheduler;
     this.active = true;
     this.deps = [];
-    this._dirtyLevel = 4;
-    this._trackId = 0;
-    this._runnings = 0;
-    this._shouldSchedule = false;
-    this._depsLength = 0;
+    this.parent = void 0;
     recordEffectScope(this, scope);
   }
-  get dirty() {
-    if (this._dirtyLevel === 2 || this._dirtyLevel === 3) {
-      this._dirtyLevel = 1;
-      pauseTracking();
-      for (let i2 = 0; i2 < this._depsLength; i2++) {
-        const dep = this.deps[i2];
-        if (dep.computed) {
-          triggerComputed(dep.computed);
-          if (this._dirtyLevel >= 4) {
-            break;
-          }
-        }
-      }
-      if (this._dirtyLevel === 1) {
-        this._dirtyLevel = 0;
-      }
-      resetTracking();
-    }
-    return this._dirtyLevel >= 4;
-  }
-  set dirty(v) {
-    this._dirtyLevel = v ? 4 : 0;
-  }
   run() {
-    this._dirtyLevel = 0;
     if (!this.active) {
       return this.fn();
     }
+    let parent2 = activeEffect;
     let lastShouldTrack = shouldTrack;
-    let lastEffect = activeEffect;
+    while (parent2) {
+      if (parent2 === this) {
+        return;
+      }
+      parent2 = parent2.parent;
+    }
     try {
-      shouldTrack = true;
+      this.parent = activeEffect;
       activeEffect = this;
-      this._runnings++;
-      preCleanupEffect(this);
+      shouldTrack = true;
+      trackOpBit = 1 << ++effectTrackDepth;
+      if (effectTrackDepth <= maxMarkerBits) {
+        initDepMarkers(this);
+      } else {
+        cleanupEffect(this);
+      }
       return this.fn();
     } finally {
-      postCleanupEffect(this);
-      this._runnings--;
-      activeEffect = lastEffect;
+      if (effectTrackDepth <= maxMarkerBits) {
+        finalizeDepMarkers(this);
+      }
+      trackOpBit = 1 << --effectTrackDepth;
+      activeEffect = this.parent;
       shouldTrack = lastShouldTrack;
+      this.parent = void 0;
+      if (this.deferStop) {
+        this.stop();
+      }
     }
   }
   stop() {
-    var _a;
-    if (this.active) {
-      preCleanupEffect(this);
-      postCleanupEffect(this);
-      (_a = this.onStop) == null ? void 0 : _a.call(this);
+    if (activeEffect === this) {
+      this.deferStop = true;
+    } else if (this.active) {
+      cleanupEffect(this);
+      if (this.onStop) {
+        this.onStop();
+      }
       this.active = false;
     }
   }
 }
-function triggerComputed(computed2) {
-  return computed2.value;
-}
-function preCleanupEffect(effect2) {
-  effect2._trackId++;
-  effect2._depsLength = 0;
-}
-function postCleanupEffect(effect2) {
-  if (effect2.deps.length > effect2._depsLength) {
-    for (let i2 = effect2._depsLength; i2 < effect2.deps.length; i2++) {
-      cleanupDepEffect(effect2.deps[i2], effect2);
+function cleanupEffect(effect2) {
+  const { deps } = effect2;
+  if (deps.length) {
+    for (let i2 = 0; i2 < deps.length; i2++) {
+      deps[i2].delete(effect2);
     }
-    effect2.deps.length = effect2._depsLength;
-  }
-}
-function cleanupDepEffect(dep, effect2) {
-  const trackId = dep.get(effect2);
-  if (trackId !== void 0 && effect2._trackId !== trackId) {
-    dep.delete(effect2);
-    if (dep.size === 0) {
-      dep.cleanup();
-    }
+    deps.length = 0;
   }
 }
 let shouldTrack = true;
-let pauseScheduleStack = 0;
 const trackStack = [];
 function pauseTracking() {
   trackStack.push(shouldTrack);
@@ -2539,67 +2041,6 @@ function resetTracking() {
   const last = trackStack.pop();
   shouldTrack = last === void 0 ? true : last;
 }
-function pauseScheduling() {
-  pauseScheduleStack++;
-}
-function resetScheduling() {
-  pauseScheduleStack--;
-  while (!pauseScheduleStack && queueEffectSchedulers.length) {
-    queueEffectSchedulers.shift()();
-  }
-}
-function trackEffect(effect2, dep, debuggerEventExtraInfo) {
-  var _a;
-  if (dep.get(effect2) !== effect2._trackId) {
-    dep.set(effect2, effect2._trackId);
-    const oldDep = effect2.deps[effect2._depsLength];
-    if (oldDep !== dep) {
-      if (oldDep) {
-        cleanupDepEffect(oldDep, effect2);
-      }
-      effect2.deps[effect2._depsLength++] = dep;
-    } else {
-      effect2._depsLength++;
-    }
-    {
-      (_a = effect2.onTrack) == null ? void 0 : _a.call(effect2, extend({ effect: effect2 }, debuggerEventExtraInfo));
-    }
-  }
-}
-const queueEffectSchedulers = [];
-function triggerEffects(dep, dirtyLevel, debuggerEventExtraInfo) {
-  var _a;
-  pauseScheduling();
-  for (const effect2 of dep.keys()) {
-    let tracking;
-    if (effect2._dirtyLevel < dirtyLevel && (tracking != null ? tracking : tracking = dep.get(effect2) === effect2._trackId)) {
-      effect2._shouldSchedule || (effect2._shouldSchedule = effect2._dirtyLevel === 0);
-      effect2._dirtyLevel = dirtyLevel;
-    }
-    if (effect2._shouldSchedule && (tracking != null ? tracking : tracking = dep.get(effect2) === effect2._trackId)) {
-      {
-        (_a = effect2.onTrigger) == null ? void 0 : _a.call(effect2, extend({ effect: effect2 }, debuggerEventExtraInfo));
-      }
-      effect2.trigger();
-      if ((!effect2._runnings || effect2.allowRecurse) && effect2._dirtyLevel !== 2) {
-        effect2._shouldSchedule = false;
-        if (effect2.scheduler) {
-          queueEffectSchedulers.push(effect2.scheduler);
-        }
-      }
-    }
-  }
-  resetScheduling();
-}
-const createDep = (cleanup, computed2) => {
-  const dep = /* @__PURE__ */ new Map();
-  dep.cleanup = cleanup;
-  dep.computed = computed2;
-  return dep;
-};
-const targetMap = /* @__PURE__ */ new WeakMap();
-const ITERATE_KEY = Symbol("iterate");
-const MAP_KEY_ITERATE_KEY = Symbol("Map key iterate");
 function track(target, type, key) {
   if (shouldTrack && activeEffect) {
     let depsMap = targetMap.get(target);
@@ -2608,17 +2049,28 @@ function track(target, type, key) {
     }
     let dep = depsMap.get(key);
     if (!dep) {
-      depsMap.set(key, dep = createDep(() => depsMap.delete(key)));
+      depsMap.set(key, dep = createDep());
     }
-    trackEffect(
-      activeEffect,
-      dep,
-      {
-        target,
-        type,
-        key
-      }
-    );
+    const eventInfo = { effect: activeEffect, target, type, key };
+    trackEffects(dep, eventInfo);
+  }
+}
+function trackEffects(dep, debuggerEventExtraInfo) {
+  let shouldTrack2 = false;
+  if (effectTrackDepth <= maxMarkerBits) {
+    if (!newTracked(dep)) {
+      dep.n |= trackOpBit;
+      shouldTrack2 = !wasTracked(dep);
+    }
+  } else {
+    shouldTrack2 = !dep.has(activeEffect);
+  }
+  if (shouldTrack2) {
+    dep.add(activeEffect);
+    activeEffect.deps.push(dep);
+    if (activeEffect.onTrack) {
+      activeEffect.onTrack(Object.assign({ effect: activeEffect }, debuggerEventExtraInfo));
+    }
   }
 }
 function trigger(target, type, key, newValue, oldValue, oldTarget) {
@@ -2632,7 +2084,7 @@ function trigger(target, type, key, newValue, oldValue, oldTarget) {
   } else if (key === "length" && isArray(target)) {
     const newLength = Number(newValue);
     depsMap.forEach((dep, key2) => {
-      if (key2 === "length" || !isSymbol(key2) && key2 >= newLength) {
+      if (key2 === "length" || key2 >= newLength) {
         deps.push(dep);
       }
     });
@@ -2666,29 +2118,58 @@ function trigger(target, type, key, newValue, oldValue, oldTarget) {
         break;
     }
   }
-  pauseScheduling();
-  for (const dep of deps) {
-    if (dep) {
-      triggerEffects(
-        dep,
-        4,
-        {
-          target,
-          type,
-          key,
-          newValue,
-          oldValue,
-          oldTarget
-        }
-      );
+  const eventInfo = { target, type, key, newValue, oldValue, oldTarget };
+  if (deps.length === 1) {
+    if (deps[0]) {
+      {
+        triggerEffects(deps[0], eventInfo);
+      }
+    }
+  } else {
+    const effects = [];
+    for (const dep of deps) {
+      if (dep) {
+        effects.push(...dep);
+      }
+    }
+    {
+      triggerEffects(createDep(effects), eventInfo);
     }
   }
-  resetScheduling();
+}
+function triggerEffects(dep, debuggerEventExtraInfo) {
+  const effects = isArray(dep) ? dep : [...dep];
+  for (const effect2 of effects) {
+    if (effect2.computed) {
+      triggerEffect(effect2, debuggerEventExtraInfo);
+    }
+  }
+  for (const effect2 of effects) {
+    if (!effect2.computed) {
+      triggerEffect(effect2, debuggerEventExtraInfo);
+    }
+  }
+}
+function triggerEffect(effect2, debuggerEventExtraInfo) {
+  if (effect2 !== activeEffect || effect2.allowRecurse) {
+    if (effect2.onTrigger) {
+      effect2.onTrigger(extend({ effect: effect2 }, debuggerEventExtraInfo));
+    }
+    if (effect2.scheduler) {
+      effect2.scheduler();
+    } else {
+      effect2.run();
+    }
+  }
 }
 const isNonTrackableKeys = /* @__PURE__ */ makeMap(`__proto__,__v_isRef,__isVue`);
 const builtInSymbols = new Set(
   /* @__PURE__ */ Object.getOwnPropertyNames(Symbol).filter((key) => key !== "arguments" && key !== "caller").map((key) => Symbol[key]).filter(isSymbol)
 );
+const get$1 = /* @__PURE__ */ createGetter();
+const shallowGet = /* @__PURE__ */ createGetter(false, true);
+const readonlyGet = /* @__PURE__ */ createGetter(true);
+const shallowReadonlyGet = /* @__PURE__ */ createGetter(true, true);
 const arrayInstrumentations = /* @__PURE__ */ createArrayInstrumentations();
 function createArrayInstrumentations() {
   const instrumentations = {};
@@ -2709,9 +2190,7 @@ function createArrayInstrumentations() {
   ["push", "pop", "shift", "unshift", "splice"].forEach((key) => {
     instrumentations[key] = function(...args) {
       pauseTracking();
-      pauseScheduling();
       const res = toRaw(this)[key].apply(this, args);
-      resetScheduling();
       resetTracking();
       return res;
     };
@@ -2723,26 +2202,16 @@ function hasOwnProperty(key) {
   track(obj, "has", key);
   return obj.hasOwnProperty(key);
 }
-class BaseReactiveHandler2 {
-  constructor(_isReadonly = false, _isShallow = false) {
-    this._isReadonly = _isReadonly;
-    this._isShallow = _isShallow;
-  }
-  get(target, key, receiver) {
-    const isReadonly2 = this._isReadonly, isShallow2 = this._isShallow;
+function createGetter(isReadonly2 = false, shallow = false) {
+  return function get2(target, key, receiver) {
     if (key === "__v_isReactive") {
       return !isReadonly2;
     } else if (key === "__v_isReadonly") {
       return isReadonly2;
     } else if (key === "__v_isShallow") {
-      return isShallow2;
-    } else if (key === "__v_raw") {
-      if (receiver === (isReadonly2 ? isShallow2 ? shallowReadonlyMap : readonlyMap : isShallow2 ? shallowReactiveMap : reactiveMap).get(target) || // receiver is not the reactive proxy, but has the same prototype
-      // this means the reciever is a user proxy of the reactive proxy
-      Object.getPrototypeOf(target) === Object.getPrototypeOf(receiver)) {
-        return target;
-      }
-      return;
+      return shallow;
+    } else if (key === "__v_raw" && receiver === (isReadonly2 ? shallow ? shallowReadonlyMap : readonlyMap : shallow ? shallowReactiveMap : reactiveMap).get(target)) {
+      return target;
     }
     const targetIsArray = isArray(target);
     if (!isReadonly2) {
@@ -2760,7 +2229,7 @@ class BaseReactiveHandler2 {
     if (!isReadonly2) {
       track(target, "get", key);
     }
-    if (isShallow2) {
+    if (shallow) {
       return res;
     }
     if (isRef(res)) {
@@ -2770,27 +2239,24 @@ class BaseReactiveHandler2 {
       return isReadonly2 ? readonly(res) : reactive(res);
     }
     return res;
-  }
+  };
 }
-class MutableReactiveHandler2 extends BaseReactiveHandler2 {
-  constructor(isShallow2 = false) {
-    super(false, isShallow2);
-  }
-  set(target, key, value2, receiver) {
+const set$1 = /* @__PURE__ */ createSetter();
+const shallowSet = /* @__PURE__ */ createSetter(true);
+function createSetter(shallow = false) {
+  return function set2(target, key, value2, receiver) {
     let oldValue = target[key];
-    if (!this._isShallow) {
-      const isOldValueReadonly = isReadonly(oldValue);
+    if (isReadonly(oldValue) && isRef(oldValue) && !isRef(value2)) {
+      return false;
+    }
+    if (!shallow) {
       if (!isShallow(value2) && !isReadonly(value2)) {
         oldValue = toRaw(oldValue);
         value2 = toRaw(value2);
       }
       if (!isArray(target) && isRef(oldValue) && !isRef(value2)) {
-        if (isOldValueReadonly) {
-          return false;
-        } else {
-          oldValue.value = value2;
-          return true;
-        }
+        oldValue.value = value2;
+        return true;
       }
     }
     const hadKey = isArray(target) && isIntegerKey(key) ? Number(key) < target.length : hasOwn$1(target, key);
@@ -2803,69 +2269,68 @@ class MutableReactiveHandler2 extends BaseReactiveHandler2 {
       }
     }
     return result;
-  }
-  deleteProperty(target, key) {
-    const hadKey = hasOwn$1(target, key);
-    const oldValue = target[key];
-    const result = Reflect.deleteProperty(target, key);
-    if (result && hadKey) {
-      trigger(target, "delete", key, void 0, oldValue);
-    }
-    return result;
-  }
-  has(target, key) {
-    const result = Reflect.has(target, key);
-    if (!isSymbol(key) || !builtInSymbols.has(key)) {
-      track(target, "has", key);
-    }
-    return result;
-  }
-  ownKeys(target) {
-    track(
-      target,
-      "iterate",
-      isArray(target) ? "length" : ITERATE_KEY
-    );
-    return Reflect.ownKeys(target);
-  }
+  };
 }
-class ReadonlyReactiveHandler2 extends BaseReactiveHandler2 {
-  constructor(isShallow2 = false) {
-    super(true, isShallow2);
+function deleteProperty(target, key) {
+  const hadKey = hasOwn$1(target, key);
+  const oldValue = target[key];
+  const result = Reflect.deleteProperty(target, key);
+  if (result && hadKey) {
+    trigger(target, "delete", key, void 0, oldValue);
   }
+  return result;
+}
+function has$1(target, key) {
+  const result = Reflect.has(target, key);
+  if (!isSymbol(key) || !builtInSymbols.has(key)) {
+    track(target, "has", key);
+  }
+  return result;
+}
+function ownKeys(target) {
+  track(target, "iterate", isArray(target) ? "length" : ITERATE_KEY);
+  return Reflect.ownKeys(target);
+}
+const mutableHandlers = {
+  get: get$1,
+  set: set$1,
+  deleteProperty,
+  has: has$1,
+  ownKeys
+};
+const readonlyHandlers = {
+  get: readonlyGet,
   set(target, key) {
     {
-      warn$2(
-        `Set operation on key "${String(key)}" failed: target is readonly.`,
-        target
-      );
+      warn$1(`Set operation on key "${String(key)}" failed: target is readonly.`, target);
     }
     return true;
-  }
+  },
   deleteProperty(target, key) {
     {
-      warn$2(
-        `Delete operation on key "${String(key)}" failed: target is readonly.`,
-        target
-      );
+      warn$1(`Delete operation on key "${String(key)}" failed: target is readonly.`, target);
     }
     return true;
   }
-}
-const mutableHandlers = /* @__PURE__ */ new MutableReactiveHandler2();
-const readonlyHandlers = /* @__PURE__ */ new ReadonlyReactiveHandler2();
-const shallowReactiveHandlers = /* @__PURE__ */ new MutableReactiveHandler2(
-  true
-);
-const shallowReadonlyHandlers = /* @__PURE__ */ new ReadonlyReactiveHandler2(true);
+};
+const shallowReactiveHandlers = /* @__PURE__ */ extend({}, mutableHandlers, {
+  get: shallowGet,
+  set: shallowSet
+});
+const shallowReadonlyHandlers = /* @__PURE__ */ extend({}, readonlyHandlers, {
+  get: shallowReadonlyGet
+});
 const toShallow = (value2) => value2;
 const getProto = (v) => Reflect.getPrototypeOf(v);
 function get(target, key, isReadonly2 = false, isShallow2 = false) {
-  target = target["__v_raw"];
+  target = target[
+    "__v_raw"
+    /* ReactiveFlags.RAW */
+  ];
   const rawTarget = toRaw(target);
   const rawKey = toRaw(key);
   if (!isReadonly2) {
-    if (hasChanged(key, rawKey)) {
+    if (key !== rawKey) {
       track(rawTarget, "get", key);
     }
     track(rawTarget, "get", rawKey);
@@ -2881,11 +2346,14 @@ function get(target, key, isReadonly2 = false, isShallow2 = false) {
   }
 }
 function has(key, isReadonly2 = false) {
-  const target = this["__v_raw"];
+  const target = this[
+    "__v_raw"
+    /* ReactiveFlags.RAW */
+  ];
   const rawTarget = toRaw(target);
   const rawKey = toRaw(key);
   if (!isReadonly2) {
-    if (hasChanged(key, rawKey)) {
+    if (key !== rawKey) {
       track(rawTarget, "has", key);
     }
     track(rawTarget, "has", rawKey);
@@ -2893,7 +2361,10 @@ function has(key, isReadonly2 = false) {
   return key === rawKey ? target.has(key) : target.has(key) || target.has(rawKey);
 }
 function size(target, isReadonly2 = false) {
-  target = target["__v_raw"];
+  target = target[
+    "__v_raw"
+    /* ReactiveFlags.RAW */
+  ];
   !isReadonly2 && track(toRaw(target), "iterate", ITERATE_KEY);
   return Reflect.get(target, "size", target);
 }
@@ -2908,7 +2379,7 @@ function add(value2) {
   }
   return this;
 }
-function set$1(key, value2) {
+function set$2(key, value2) {
   value2 = toRaw(value2);
   const target = toRaw(this);
   const { has: has2, get: get2 } = getProto(target);
@@ -2958,7 +2429,10 @@ function clear() {
 function createForEach(isReadonly2, isShallow2) {
   return function forEach(callback, thisArg) {
     const observed = this;
-    const target = observed["__v_raw"];
+    const target = observed[
+      "__v_raw"
+      /* ReactiveFlags.RAW */
+    ];
     const rawTarget = toRaw(target);
     const wrap = isShallow2 ? toShallow : isReadonly2 ? toReadonly : toReactive;
     !isReadonly2 && track(rawTarget, "iterate", ITERATE_KEY);
@@ -2969,18 +2443,17 @@ function createForEach(isReadonly2, isShallow2) {
 }
 function createIterableMethod(method, isReadonly2, isShallow2) {
   return function(...args) {
-    const target = this["__v_raw"];
+    const target = this[
+      "__v_raw"
+      /* ReactiveFlags.RAW */
+    ];
     const rawTarget = toRaw(target);
     const targetIsMap = isMap(rawTarget);
     const isPair = method === "entries" || method === Symbol.iterator && targetIsMap;
     const isKeyOnly = method === "keys" && targetIsMap;
     const innerIterator = target[method](...args);
     const wrap = isShallow2 ? toShallow : isReadonly2 ? toReadonly : toReactive;
-    !isReadonly2 && track(
-      rawTarget,
-      "iterate",
-      isKeyOnly ? MAP_KEY_ITERATE_KEY : ITERATE_KEY
-    );
+    !isReadonly2 && track(rawTarget, "iterate", isKeyOnly ? MAP_KEY_ITERATE_KEY : ITERATE_KEY);
     return {
       // iterator protocol
       next() {
@@ -3001,12 +2474,9 @@ function createReadonlyMethod(type) {
   return function(...args) {
     {
       const key = args[0] ? `on key "${args[0]}" ` : ``;
-      warn$2(
-        `${capitalize(type)} operation ${key}failed: target is readonly.`,
-        toRaw(this)
-      );
+      console.warn(`${capitalize(type)} operation ${key}failed: target is readonly.`, toRaw(this));
     }
-    return type === "delete" ? false : type === "clear" ? void 0 : this;
+    return type === "delete" ? false : this;
   };
 }
 function createInstrumentations() {
@@ -3019,7 +2489,7 @@ function createInstrumentations() {
     },
     has,
     add,
-    set: set$1,
+    set: set$2,
     delete: deleteEntry,
     clear,
     forEach: createForEach(false, false)
@@ -3033,7 +2503,7 @@ function createInstrumentations() {
     },
     has,
     add,
-    set: set$1,
+    set: set$2,
     delete: deleteEntry,
     clear,
     forEach: createForEach(false, true)
@@ -3048,10 +2518,22 @@ function createInstrumentations() {
     has(key) {
       return has.call(this, key, true);
     },
-    add: createReadonlyMethod("add"),
-    set: createReadonlyMethod("set"),
-    delete: createReadonlyMethod("delete"),
-    clear: createReadonlyMethod("clear"),
+    add: createReadonlyMethod(
+      "add"
+      /* TriggerOpTypes.ADD */
+    ),
+    set: createReadonlyMethod(
+      "set"
+      /* TriggerOpTypes.SET */
+    ),
+    delete: createReadonlyMethod(
+      "delete"
+      /* TriggerOpTypes.DELETE */
+    ),
+    clear: createReadonlyMethod(
+      "clear"
+      /* TriggerOpTypes.CLEAR */
+    ),
     forEach: createForEach(true, false)
   };
   const shallowReadonlyInstrumentations2 = {
@@ -3064,27 +2546,30 @@ function createInstrumentations() {
     has(key) {
       return has.call(this, key, true);
     },
-    add: createReadonlyMethod("add"),
-    set: createReadonlyMethod("set"),
-    delete: createReadonlyMethod("delete"),
-    clear: createReadonlyMethod("clear"),
+    add: createReadonlyMethod(
+      "add"
+      /* TriggerOpTypes.ADD */
+    ),
+    set: createReadonlyMethod(
+      "set"
+      /* TriggerOpTypes.SET */
+    ),
+    delete: createReadonlyMethod(
+      "delete"
+      /* TriggerOpTypes.DELETE */
+    ),
+    clear: createReadonlyMethod(
+      "clear"
+      /* TriggerOpTypes.CLEAR */
+    ),
     forEach: createForEach(true, true)
   };
-  const iteratorMethods = [
-    "keys",
-    "values",
-    "entries",
-    Symbol.iterator
-  ];
+  const iteratorMethods = ["keys", "values", "entries", Symbol.iterator];
   iteratorMethods.forEach((method) => {
     mutableInstrumentations2[method] = createIterableMethod(method, false, false);
     readonlyInstrumentations2[method] = createIterableMethod(method, true, false);
     shallowInstrumentations2[method] = createIterableMethod(method, false, true);
-    shallowReadonlyInstrumentations2[method] = createIterableMethod(
-      method,
-      true,
-      true
-    );
+    shallowReadonlyInstrumentations2[method] = createIterableMethod(method, true, true);
   });
   return [
     mutableInstrumentations2,
@@ -3093,12 +2578,7 @@ function createInstrumentations() {
     shallowReadonlyInstrumentations2
   ];
 }
-const [
-  mutableInstrumentations,
-  readonlyInstrumentations,
-  shallowInstrumentations,
-  shallowReadonlyInstrumentations
-] = /* @__PURE__ */ createInstrumentations();
+const [mutableInstrumentations, readonlyInstrumentations, shallowInstrumentations, shallowReadonlyInstrumentations] = /* @__PURE__ */ createInstrumentations();
 function createInstrumentationGetter(isReadonly2, shallow) {
   const instrumentations = shallow ? isReadonly2 ? shallowReadonlyInstrumentations : shallowInstrumentations : isReadonly2 ? readonlyInstrumentations : mutableInstrumentations;
   return (target, key, receiver) => {
@@ -3109,11 +2589,7 @@ function createInstrumentationGetter(isReadonly2, shallow) {
     } else if (key === "__v_raw") {
       return target;
     }
-    return Reflect.get(
-      hasOwn$1(instrumentations, key) && key in target ? instrumentations : target,
-      key,
-      receiver
-    );
+    return Reflect.get(hasOwn$1(instrumentations, key) && key in target ? instrumentations : target, key, receiver);
   };
 }
 const mutableCollectionHandlers = {
@@ -3132,9 +2608,7 @@ function checkIdentityKeys(target, has2, key) {
   const rawKey = toRaw(key);
   if (rawKey !== key && has2.call(target, rawKey)) {
     const type = toRawType(target);
-    warn$2(
-      `Reactive ${type} contains both the raw and reactive versions of the same object${type === `Map` ? ` as keys` : ``}, which can lead to inconsistencies. Avoid differentiating between the raw and reactive versions of an object and only use the reactive version if possible.`
-    );
+    console.warn(`Reactive ${type} contains both the raw and reactive versions of the same object${type === `Map` ? ` as keys` : ``}, which can lead to inconsistencies. Avoid differentiating between the raw and reactive versions of an object and only use the reactive version if possible.`);
   }
 }
 const reactiveMap = /* @__PURE__ */ new WeakMap();
@@ -3156,55 +2630,40 @@ function targetTypeMap(rawType) {
   }
 }
 function getTargetType(value2) {
-  return value2["__v_skip"] || !Object.isExtensible(value2) ? 0 : targetTypeMap(toRawType(value2));
+  return value2[
+    "__v_skip"
+    /* ReactiveFlags.SKIP */
+  ] || !Object.isExtensible(value2) ? 0 : targetTypeMap(toRawType(value2));
 }
 function reactive(target) {
   if (isReadonly(target)) {
     return target;
   }
-  return createReactiveObject(
-    target,
-    false,
-    mutableHandlers,
-    mutableCollectionHandlers,
-    reactiveMap
-  );
+  return createReactiveObject(target, false, mutableHandlers, mutableCollectionHandlers, reactiveMap);
 }
 function shallowReactive(target) {
-  return createReactiveObject(
-    target,
-    false,
-    shallowReactiveHandlers,
-    shallowCollectionHandlers,
-    shallowReactiveMap
-  );
+  return createReactiveObject(target, false, shallowReactiveHandlers, shallowCollectionHandlers, shallowReactiveMap);
 }
 function readonly(target) {
-  return createReactiveObject(
-    target,
-    true,
-    readonlyHandlers,
-    readonlyCollectionHandlers,
-    readonlyMap
-  );
+  return createReactiveObject(target, true, readonlyHandlers, readonlyCollectionHandlers, readonlyMap);
 }
 function shallowReadonly(target) {
-  return createReactiveObject(
-    target,
-    true,
-    shallowReadonlyHandlers,
-    shallowReadonlyCollectionHandlers,
-    shallowReadonlyMap
-  );
+  return createReactiveObject(target, true, shallowReadonlyHandlers, shallowReadonlyCollectionHandlers, shallowReadonlyMap);
 }
 function createReactiveObject(target, isReadonly2, baseHandlers, collectionHandlers, proxyMap) {
   if (!isObject$1(target)) {
     {
-      warn$2(`value cannot be made reactive: ${String(target)}`);
+      console.warn(`value cannot be made reactive: ${String(target)}`);
     }
     return target;
   }
-  if (target["__v_raw"] && !(isReadonly2 && target["__v_isReactive"])) {
+  if (target[
+    "__v_raw"
+    /* ReactiveFlags.RAW */
+  ] && !(isReadonly2 && target[
+    "__v_isReactive"
+    /* ReactiveFlags.IS_REACTIVE */
+  ])) {
     return target;
   }
   const existingProxy = proxyMap.get(target);
@@ -3215,143 +2674,78 @@ function createReactiveObject(target, isReadonly2, baseHandlers, collectionHandl
   if (targetType === 0) {
     return target;
   }
-  const proxy = new Proxy(
-    target,
-    targetType === 2 ? collectionHandlers : baseHandlers
-  );
+  const proxy = new Proxy(target, targetType === 2 ? collectionHandlers : baseHandlers);
   proxyMap.set(target, proxy);
   return proxy;
 }
 function isReactive(value2) {
   if (isReadonly(value2)) {
-    return isReactive(value2["__v_raw"]);
+    return isReactive(value2[
+      "__v_raw"
+      /* ReactiveFlags.RAW */
+    ]);
   }
-  return !!(value2 && value2["__v_isReactive"]);
+  return !!(value2 && value2[
+    "__v_isReactive"
+    /* ReactiveFlags.IS_REACTIVE */
+  ]);
 }
 function isReadonly(value2) {
-  return !!(value2 && value2["__v_isReadonly"]);
+  return !!(value2 && value2[
+    "__v_isReadonly"
+    /* ReactiveFlags.IS_READONLY */
+  ]);
 }
 function isShallow(value2) {
-  return !!(value2 && value2["__v_isShallow"]);
+  return !!(value2 && value2[
+    "__v_isShallow"
+    /* ReactiveFlags.IS_SHALLOW */
+  ]);
 }
 function isProxy(value2) {
   return isReactive(value2) || isReadonly(value2);
 }
 function toRaw(observed) {
-  const raw = observed && observed["__v_raw"];
+  const raw = observed && observed[
+    "__v_raw"
+    /* ReactiveFlags.RAW */
+  ];
   return raw ? toRaw(raw) : observed;
 }
 function markRaw(value2) {
-  if (Object.isExtensible(value2)) {
-    def(value2, "__v_skip", true);
-  }
+  def(value2, "__v_skip", true);
   return value2;
 }
 const toReactive = (value2) => isObject$1(value2) ? reactive(value2) : value2;
 const toReadonly = (value2) => isObject$1(value2) ? readonly(value2) : value2;
-const COMPUTED_SIDE_EFFECT_WARN = `Computed is still dirty after getter evaluation, likely because a computed is mutating its own dependency in its getter. State mutations in computed getters should be avoided.  Check the docs for more details: https://vuejs.org/guide/essentials/computed.html#getters-should-be-side-effect-free`;
-class ComputedRefImpl {
-  constructor(getter, _setter, isReadonly2, isSSR) {
-    this.getter = getter;
-    this._setter = _setter;
-    this.dep = void 0;
-    this.__v_isRef = true;
-    this["__v_isReadonly"] = false;
-    this.effect = new ReactiveEffect2(
-      () => getter(this._value),
-      () => triggerRefValue(
-        this,
-        this.effect._dirtyLevel === 2 ? 2 : 3
-      )
-    );
-    this.effect.computed = this;
-    this.effect.active = this._cacheable = !isSSR;
-    this["__v_isReadonly"] = isReadonly2;
-  }
-  get value() {
-    const self2 = toRaw(this);
-    if ((!self2._cacheable || self2.effect.dirty) && hasChanged(self2._value, self2._value = self2.effect.run())) {
-      triggerRefValue(self2, 4);
-    }
-    trackRefValue(self2);
-    if (self2.effect._dirtyLevel >= 2) {
-      if (this._warnRecursive) {
-        warn$2(COMPUTED_SIDE_EFFECT_WARN, `
-
-getter: `, this.getter);
-      }
-      triggerRefValue(self2, 2);
-    }
-    return self2._value;
-  }
-  set value(newValue) {
-    this._setter(newValue);
-  }
-  // #region polyfill _dirty for backward compatibility third party code for Vue <= 3.3.x
-  get _dirty() {
-    return this.effect.dirty;
-  }
-  set _dirty(v) {
-    this.effect.dirty = v;
-  }
-  // #endregion
-}
-function computed$1(getterOrOptions, debugOptions, isSSR = false) {
-  let getter;
-  let setter;
-  const onlyGetter = isFunction(getterOrOptions);
-  if (onlyGetter) {
-    getter = getterOrOptions;
-    setter = () => {
-      warn$2("Write operation failed: computed value is readonly");
-    };
-  } else {
-    getter = getterOrOptions.get;
-    setter = getterOrOptions.set;
-  }
-  const cRef = new ComputedRefImpl(getter, setter, onlyGetter || !setter, isSSR);
-  if (debugOptions && !isSSR) {
-    cRef.effect.onTrack = debugOptions.onTrack;
-    cRef.effect.onTrigger = debugOptions.onTrigger;
-  }
-  return cRef;
-}
 function trackRefValue(ref2) {
-  var _a;
   if (shouldTrack && activeEffect) {
     ref2 = toRaw(ref2);
-    trackEffect(
-      activeEffect,
-      (_a = ref2.dep) != null ? _a : ref2.dep = createDep(
-        () => ref2.dep = void 0,
-        ref2 instanceof ComputedRefImpl ? ref2 : void 0
-      ),
-      {
+    {
+      trackEffects(ref2.dep || (ref2.dep = createDep()), {
         target: ref2,
         type: "get",
         key: "value"
-      }
-    );
+      });
+    }
   }
 }
-function triggerRefValue(ref2, dirtyLevel = 4, newVal) {
+function triggerRefValue(ref2, newVal) {
   ref2 = toRaw(ref2);
   const dep = ref2.dep;
   if (dep) {
-    triggerEffects(
-      dep,
-      dirtyLevel,
-      {
+    {
+      triggerEffects(dep, {
         target: ref2,
         type: "set",
         key: "value",
         newValue: newVal
-      }
-    );
+      });
+    }
   }
 }
-function isRef(r2) {
-  return !!(r2 && r2.__v_isRef === true);
+function isRef(r) {
+  return !!(r && r.__v_isRef === true);
 }
 function ref(value2) {
   return createRef(value2, false);
@@ -3380,7 +2774,7 @@ class RefImpl {
     if (hasChanged(newVal, this._rawValue)) {
       this._rawValue = newVal;
       this._value = useDirectValue ? newVal : toReactive(newVal);
-      triggerRefValue(this, 4, newVal);
+      triggerRefValue(this, newVal);
     }
   }
 }
@@ -3402,6 +2796,61 @@ const shallowUnwrapHandlers = {
 function proxyRefs(objectWithRefs) {
   return isReactive(objectWithRefs) ? objectWithRefs : new Proxy(objectWithRefs, shallowUnwrapHandlers);
 }
+var _a;
+class ComputedRefImpl {
+  constructor(getter, _setter, isReadonly2, isSSR) {
+    this._setter = _setter;
+    this.dep = void 0;
+    this.__v_isRef = true;
+    this[_a] = false;
+    this._dirty = true;
+    this.effect = new ReactiveEffect(getter, () => {
+      if (!this._dirty) {
+        this._dirty = true;
+        triggerRefValue(this);
+      }
+    });
+    this.effect.computed = this;
+    this.effect.active = this._cacheable = !isSSR;
+    this[
+      "__v_isReadonly"
+      /* ReactiveFlags.IS_READONLY */
+    ] = isReadonly2;
+  }
+  get value() {
+    const self = toRaw(this);
+    trackRefValue(self);
+    if (self._dirty || !self._cacheable) {
+      self._dirty = false;
+      self._value = self.effect.run();
+    }
+    return self._value;
+  }
+  set value(newValue) {
+    this._setter(newValue);
+  }
+}
+_a = "__v_isReadonly";
+function computed$1(getterOrOptions, debugOptions, isSSR = false) {
+  let getter;
+  let setter;
+  const onlyGetter = isFunction(getterOrOptions);
+  if (onlyGetter) {
+    getter = getterOrOptions;
+    setter = () => {
+      console.warn("Write operation failed: computed value is readonly");
+    };
+  } else {
+    getter = getterOrOptions.get;
+    setter = getterOrOptions.set;
+  }
+  const cRef = new ComputedRefImpl(getter, setter, onlyGetter || !setter, isSSR);
+  if (debugOptions && !isSSR) {
+    cRef.effect.onTrack = debugOptions.onTrack;
+    cRef.effect.onTrigger = debugOptions.onTrigger;
+  }
+  return cRef;
+}
 const stack = [];
 function pushWarningContext(vnode) {
   stack.push(vnode);
@@ -3409,28 +2858,18 @@ function pushWarningContext(vnode) {
 function popWarningContext() {
   stack.pop();
 }
-function warn$1(msg, ...args) {
+function warn(msg, ...args) {
   pauseTracking();
   const instance = stack.length ? stack[stack.length - 1].component : null;
   const appWarnHandler = instance && instance.appContext.config.warnHandler;
   const trace = getComponentTrace();
   if (appWarnHandler) {
-    callWithErrorHandling(
-      appWarnHandler,
-      instance,
-      11,
-      [
-        msg + args.map((a) => {
-          var _a, _b;
-          return (_b = (_a = a.toString) == null ? void 0 : _a.call(a)) != null ? _b : JSON.stringify(a);
-        }).join(""),
-        instance && instance.proxy,
-        trace.map(
-          ({ vnode }) => `at <${formatComponentName(instance, vnode.type)}>`
-        ).join("\n"),
-        trace
-      ]
-    );
+    callWithErrorHandling(appWarnHandler, instance, 11, [
+      msg + args.join(""),
+      instance && instance.proxy,
+      trace.map(({ vnode }) => `at <${formatComponentName(instance, vnode.type)}>`).join("\n"),
+      trace
+    ]);
   } else {
     const warnArgs = [`[Vue warn]: ${msg}`, ...args];
     if (trace.length && // avoid spamming console during tests
@@ -3474,11 +2913,7 @@ function formatTrace(trace) {
 function formatTraceEntry({ vnode, recurseCount }) {
   const postfix = recurseCount > 0 ? `... (${recurseCount} recursive calls)` : ``;
   const isRoot = vnode.component ? vnode.component.parent == null : false;
-  const open = ` at <${formatComponentName(
-    vnode.component,
-    vnode.type,
-    isRoot
-  )}`;
+  const open = ` at <${formatComponentName(vnode.component, vnode.type, isRoot)}`;
   const close = `>` + postfix;
   return vnode.props ? [open, ...formatProps(vnode.props), close] : [open + close];
 }
@@ -3510,42 +2945,131 @@ function formatProp(key, value2, raw) {
   }
 }
 const ErrorTypeStrings = {
-  ["sp"]: "serverPrefetch hook",
-  ["bc"]: "beforeCreate hook",
-  ["c"]: "created hook",
-  ["bm"]: "beforeMount hook",
-  ["m"]: "mounted hook",
-  ["bu"]: "beforeUpdate hook",
-  ["u"]: "updated",
-  ["bum"]: "beforeUnmount hook",
-  ["um"]: "unmounted hook",
-  ["a"]: "activated hook",
-  ["da"]: "deactivated hook",
-  ["ec"]: "errorCaptured hook",
-  ["rtc"]: "renderTracked hook",
-  ["rtg"]: "renderTriggered hook",
-  [0]: "setup function",
-  [1]: "render function",
-  [2]: "watcher getter",
-  [3]: "watcher callback",
-  [4]: "watcher cleanup function",
-  [5]: "native event handler",
-  [6]: "component event handler",
-  [7]: "vnode hook",
-  [8]: "directive hook",
-  [9]: "transition hook",
-  [10]: "app errorHandler",
-  [11]: "app warnHandler",
-  [12]: "ref function",
-  [13]: "async component loader",
-  [14]: "scheduler flush. This is likely a Vue internals bug. Please open an issue at https://github.com/vuejs/core ."
+  [
+    "sp"
+    /* LifecycleHooks.SERVER_PREFETCH */
+  ]: "serverPrefetch hook",
+  [
+    "bc"
+    /* LifecycleHooks.BEFORE_CREATE */
+  ]: "beforeCreate hook",
+  [
+    "c"
+    /* LifecycleHooks.CREATED */
+  ]: "created hook",
+  [
+    "bm"
+    /* LifecycleHooks.BEFORE_MOUNT */
+  ]: "beforeMount hook",
+  [
+    "m"
+    /* LifecycleHooks.MOUNTED */
+  ]: "mounted hook",
+  [
+    "bu"
+    /* LifecycleHooks.BEFORE_UPDATE */
+  ]: "beforeUpdate hook",
+  [
+    "u"
+    /* LifecycleHooks.UPDATED */
+  ]: "updated",
+  [
+    "bum"
+    /* LifecycleHooks.BEFORE_UNMOUNT */
+  ]: "beforeUnmount hook",
+  [
+    "um"
+    /* LifecycleHooks.UNMOUNTED */
+  ]: "unmounted hook",
+  [
+    "a"
+    /* LifecycleHooks.ACTIVATED */
+  ]: "activated hook",
+  [
+    "da"
+    /* LifecycleHooks.DEACTIVATED */
+  ]: "deactivated hook",
+  [
+    "ec"
+    /* LifecycleHooks.ERROR_CAPTURED */
+  ]: "errorCaptured hook",
+  [
+    "rtc"
+    /* LifecycleHooks.RENDER_TRACKED */
+  ]: "renderTracked hook",
+  [
+    "rtg"
+    /* LifecycleHooks.RENDER_TRIGGERED */
+  ]: "renderTriggered hook",
+  [
+    0
+    /* ErrorCodes.SETUP_FUNCTION */
+  ]: "setup function",
+  [
+    1
+    /* ErrorCodes.RENDER_FUNCTION */
+  ]: "render function",
+  [
+    2
+    /* ErrorCodes.WATCH_GETTER */
+  ]: "watcher getter",
+  [
+    3
+    /* ErrorCodes.WATCH_CALLBACK */
+  ]: "watcher callback",
+  [
+    4
+    /* ErrorCodes.WATCH_CLEANUP */
+  ]: "watcher cleanup function",
+  [
+    5
+    /* ErrorCodes.NATIVE_EVENT_HANDLER */
+  ]: "native event handler",
+  [
+    6
+    /* ErrorCodes.COMPONENT_EVENT_HANDLER */
+  ]: "component event handler",
+  [
+    7
+    /* ErrorCodes.VNODE_HOOK */
+  ]: "vnode hook",
+  [
+    8
+    /* ErrorCodes.DIRECTIVE_HOOK */
+  ]: "directive hook",
+  [
+    9
+    /* ErrorCodes.TRANSITION_HOOK */
+  ]: "transition hook",
+  [
+    10
+    /* ErrorCodes.APP_ERROR_HANDLER */
+  ]: "app errorHandler",
+  [
+    11
+    /* ErrorCodes.APP_WARN_HANDLER */
+  ]: "app warnHandler",
+  [
+    12
+    /* ErrorCodes.FUNCTION_REF */
+  ]: "ref function",
+  [
+    13
+    /* ErrorCodes.ASYNC_COMPONENT_LOADER */
+  ]: "async component loader",
+  [
+    14
+    /* ErrorCodes.SCHEDULER */
+  ]: "scheduler flush. This is likely a Vue internals bug. Please open an issue at https://new-issue.vuejs.org/?repo=vuejs/core"
 };
 function callWithErrorHandling(fn, instance, type, args) {
+  let res;
   try {
-    return args ? fn(...args) : fn();
+    res = args ? fn(...args) : fn();
   } catch (err) {
     handleError(err, instance, type);
   }
+  return res;
 }
 function callWithAsyncErrorHandling(fn, instance, type, args) {
   if (isFunction(fn)) {
@@ -3582,12 +3106,7 @@ function handleError(err, instance, type, throwInDev = true) {
     }
     const appErrorHandler = instance.appContext.config.errorHandler;
     if (appErrorHandler) {
-      callWithErrorHandling(
-        appErrorHandler,
-        null,
-        10,
-        [err, exposedInstance, errorInfo]
-      );
+      callWithErrorHandling(appErrorHandler, null, 10, [err, exposedInstance, errorInfo]);
       return;
     }
   }
@@ -3599,7 +3118,7 @@ function logError(err, type, contextVNode, throwInDev = true) {
     if (contextVNode) {
       pushWarningContext(contextVNode);
     }
-    warn$1(`Unhandled error${info ? ` during execution of ${info}` : ``}`);
+    warn(`Unhandled error${info ? ` during execution of ${info}` : ``}`);
     if (contextVNode) {
       popWarningContext();
     }
@@ -3629,21 +3148,13 @@ function findInsertionIndex(id) {
   let end = queue.length;
   while (start < end) {
     const middle = start + end >>> 1;
-    const middleJob = queue[middle];
-    const middleJobId = getId(middleJob);
-    if (middleJobId < id || middleJobId === id && middleJob.pre) {
-      start = middle + 1;
-    } else {
-      end = middle;
-    }
+    const middleJobId = getId(queue[middle]);
+    middleJobId < id ? start = middle + 1 : end = middle;
   }
   return start;
 }
 function queueJob(job) {
-  if (!queue.length || !queue.includes(
-    job,
-    isFlushing && job.allowRecurse ? flushIndex + 1 : flushIndex
-  )) {
+  if (!queue.length || !queue.includes(job, isFlushing && job.allowRecurse ? flushIndex + 1 : flushIndex)) {
     if (job.id == null) {
       queue.push(job);
     } else {
@@ -3669,10 +3180,7 @@ function invalidateJob(job) {
 }
 function queuePostFlushCb(cb) {
   if (!isArray(cb)) {
-    if (!activePostFlushCbs || !activePostFlushCbs.includes(
-      cb,
-      cb.allowRecurse ? postFlushIndex + 1 : postFlushIndex
-    )) {
+    if (!activePostFlushCbs || !activePostFlushCbs.includes(cb, cb.allowRecurse ? postFlushIndex + 1 : postFlushIndex)) {
       pendingPostFlushCbs.push(cb);
     }
   } else {
@@ -3680,16 +3188,13 @@ function queuePostFlushCb(cb) {
   }
   queueFlush();
 }
-function flushPreFlushCbs(instance, seen, i2 = isFlushing ? flushIndex + 1 : 0) {
+function flushPreFlushCbs(seen, i2 = isFlushing ? flushIndex + 1 : 0) {
   {
     seen = seen || /* @__PURE__ */ new Map();
   }
   for (; i2 < queue.length; i2++) {
     const cb = queue[i2];
     if (cb && cb.pre) {
-      if (instance && cb.id !== instance.uid) {
-        continue;
-      }
       if (checkRecursiveUpdates(seen, cb)) {
         continue;
       }
@@ -3701,9 +3206,7 @@ function flushPreFlushCbs(instance, seen, i2 = isFlushing ? flushIndex + 1 : 0) 
 }
 function flushPostFlushCbs(seen) {
   if (pendingPostFlushCbs.length) {
-    const deduped = [...new Set(pendingPostFlushCbs)].sort(
-      (a, b) => getId(a) - getId(b)
-    );
+    const deduped = [...new Set(pendingPostFlushCbs)];
     pendingPostFlushCbs.length = 0;
     if (activePostFlushCbs) {
       activePostFlushCbs.push(...deduped);
@@ -3713,6 +3216,7 @@ function flushPostFlushCbs(seen) {
     {
       seen = seen || /* @__PURE__ */ new Map();
     }
+    activePostFlushCbs.sort((a, b) => getId(a) - getId(b));
     for (postFlushIndex = 0; postFlushIndex < activePostFlushCbs.length; postFlushIndex++) {
       if (checkRecursiveUpdates(seen, activePostFlushCbs[postFlushIndex])) {
         continue;
@@ -3749,7 +3253,12 @@ function flushJobs(seen) {
         if (check(job)) {
           continue;
         }
-        callWithErrorHandling(job, null, 14);
+        callWithErrorHandling(
+          job,
+          null,
+          14
+          /* ErrorCodes.SCHEDULER */
+        );
       }
     }
   } finally {
@@ -3771,11 +3280,7 @@ function checkRecursiveUpdates(seen, fn) {
     if (count > RECURSION_LIMIT) {
       const instance = fn.ownerInstance;
       const componentName = instance && getComponentName(instance.type);
-      handleError(
-        `Maximum recursive updates exceeded${componentName ? ` in component <${componentName}>` : ``}. This means you have a reactive effect that is mutating its own dependencies and thus recursively triggering itself. Possible sources include component template, render function, updated hook or watcher source function.`,
-        null,
-        10
-      );
+      warn(`Maximum recursive updates exceeded${componentName ? ` in component <${componentName}>` : ``}. This means you have a reactive effect that is mutating its own dependencies and thus recursively triggering itself. Possible sources include component template, render function, updated hook or watcher source function.`);
       return true;
     } else {
       seen.set(fn, count + 1);
@@ -3793,7 +3298,7 @@ function emit$1(event, ...args) {
   }
 }
 function setDevtoolsHook(hook, target) {
-  var _a, _b;
+  var _a2, _b;
   devtools = hook;
   if (devtools) {
     devtools.enabled = true;
@@ -3804,8 +3309,10 @@ function setDevtoolsHook(hook, target) {
     // browser environment to avoid the timer handle stalling test runner exit
     // (#4815)
     typeof window !== "undefined" && // some envs mock window but not fully
+    // eslint-disable-next-line no-restricted-globals
     window.HTMLElement && // also exclude jsdom
-    !((_b = (_a = window.navigator) == null ? void 0 : _a.userAgent) == null ? void 0 : _b.includes("jsdom"))
+    // eslint-disable-next-line no-restricted-globals
+    !((_b = (_a2 = window.navigator) === null || _a2 === void 0 ? void 0 : _a2.userAgent) === null || _b === void 0 ? void 0 : _b.includes("jsdom"))
   ) {
     const replay = target.__VUE_DEVTOOLS_HOOK_REPLAY__ = target.__VUE_DEVTOOLS_HOOK_REPLAY__ || [];
     replay.push((newHook) => {
@@ -3833,15 +3340,15 @@ function devtoolsInitApp(app, version2) {
 }
 const devtoolsComponentAdded = /* @__PURE__ */ createDevtoolsComponentHook(
   "component:added"
-  /* COMPONENT_ADDED */
+  /* DevtoolsHooks.COMPONENT_ADDED */
 );
 const devtoolsComponentUpdated = /* @__PURE__ */ createDevtoolsComponentHook(
   "component:updated"
-  /* COMPONENT_UPDATED */
+  /* DevtoolsHooks.COMPONENT_UPDATED */
 );
 const _devtoolsComponentRemoved = /* @__PURE__ */ createDevtoolsComponentHook(
   "component:removed"
-  /* COMPONENT_REMOVED */
+  /* DevtoolsHooks.COMPONENT_REMOVED */
 );
 const devtoolsComponentRemoved = (component) => {
   if (devtools && typeof devtools.cleanupBuffer === "function" && // remove the component if it wasn't buffered
@@ -3849,8 +3356,6 @@ const devtoolsComponentRemoved = (component) => {
     _devtoolsComponentRemoved(component);
   }
 };
-/*! #__NO_SIDE_EFFECTS__ */
-// @__NO_SIDE_EFFECTS__
 function createDevtoolsComponentHook(hook) {
   return (component) => {
     emit$1(
@@ -3866,11 +3371,11 @@ function createDevtoolsComponentHook(hook) {
 }
 const devtoolsPerfStart = /* @__PURE__ */ createDevtoolsPerformanceHook(
   "perf:start"
-  /* PERFORMANCE_START */
+  /* DevtoolsHooks.PERFORMANCE_START */
 );
 const devtoolsPerfEnd = /* @__PURE__ */ createDevtoolsPerformanceHook(
   "perf:end"
-  /* PERFORMANCE_END */
+  /* DevtoolsHooks.PERFORMANCE_END */
 );
 function createDevtoolsPerformanceHook(hook) {
   return (component, type, time2) => {
@@ -3878,38 +3383,25 @@ function createDevtoolsPerformanceHook(hook) {
   };
 }
 function devtoolsComponentEmit(component, event, params) {
-  emit$1(
-    "component:emit",
-    component.appContext.app,
-    component,
-    event,
-    params
-  );
+  emit$1("component:emit", component.appContext.app, component, event, params);
 }
 function emit(instance, event, ...rawArgs) {
   if (instance.isUnmounted)
     return;
   const props = instance.vnode.props || EMPTY_OBJ;
   {
-    const {
-      emitsOptions,
-      propsOptions: [propsOptions]
-    } = instance;
+    const { emitsOptions, propsOptions: [propsOptions] } = instance;
     if (emitsOptions) {
       if (!(event in emitsOptions) && true) {
         if (!propsOptions || !(toHandlerKey(event) in propsOptions)) {
-          warn$1(
-            `Component emitted event "${event}" but it is neither declared in the emits option nor as an "${toHandlerKey(event)}" prop.`
-          );
+          warn(`Component emitted event "${event}" but it is neither declared in the emits option nor as an "${toHandlerKey(event)}" prop.`);
         }
       } else {
         const validator = emitsOptions[event];
         if (isFunction(validator)) {
           const isValid = validator(...rawArgs);
           if (!isValid) {
-            warn$1(
-              `Invalid event arguments: event validation failed for event "${event}".`
-            );
+            warn(`Invalid event arguments: event validation failed for event "${event}".`);
           }
         }
       }
@@ -3934,14 +3426,7 @@ function emit(instance, event, ...rawArgs) {
   {
     const lowerCaseEvent = event.toLowerCase();
     if (lowerCaseEvent !== event && props[toHandlerKey(lowerCaseEvent)]) {
-      warn$1(
-        `Event "${lowerCaseEvent}" is emitted in component ${formatComponentName(
-          instance,
-          instance.type
-        )} but the handler is registered for "${event}". Note that HTML attributes are case-insensitive and you cannot use v-on to listen to camelCase events when using in-DOM templates. You should probably use "${hyphenate(
-          event
-        )}" instead of "${event}".`
-      );
+      warn(`Event "${lowerCaseEvent}" is emitted in component ${formatComponentName(instance, instance.type)} but the handler is registered for "${event}". Note that HTML attributes are case-insensitive and you cannot use v-on to listen to camelCase events when using in-DOM templates. You should probably use "${hyphenate(event)}" instead of "${event}".`);
     }
   }
   let handlerName;
@@ -3951,12 +3436,7 @@ function emit(instance, event, ...rawArgs) {
     handler = props[handlerName = toHandlerKey(hyphenate(event))];
   }
   if (handler) {
-    callWithAsyncErrorHandling(
-      handler,
-      instance,
-      6,
-      args
-    );
+    callWithAsyncErrorHandling(handler, instance, 6, args);
   }
   const onceHandler = props[handlerName + `Once`];
   if (onceHandler) {
@@ -3966,12 +3446,7 @@ function emit(instance, event, ...rawArgs) {
       return;
     }
     instance.emitted[handlerName] = true;
-    callWithAsyncErrorHandling(
-      onceHandler,
-      instance,
-      6,
-      args
-    );
+    callWithAsyncErrorHandling(onceHandler, instance, 6, args);
   }
 }
 function normalizeEmitsOptions(comp, appContext, asMixin = false) {
@@ -4031,105 +3506,58 @@ function setCurrentRenderingInstance(instance) {
   instance && instance.type.__scopeId || null;
   return prev;
 }
-const COMPONENTS = "components";
-function resolveComponent(name, maybeSelfReference) {
-  return resolveAsset(COMPONENTS, name, true, maybeSelfReference) || name;
-}
-function resolveAsset(type, name, warnMissing = true, maybeSelfReference = false) {
-  const instance = currentRenderingInstance || currentInstance;
-  if (instance) {
-    const Component2 = instance.type;
-    if (type === COMPONENTS) {
-      const selfName = getComponentName(
-        Component2,
-        false
-      );
-      if (selfName && (selfName === name || selfName === camelize(name) || selfName === capitalize(camelize(name)))) {
-        return Component2;
-      }
+function provide(key, value2) {
+  if (!currentInstance) {
+    {
+      warn(`provide() can only be used inside setup().`);
     }
-    const res = (
-      // local registration
-      // check instance[type] first which is resolved for options API
-      resolve(instance[type] || Component2[type], name) || // global registration
-      resolve(instance.appContext[type], name)
-    );
-    if (!res && maybeSelfReference) {
-      return Component2;
-    }
-    if (warnMissing && !res) {
-      const extra = type === COMPONENTS ? `
-If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement.` : ``;
-      warn$1(`Failed to resolve ${type.slice(0, -1)}: ${name}${extra}`);
-    }
-    return res;
   } else {
-    warn$1(
-      `resolve${capitalize(type.slice(0, -1))} can only be used in render() or setup().`
-    );
+    let provides = currentInstance.provides;
+    const parentProvides = currentInstance.parent && currentInstance.parent.provides;
+    if (parentProvides === provides) {
+      provides = currentInstance.provides = Object.create(parentProvides);
+    }
+    provides[key] = value2;
+    if (currentInstance.type.mpType === "app") {
+      currentInstance.appContext.app.provide(key, value2);
+    }
   }
 }
-function resolve(registry, name) {
-  return registry && (registry[name] || registry[camelize(name)] || registry[capitalize(camelize(name))]);
+function inject(key, defaultValue, treatDefaultAsFactory = false) {
+  const instance = currentInstance || currentRenderingInstance;
+  if (instance) {
+    const provides = instance.parent == null ? instance.vnode.appContext && instance.vnode.appContext.provides : instance.parent.provides;
+    if (provides && key in provides) {
+      return provides[key];
+    } else if (arguments.length > 1) {
+      return treatDefaultAsFactory && isFunction(defaultValue) ? defaultValue.call(instance.proxy) : defaultValue;
+    } else {
+      warn(`injection "${String(key)}" not found.`);
+    }
+  } else {
+    warn(`inject() can only be used inside setup() or functional components.`);
+  }
 }
 const INITIAL_WATCHER_VALUE = {};
 function watch(source, cb, options) {
   if (!isFunction(cb)) {
-    warn$1(
-      `\`watch(fn, options?)\` signature has been moved to a separate API. Use \`watchEffect(fn, options?)\` instead. \`watch\` now only supports \`watch(source, cb, options?) signature.`
-    );
+    warn(`\`watch(fn, options?)\` signature has been moved to a separate API. Use \`watchEffect(fn, options?)\` instead. \`watch\` now only supports \`watch(source, cb, options?) signature.`);
   }
   return doWatch(source, cb, options);
 }
-function doWatch(source, cb, {
-  immediate,
-  deep,
-  flush,
-  once: once2,
-  onTrack,
-  onTrigger
-} = EMPTY_OBJ) {
-  if (cb && once2) {
-    const _cb = cb;
-    cb = (...args) => {
-      _cb(...args);
-      unwatch();
-    };
-  }
-  if (deep !== void 0 && typeof deep === "number") {
-    warn$1(
-      `watch() "deep" option with number value will be used as watch depth in future versions. Please use a boolean instead to avoid potential breakage.`
-    );
-  }
+function doWatch(source, cb, { immediate, deep, flush, onTrack, onTrigger } = EMPTY_OBJ) {
   if (!cb) {
     if (immediate !== void 0) {
-      warn$1(
-        `watch() "immediate" option is only respected when using the watch(source, callback, options?) signature.`
-      );
+      warn(`watch() "immediate" option is only respected when using the watch(source, callback, options?) signature.`);
     }
     if (deep !== void 0) {
-      warn$1(
-        `watch() "deep" option is only respected when using the watch(source, callback, options?) signature.`
-      );
-    }
-    if (once2 !== void 0) {
-      warn$1(
-        `watch() "once" option is only respected when using the watch(source, callback, options?) signature.`
-      );
+      warn(`watch() "deep" option is only respected when using the watch(source, callback, options?) signature.`);
     }
   }
   const warnInvalidSource = (s2) => {
-    warn$1(
-      `Invalid watch source: `,
-      s2,
-      `A watch source can only be a getter/effect function, a ref, a reactive object, or an array of these types.`
-    );
+    warn(`Invalid watch source: `, s2, `A watch source can only be a getter/effect function, a ref, a reactive object, or an array of these types.`);
   };
-  const instance = currentInstance;
-  const reactiveGetter = (source2) => deep === true ? source2 : (
-    // for deep: false, only traverse root-level properties
-    traverse(source2, deep === false ? 1 : void 0)
-  );
+  const instance = getCurrentScope() === (currentInstance === null || currentInstance === void 0 ? void 0 : currentInstance.scope) ? currentInstance : null;
   let getter;
   let forceTrigger = false;
   let isMultiSource = false;
@@ -4137,8 +3565,8 @@ function doWatch(source, cb, {
     getter = () => source.value;
     forceTrigger = isShallow(source);
   } else if (isReactive(source)) {
-    getter = () => reactiveGetter(source);
-    forceTrigger = true;
+    getter = () => source;
+    deep = true;
   } else if (isArray(source)) {
     isMultiSource = true;
     forceTrigger = source.some((s2) => isReactive(s2) || isShallow(s2));
@@ -4146,27 +3574,35 @@ function doWatch(source, cb, {
       if (isRef(s2)) {
         return s2.value;
       } else if (isReactive(s2)) {
-        return reactiveGetter(s2);
+        return traverse(s2);
       } else if (isFunction(s2)) {
-        return callWithErrorHandling(s2, instance, 2);
+        return callWithErrorHandling(
+          s2,
+          instance,
+          2
+          /* ErrorCodes.WATCH_GETTER */
+        );
       } else {
         warnInvalidSource(s2);
       }
     });
   } else if (isFunction(source)) {
     if (cb) {
-      getter = () => callWithErrorHandling(source, instance, 2);
+      getter = () => callWithErrorHandling(
+        source,
+        instance,
+        2
+        /* ErrorCodes.WATCH_GETTER */
+      );
     } else {
       getter = () => {
+        if (instance && instance.isUnmounted) {
+          return;
+        }
         if (cleanup) {
           cleanup();
         }
-        return callWithAsyncErrorHandling(
-          source,
-          instance,
-          3,
-          [onCleanup]
-        );
+        return callWithAsyncErrorHandling(source, instance, 3, [onCleanup]);
       };
     }
   } else {
@@ -4180,13 +3616,17 @@ function doWatch(source, cb, {
   let cleanup;
   let onCleanup = (fn) => {
     cleanup = effect2.onStop = () => {
-      callWithErrorHandling(fn, instance, 4);
-      cleanup = effect2.onStop = void 0;
+      callWithErrorHandling(
+        fn,
+        instance,
+        4
+        /* ErrorCodes.WATCH_CLEANUP */
+      );
     };
   };
   let oldValue = isMultiSource ? new Array(source.length).fill(INITIAL_WATCHER_VALUE) : INITIAL_WATCHER_VALUE;
   const job = () => {
-    if (!effect2.active || !effect2.dirty) {
+    if (!effect2.active) {
       return;
     }
     if (cb) {
@@ -4219,14 +3659,7 @@ function doWatch(source, cb, {
       job.id = instance.uid;
     scheduler = () => queueJob(job);
   }
-  const effect2 = new ReactiveEffect2(getter, NOOP, scheduler);
-  const scope = getCurrentScope();
-  const unwatch = () => {
-    effect2.stop();
-    if (scope) {
-      remove(scope.effects, effect2);
-    }
-  };
+  const effect2 = new ReactiveEffect(getter, scheduler);
   {
     effect2.onTrack = onTrack;
     effect2.onTrigger = onTrigger;
@@ -4238,13 +3671,16 @@ function doWatch(source, cb, {
       oldValue = effect2.run();
     }
   } else if (flush === "post") {
-    queuePostRenderEffect$1(
-      effect2.run.bind(effect2),
-      instance && instance.suspense
-    );
+    queuePostRenderEffect$1(effect2.run.bind(effect2), instance && instance.suspense);
   } else {
     effect2.run();
   }
+  const unwatch = () => {
+    effect2.stop();
+    if (instance && instance.scope) {
+      remove(instance.scope.effects, effect2);
+    }
+  };
   return unwatch;
 }
 function instanceWatch(source, value2, options) {
@@ -4257,9 +3693,14 @@ function instanceWatch(source, value2, options) {
     cb = value2.handler;
     options = value2;
   }
-  const reset = setCurrentInstance(this);
+  const cur = currentInstance;
+  setCurrentInstance(this);
   const res = doWatch(getter, cb.bind(publicThis), options);
-  reset();
+  if (cur) {
+    setCurrentInstance(cur);
+  } else {
+    unsetCurrentInstance();
+  }
   return res;
 }
 function createPathGetter(ctx, path) {
@@ -4272,15 +3713,12 @@ function createPathGetter(ctx, path) {
     return cur;
   };
 }
-function traverse(value2, depth, currentDepth = 0, seen) {
-  if (!isObject$1(value2) || value2["__v_skip"]) {
+function traverse(value2, seen) {
+  if (!isObject$1(value2) || value2[
+    "__v_skip"
+    /* ReactiveFlags.SKIP */
+  ]) {
     return value2;
-  }
-  if (depth && depth > 0) {
-    if (currentDepth >= depth) {
-      return value2;
-    }
-    currentDepth++;
   }
   seen = seen || /* @__PURE__ */ new Set();
   if (seen.has(value2)) {
@@ -4288,201 +3726,24 @@ function traverse(value2, depth, currentDepth = 0, seen) {
   }
   seen.add(value2);
   if (isRef(value2)) {
-    traverse(value2.value, depth, currentDepth, seen);
+    traverse(value2.value, seen);
   } else if (isArray(value2)) {
     for (let i2 = 0; i2 < value2.length; i2++) {
-      traverse(value2[i2], depth, currentDepth, seen);
+      traverse(value2[i2], seen);
     }
   } else if (isSet(value2) || isMap(value2)) {
     value2.forEach((v) => {
-      traverse(v, depth, currentDepth, seen);
+      traverse(v, seen);
     });
   } else if (isPlainObject(value2)) {
     for (const key in value2) {
-      traverse(value2[key], depth, currentDepth, seen);
+      traverse(value2[key], seen);
     }
   }
   return value2;
 }
-function validateDirectiveName(name) {
-  if (isBuiltInDirective(name)) {
-    warn$1("Do not use built-in directive ids as custom directive id: " + name);
-  }
-}
-function createAppContext() {
-  return {
-    app: null,
-    config: {
-      isNativeTag: NO,
-      performance: false,
-      globalProperties: {},
-      optionMergeStrategies: {},
-      errorHandler: void 0,
-      warnHandler: void 0,
-      compilerOptions: {}
-    },
-    mixins: [],
-    components: {},
-    directives: {},
-    provides: /* @__PURE__ */ Object.create(null),
-    optionsCache: /* @__PURE__ */ new WeakMap(),
-    propsCache: /* @__PURE__ */ new WeakMap(),
-    emitsCache: /* @__PURE__ */ new WeakMap()
-  };
-}
-let uid$1 = 0;
-function createAppAPI(render, hydrate) {
-  return function createApp2(rootComponent, rootProps = null) {
-    if (!isFunction(rootComponent)) {
-      rootComponent = extend({}, rootComponent);
-    }
-    if (rootProps != null && !isObject$1(rootProps)) {
-      warn$1(`root props passed to app.mount() must be an object.`);
-      rootProps = null;
-    }
-    const context = createAppContext();
-    const installedPlugins = /* @__PURE__ */ new WeakSet();
-    const app = context.app = {
-      _uid: uid$1++,
-      _component: rootComponent,
-      _props: rootProps,
-      _container: null,
-      _context: context,
-      _instance: null,
-      version,
-      get config() {
-        return context.config;
-      },
-      set config(v) {
-        {
-          warn$1(
-            `app.config cannot be replaced. Modify individual options instead.`
-          );
-        }
-      },
-      use(plugin2, ...options) {
-        if (installedPlugins.has(plugin2)) {
-          warn$1(`Plugin has already been applied to target app.`);
-        } else if (plugin2 && isFunction(plugin2.install)) {
-          installedPlugins.add(plugin2);
-          plugin2.install(app, ...options);
-        } else if (isFunction(plugin2)) {
-          installedPlugins.add(plugin2);
-          plugin2(app, ...options);
-        } else {
-          warn$1(
-            `A plugin must either be a function or an object with an "install" function.`
-          );
-        }
-        return app;
-      },
-      mixin(mixin) {
-        {
-          if (!context.mixins.includes(mixin)) {
-            context.mixins.push(mixin);
-          } else {
-            warn$1(
-              "Mixin has already been applied to target app" + (mixin.name ? `: ${mixin.name}` : "")
-            );
-          }
-        }
-        return app;
-      },
-      component(name, component) {
-        {
-          validateComponentName(name, context.config);
-        }
-        if (!component) {
-          return context.components[name];
-        }
-        if (context.components[name]) {
-          warn$1(`Component "${name}" has already been registered in target app.`);
-        }
-        context.components[name] = component;
-        return app;
-      },
-      directive(name, directive) {
-        {
-          validateDirectiveName(name);
-        }
-        if (!directive) {
-          return context.directives[name];
-        }
-        if (context.directives[name]) {
-          warn$1(`Directive "${name}" has already been registered in target app.`);
-        }
-        context.directives[name] = directive;
-        return app;
-      },
-      // fixed by xxxxxx
-      mount() {
-      },
-      // fixed by xxxxxx
-      unmount() {
-      },
-      provide(key, value2) {
-        if (key in context.provides) {
-          warn$1(
-            `App already provides property with key "${String(key)}". It will be overwritten with the new value.`
-          );
-        }
-        context.provides[key] = value2;
-        return app;
-      },
-      runWithContext(fn) {
-        const lastApp = currentApp;
-        currentApp = app;
-        try {
-          return fn();
-        } finally {
-          currentApp = lastApp;
-        }
-      }
-    };
-    return app;
-  };
-}
-let currentApp = null;
-function provide(key, value2) {
-  if (!currentInstance) {
-    {
-      warn$1(`provide() can only be used inside setup().`);
-    }
-  } else {
-    let provides = currentInstance.provides;
-    const parentProvides = currentInstance.parent && currentInstance.parent.provides;
-    if (parentProvides === provides) {
-      provides = currentInstance.provides = Object.create(parentProvides);
-    }
-    provides[key] = value2;
-    if (currentInstance.type.mpType === "app") {
-      currentInstance.appContext.app.provide(key, value2);
-    }
-  }
-}
-function inject(key, defaultValue, treatDefaultAsFactory = false) {
-  const instance = currentInstance || currentRenderingInstance;
-  if (instance || currentApp) {
-    const provides = instance ? instance.parent == null ? instance.vnode.appContext && instance.vnode.appContext.provides : instance.parent.provides : currentApp._context.provides;
-    if (provides && key in provides) {
-      return provides[key];
-    } else if (arguments.length > 1) {
-      return treatDefaultAsFactory && isFunction(defaultValue) ? defaultValue.call(instance && instance.proxy) : defaultValue;
-    } else {
-      warn$1(`injection "${String(key)}" not found.`);
-    }
-  } else {
-    warn$1(`inject() can only be used inside setup() or functional components.`);
-  }
-}
-/*! #__NO_SIDE_EFFECTS__ */
-// @__NO_SIDE_EFFECTS__
-function defineComponent(options, extraOptions) {
-  return isFunction(options) ? (
-    // #8326: extend call and options.name access are considered side-effects
-    // by Rollup, so we have to wrap it in a pure-annotated IIFE.
-    /* @__PURE__ */ (() => extend({ name: options.name }, extraOptions, { setup: options }))()
-  ) : options;
+function defineComponent(options) {
+  return isFunction(options) ? { setup: options, name: options.name } : options;
 }
 const isKeepAlive = (vnode) => vnode.type.__isKeepAlive;
 function onActivated(hook, target) {
@@ -4536,9 +3797,9 @@ function injectHook(type, hook, target = currentInstance, prepend = false) {
         return;
       }
       pauseTracking();
-      const reset = setCurrentInstance(target);
+      setCurrentInstance(target);
       const res = callWithAsyncErrorHandling(hook, target, type, args);
-      reset();
+      unsetCurrentInstance();
       resetTracking();
       return res;
     });
@@ -4549,33 +3810,97 @@ function injectHook(type, hook, target = currentInstance, prepend = false) {
     }
     return wrappedHook;
   } else {
-    const apiName = toHandlerKey(
-      (ErrorTypeStrings[type] || type.replace(/^on/, "")).replace(/ hook$/, "")
-    );
-    warn$1(
-      `${apiName} is called when there is no active component instance to be associated with. Lifecycle injection APIs can only be used during execution of setup().`
-    );
+    const apiName = toHandlerKey((ErrorTypeStrings[type] || type.replace(/^on/, "")).replace(/ hook$/, ""));
+    warn(`${apiName} is called when there is no active component instance to be associated with. Lifecycle injection APIs can only be used during execution of setup().`);
   }
 }
 const createHook$1 = (lifecycle) => (hook, target = currentInstance) => (
   // post-create lifecycle registrations are noops during SSR (except for serverPrefetch)
   (!isInSSRComponentSetup || lifecycle === "sp") && injectHook(lifecycle, (...args) => hook(...args), target)
 );
-const onBeforeMount = createHook$1("bm");
-const onMounted = createHook$1("m");
-const onBeforeUpdate = createHook$1("bu");
-const onUpdated = createHook$1("u");
-const onBeforeUnmount = createHook$1("bum");
-const onUnmounted = createHook$1("um");
-const onServerPrefetch = createHook$1("sp");
+const onBeforeMount = createHook$1(
+  "bm"
+  /* LifecycleHooks.BEFORE_MOUNT */
+);
+const onMounted = createHook$1(
+  "m"
+  /* LifecycleHooks.MOUNTED */
+);
+const onBeforeUpdate = createHook$1(
+  "bu"
+  /* LifecycleHooks.BEFORE_UPDATE */
+);
+const onUpdated = createHook$1(
+  "u"
+  /* LifecycleHooks.UPDATED */
+);
+const onBeforeUnmount = createHook$1(
+  "bum"
+  /* LifecycleHooks.BEFORE_UNMOUNT */
+);
+const onUnmounted = createHook$1(
+  "um"
+  /* LifecycleHooks.UNMOUNTED */
+);
+const onServerPrefetch = createHook$1(
+  "sp"
+  /* LifecycleHooks.SERVER_PREFETCH */
+);
 const onRenderTriggered = createHook$1(
   "rtg"
+  /* LifecycleHooks.RENDER_TRIGGERED */
 );
 const onRenderTracked = createHook$1(
   "rtc"
+  /* LifecycleHooks.RENDER_TRACKED */
 );
 function onErrorCaptured(hook, target = currentInstance) {
   injectHook("ec", hook, target);
+}
+function validateDirectiveName(name) {
+  if (isBuiltInDirective(name)) {
+    warn("Do not use built-in directive ids as custom directive id: " + name);
+  }
+}
+const COMPONENTS = "components";
+function resolveComponent(name, maybeSelfReference) {
+  return resolveAsset(COMPONENTS, name, true, maybeSelfReference) || name;
+}
+function resolveAsset(type, name, warnMissing = true, maybeSelfReference = false) {
+  const instance = currentRenderingInstance || currentInstance;
+  if (instance) {
+    const Component2 = instance.type;
+    if (type === COMPONENTS) {
+      const selfName = getComponentName(
+        Component2,
+        false
+        /* do not include inferred name to avoid breaking existing code */
+      );
+      if (selfName && (selfName === name || selfName === camelize(name) || selfName === capitalize(camelize(name)))) {
+        return Component2;
+      }
+    }
+    const res = (
+      // local registration
+      // check instance[type] first which is resolved for options API
+      resolve(instance[type] || Component2[type], name) || // global registration
+      resolve(instance.appContext[type], name)
+    );
+    if (!res && maybeSelfReference) {
+      return Component2;
+    }
+    if (warnMissing && !res) {
+      const extra = type === COMPONENTS ? `
+If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement.` : ``;
+      warn(`Failed to resolve ${type.slice(0, -1)}: ${name}${extra}`);
+    }
+    return res;
+  } else {
+    warn(`resolve${capitalize(type.slice(0, -1))} can only be used in render() or setup().`);
+  }
+}
+function resolve(registry, name) {
+  return registry && (registry[name] || registry[camelize(name)] || registry[capitalize(camelize(name))]);
 }
 const getPublicInstance = (i2) => {
   if (!i2)
@@ -4601,10 +3926,7 @@ const publicPropertiesMap = (
     $root: (i2) => getPublicInstance(i2.root),
     $emit: (i2) => i2.emit,
     $options: (i2) => resolveMergedOptions(i2),
-    $forceUpdate: (i2) => i2.f || (i2.f = () => {
-      i2.effect.dirty = true;
-      queueJob(i2.update);
-    }),
+    $forceUpdate: (i2) => i2.f || (i2.f = () => queueJob(i2.update)),
     // $nextTick: i => i.n || (i.n = nextTick.bind(i.proxy!)),// fixed by xxxxxx
     $watch: (i2) => instanceWatch.bind(i2)
   })
@@ -4656,8 +3978,6 @@ const PublicInstanceProxyHandlers = {
     if (publicGetter) {
       if (key === "$attrs") {
         track(instance, "get", key);
-      } else if (key === "$slots") {
-        track(instance, "get", key);
       }
       return publicGetter(instance);
     } else if (
@@ -4679,15 +3999,9 @@ const PublicInstanceProxyHandlers = {
     // to infinite warning loop
     key.indexOf("__v") !== 0)) {
       if (data2 !== EMPTY_OBJ && isReservedPrefix(key[0]) && hasOwn$1(data2, key)) {
-        warn$1(
-          `Property ${JSON.stringify(
-            key
-          )} must be accessed via $data because it starts with a reserved character ("$" or "_") and is not proxied on the render context.`
-        );
+        warn(`Property ${JSON.stringify(key)} must be accessed via $data because it starts with a reserved character ("$" or "_") and is not proxied on the render context.`);
       } else if (instance === currentRenderingInstance) {
-        warn$1(
-          `Property ${JSON.stringify(key)} was accessed during render but is not defined on instance.`
-        );
+        warn(`Property ${JSON.stringify(key)} was accessed during render but is not defined on instance.`);
       }
     }
   },
@@ -4697,19 +4011,17 @@ const PublicInstanceProxyHandlers = {
       setupState[key] = value2;
       return true;
     } else if (setupState.__isScriptSetup && hasOwn$1(setupState, key)) {
-      warn$1(`Cannot mutate <script setup> binding "${key}" from Options API.`);
+      warn(`Cannot mutate <script setup> binding "${key}" from Options API.`);
       return false;
     } else if (data2 !== EMPTY_OBJ && hasOwn$1(data2, key)) {
       data2[key] = value2;
       return true;
     } else if (hasOwn$1(instance.props, key)) {
-      warn$1(`Attempting to mutate prop "${key}". Props are readonly.`);
+      warn(`Attempting to mutate prop "${key}". Props are readonly.`);
       return false;
     }
     if (key[0] === "$" && key.slice(1) in instance) {
-      warn$1(
-        `Attempting to mutate public property "${key}". Properties starting with $ are reserved and readonly.`
-      );
+      warn(`Attempting to mutate public property "${key}". Properties starting with $ are reserved and readonly.`);
       return false;
     } else {
       if (key in instance.appContext.config.globalProperties) {
@@ -4724,9 +4036,7 @@ const PublicInstanceProxyHandlers = {
     }
     return true;
   },
-  has({
-    _: { data: data2, setupState, accessCache, ctx, appContext, propsOptions }
-  }, key) {
+  has({ _: { data: data2, setupState, accessCache, ctx, appContext, propsOptions } }, key) {
     let normalizedProps;
     return !!accessCache[key] || data2 !== EMPTY_OBJ && hasOwn$1(data2, key) || hasSetupBinding(setupState, key) || (normalizedProps = propsOptions[0]) && hasOwn$1(normalizedProps, key) || hasOwn$1(ctx, key) || hasOwn$1(publicPropertiesMap, key) || hasOwn$1(appContext.config.globalProperties, key);
   },
@@ -4741,9 +4051,7 @@ const PublicInstanceProxyHandlers = {
 };
 {
   PublicInstanceProxyHandlers.ownKeys = (target) => {
-    warn$1(
-      `Avoid app logic that relies on enumerating keys on a component instance. The keys will be empty in production mode to avoid performance overhead.`
-    );
+    warn(`Avoid app logic that relies on enumerating keys on a component instance. The keys will be empty in production mode to avoid performance overhead.`);
     return Reflect.ownKeys(target);
   };
 }
@@ -4767,10 +4075,7 @@ function createDevRenderContext(instance) {
   return target;
 }
 function exposePropsOnRenderContext(instance) {
-  const {
-    ctx,
-    propsOptions: [propsOptions]
-  } = instance;
+  const { ctx, propsOptions: [propsOptions] } = instance;
   if (propsOptions) {
     Object.keys(propsOptions).forEach((key) => {
       Object.defineProperty(ctx, key, {
@@ -4787,11 +4092,7 @@ function exposeSetupStateOnRenderContext(instance) {
   Object.keys(toRaw(setupState)).forEach((key) => {
     if (!setupState.__isScriptSetup) {
       if (isReservedPrefix(key[0])) {
-        warn$1(
-          `setup() return property ${JSON.stringify(
-            key
-          )} should not start with "$" or "_" which are reserved prefixes for Vue internals.`
-        );
+        warn(`setup() return property ${JSON.stringify(key)} should not start with "$" or "_" which are reserved prefixes for Vue internals.`);
         return;
       }
       Object.defineProperty(ctx, key, {
@@ -4803,17 +4104,11 @@ function exposeSetupStateOnRenderContext(instance) {
     }
   });
 }
-function normalizePropsOrEmits(props) {
-  return isArray(props) ? props.reduce(
-    (normalized, p2) => (normalized[p2] = null, normalized),
-    {}
-  ) : props;
-}
 function createDuplicateChecker() {
   const cache = /* @__PURE__ */ Object.create(null);
   return (type, key) => {
     if (cache[key]) {
-      warn$1(`${type} property "${key}" is already defined in ${cache[key]}.`);
+      warn(`${type} property "${key}" is already defined in ${cache[key]}.`);
     } else {
       cache[key] = type;
     }
@@ -4826,7 +4121,12 @@ function applyOptions$1(instance) {
   const ctx = instance.ctx;
   shouldCacheAccess = false;
   if (options.beforeCreate) {
-    callHook$1(options.beforeCreate, instance, "bc");
+    callHook$1(
+      options.beforeCreate,
+      instance,
+      "bc"
+      /* LifecycleHooks.BEFORE_CREATE */
+    );
   }
   const {
     // state
@@ -4871,7 +4171,7 @@ function applyOptions$1(instance) {
     }
   }
   if (injectOptions) {
-    resolveInjections(injectOptions, ctx, checkDuplicateProperties);
+    resolveInjections(injectOptions, ctx, checkDuplicateProperties, instance.appContext.config.unwrapInjectedRef);
   }
   if (methods) {
     for (const key in methods) {
@@ -4889,26 +4189,20 @@ function applyOptions$1(instance) {
           checkDuplicateProperties("Methods", key);
         }
       } else {
-        warn$1(
-          `Method "${key}" has type "${typeof methodHandler}" in the component definition. Did you reference the function correctly?`
-        );
+        warn(`Method "${key}" has type "${typeof methodHandler}" in the component definition. Did you reference the function correctly?`);
       }
     }
   }
   if (dataOptions) {
     if (!isFunction(dataOptions)) {
-      warn$1(
-        `The data option must be a function. Plain object usage is no longer supported.`
-      );
+      warn(`The data option must be a function. Plain object usage is no longer supported.`);
     }
     const data2 = dataOptions.call(publicThis, publicThis);
     if (isPromise(data2)) {
-      warn$1(
-        `data() returned a Promise - note data() cannot be async; If you intend to perform data fetching before component renders, use async setup() + <Suspense>.`
-      );
+      warn(`data() returned a Promise - note data() cannot be async; If you intend to perform data fetching before component renders, use async setup() + <Suspense>.`);
     }
     if (!isObject$1(data2)) {
-      warn$1(`data() should return an object.`);
+      warn(`data() should return an object.`);
     } else {
       instance.data = reactive(data2);
       {
@@ -4932,22 +4226,20 @@ function applyOptions$1(instance) {
       const opt = computedOptions[key];
       const get2 = isFunction(opt) ? opt.bind(publicThis, publicThis) : isFunction(opt.get) ? opt.get.bind(publicThis, publicThis) : NOOP;
       if (get2 === NOOP) {
-        warn$1(`Computed property "${key}" has no getter.`);
+        warn(`Computed property "${key}" has no getter.`);
       }
       const set2 = !isFunction(opt) && isFunction(opt.set) ? opt.set.bind(publicThis) : () => {
-        warn$1(
-          `Write operation failed: computed property "${key}" is readonly.`
-        );
+        warn(`Write operation failed: computed property "${key}" is readonly.`);
       };
-      const c2 = computed({
+      const c = computed({
         get: get2,
         set: set2
       });
       Object.defineProperty(ctx, key, {
         enumerable: true,
         configurable: true,
-        get: () => c2.value,
-        set: (v) => c2.value = v
+        get: () => c.value,
+        set: (v) => c.value = v
       });
       {
         checkDuplicateProperties("Computed", key);
@@ -4969,7 +4261,12 @@ function applyOptions$1(instance) {
   }
   {
     if (created) {
-      callHook$1(created, instance, "c");
+      callHook$1(
+        created,
+        instance,
+        "c"
+        /* LifecycleHooks.CREATED */
+      );
     }
   }
   function registerLifecycleHook(register, hook) {
@@ -5018,7 +4315,7 @@ function applyOptions$1(instance) {
     instance.ctx.$onApplyOptions(options, instance, publicThis);
   }
 }
-function resolveInjections(injectOptions, ctx, checkDuplicateProperties = NOOP) {
+function resolveInjections(injectOptions, ctx, checkDuplicateProperties = NOOP, unwrapRef = false) {
   if (isArray(injectOptions)) {
     injectOptions = normalizeInject(injectOptions);
   }
@@ -5031,6 +4328,7 @@ function resolveInjections(injectOptions, ctx, checkDuplicateProperties = NOOP) 
           opt.from || key,
           opt.default,
           true
+          /* treat default function as factory */
         );
       } else {
         injected = inject(opt.from || key);
@@ -5039,12 +4337,19 @@ function resolveInjections(injectOptions, ctx, checkDuplicateProperties = NOOP) 
       injected = inject(opt);
     }
     if (isRef(injected)) {
-      Object.defineProperty(ctx, key, {
-        enumerable: true,
-        configurable: true,
-        get: () => injected.value,
-        set: (v) => injected.value = v
-      });
+      if (unwrapRef) {
+        Object.defineProperty(ctx, key, {
+          enumerable: true,
+          configurable: true,
+          get: () => injected.value,
+          set: (v) => injected.value = v
+        });
+      } else {
+        {
+          warn(`injected property "${key}" is a ref and will be auto-unwrapped and no longer needs \`.value\` in the next minor release. To opt-in to the new behavior now, set \`app.config.unwrapInjectedRef = true\` (this config is temporary and will not be needed in the future.)`);
+        }
+        ctx[key] = injected;
+      }
     } else {
       ctx[key] = injected;
     }
@@ -5054,11 +4359,7 @@ function resolveInjections(injectOptions, ctx, checkDuplicateProperties = NOOP) 
   }
 }
 function callHook$1(hook, instance, type) {
-  callWithAsyncErrorHandling(
-    isArray(hook) ? hook.map((h2) => h2.bind(instance.proxy)) : hook.bind(instance.proxy),
-    instance,
-    type
-  );
+  callWithAsyncErrorHandling(isArray(hook) ? hook.map((h) => h.bind(instance.proxy)) : hook.bind(instance.proxy), instance, type);
 }
 function createWatcher(raw, ctx, publicThis, key) {
   const getter = key.includes(".") ? createPathGetter(publicThis, key) : () => publicThis[key];
@@ -5067,33 +4368,29 @@ function createWatcher(raw, ctx, publicThis, key) {
     if (isFunction(handler)) {
       watch(getter, handler);
     } else {
-      warn$1(`Invalid watch handler specified by key "${raw}"`, handler);
+      warn(`Invalid watch handler specified by key "${raw}"`, handler);
     }
   } else if (isFunction(raw)) {
     watch(getter, raw.bind(publicThis));
   } else if (isObject$1(raw)) {
     if (isArray(raw)) {
-      raw.forEach((r2) => createWatcher(r2, ctx, publicThis, key));
+      raw.forEach((r) => createWatcher(r, ctx, publicThis, key));
     } else {
       const handler = isFunction(raw.handler) ? raw.handler.bind(publicThis) : ctx[raw.handler];
       if (isFunction(handler)) {
         watch(getter, handler, raw);
       } else {
-        warn$1(`Invalid watch handler specified by key "${raw.handler}"`, handler);
+        warn(`Invalid watch handler specified by key "${raw.handler}"`, handler);
       }
     }
   } else {
-    warn$1(`Invalid watch option: "${key}"`, raw);
+    warn(`Invalid watch option: "${key}"`, raw);
   }
 }
 function resolveMergedOptions(instance) {
   const base = instance.type;
   const { mixins, extends: extendsOptions } = base;
-  const {
-    mixins: globalMixins,
-    optionsCache: cache,
-    config: { optionMergeStrategies }
-  } = instance.appContext;
+  const { mixins: globalMixins, optionsCache: cache, config: { optionMergeStrategies } } = instance.appContext;
   const cached = cache.get(base);
   let resolved;
   if (cached) {
@@ -5105,9 +4402,7 @@ function resolveMergedOptions(instance) {
   } else {
     resolved = {};
     if (globalMixins.length) {
-      globalMixins.forEach(
-        (m2) => mergeOptions(resolved, m2, optionMergeStrategies, true)
-      );
+      globalMixins.forEach((m) => mergeOptions(resolved, m, optionMergeStrategies, true));
     }
     mergeOptions(resolved, base, optionMergeStrategies);
   }
@@ -5122,15 +4417,11 @@ function mergeOptions(to, from, strats, asMixin = false) {
     mergeOptions(to, extendsOptions, strats, true);
   }
   if (mixins) {
-    mixins.forEach(
-      (m2) => mergeOptions(to, m2, strats, true)
-    );
+    mixins.forEach((m) => mergeOptions(to, m, strats, true));
   }
   for (const key in from) {
     if (asMixin && key === "expose") {
-      warn$1(
-        `"expose" option is ignored when declared in mixins or extends. It should only be declared in the base component itself.`
-      );
+      warn(`"expose" option is ignored when declared in mixins or extends. It should only be declared in the base component itself.`);
     } else {
       const strat = internalOptionMergeStrats[key] || strats && strats[key];
       to[key] = strat ? strat(to[key], from[key]) : from[key];
@@ -5140,8 +4431,8 @@ function mergeOptions(to, from, strats, asMixin = false) {
 }
 const internalOptionMergeStrats = {
   data: mergeDataFn,
-  props: mergeEmitsOrPropsOptions,
-  emits: mergeEmitsOrPropsOptions,
+  props: mergeObjectOptions,
+  emits: mergeObjectOptions,
   // objects
   methods: mergeObjectOptions,
   computed: mergeObjectOptions,
@@ -5177,10 +4468,7 @@ function mergeDataFn(to, from) {
     return from;
   }
   return function mergedDataFn() {
-    return extend(
-      isFunction(to) ? to.call(this, this) : to,
-      isFunction(from) ? from.call(this, this) : from
-    );
+    return extend(isFunction(to) ? to.call(this, this) : to, isFunction(from) ? from.call(this, this) : from);
   };
 }
 function mergeInject(to, from) {
@@ -5200,21 +4488,7 @@ function mergeAsArray$1(to, from) {
   return to ? [...new Set([].concat(to, from))] : from;
 }
 function mergeObjectOptions(to, from) {
-  return to ? extend(/* @__PURE__ */ Object.create(null), to, from) : from;
-}
-function mergeEmitsOrPropsOptions(to, from) {
-  if (to) {
-    if (isArray(to) && isArray(from)) {
-      return [.../* @__PURE__ */ new Set([...to, ...from])];
-    }
-    return extend(
-      /* @__PURE__ */ Object.create(null),
-      normalizePropsOrEmits(to),
-      normalizePropsOrEmits(from != null ? from : {})
-    );
-  } else {
-    return from;
-  }
+  return to ? extend(extend(/* @__PURE__ */ Object.create(null), to), from) : from;
 }
 function mergeWatchOptions(to, from) {
   if (!to)
@@ -5259,11 +4533,7 @@ function isInHmrContext(instance) {
   }
 }
 function updateProps(instance, rawProps, rawPrevProps, optimized) {
-  const {
-    props,
-    attrs,
-    vnode: { patchFlag }
-  } = instance;
+  const { props, attrs, vnode: { patchFlag } } = instance;
   const rawCurrentProps = toRaw(props);
   const [options] = instance.propsOptions;
   let hasAttrsChanged = false;
@@ -5296,6 +4566,7 @@ function updateProps(instance, rawProps, rawPrevProps, optimized) {
               value2,
               instance,
               false
+              /* isAbsent */
             );
           }
         } else {
@@ -5327,6 +4598,7 @@ function updateProps(instance, rawProps, rawPrevProps, optimized) {
               void 0,
               instance,
               true
+              /* isAbsent */
             );
           }
         } else {
@@ -5380,14 +4652,7 @@ function setFullProps(instance, rawProps, props, attrs) {
     const castValues = rawCastValues || EMPTY_OBJ;
     for (let i2 = 0; i2 < needCastKeys.length; i2++) {
       const key = needCastKeys[i2];
-      props[key] = resolvePropValue(
-        options,
-        rawCurrentProps,
-        key,
-        castValues[key],
-        instance,
-        !hasOwn$1(castValues, key)
-      );
+      props[key] = resolvePropValue(options, rawCurrentProps, key, castValues[key], instance, !hasOwn$1(castValues, key));
     }
   }
   return hasAttrsChanged;
@@ -5398,17 +4663,14 @@ function resolvePropValue(options, props, key, value2, instance, isAbsent) {
     const hasDefault = hasOwn$1(opt, "default");
     if (hasDefault && value2 === void 0) {
       const defaultValue = opt.default;
-      if (opt.type !== Function && !opt.skipFactory && isFunction(defaultValue)) {
+      if (opt.type !== Function && isFunction(defaultValue)) {
         const { propsDefaults } = instance;
         if (key in propsDefaults) {
           value2 = propsDefaults[key];
         } else {
-          const reset = setCurrentInstance(instance);
-          value2 = propsDefaults[key] = defaultValue.call(
-            null,
-            props
-          );
-          reset();
+          setCurrentInstance(instance);
+          value2 = propsDefaults[key] = defaultValue.call(null, props);
+          unsetCurrentInstance();
         }
       } else {
         value2 = defaultValue;
@@ -5416,13 +4678,13 @@ function resolvePropValue(options, props, key, value2, instance, isAbsent) {
     }
     if (opt[
       0
-      /* shouldCast */
+      /* BooleanFlags.shouldCast */
     ]) {
       if (isAbsent && !hasDefault) {
         value2 = false;
       } else if (opt[
         1
-        /* shouldCastTrue */
+        /* BooleanFlags.shouldCastTrue */
       ] && (value2 === "" || value2 === hyphenate(key))) {
         value2 = true;
       }
@@ -5467,7 +4729,7 @@ function normalizePropsOptions(comp, appContext, asMixin = false) {
   if (isArray(raw)) {
     for (let i2 = 0; i2 < raw.length; i2++) {
       if (!isString(raw[i2])) {
-        warn$1(`props must be strings when using array syntax.`, raw[i2]);
+        warn(`props must be strings when using array syntax.`, raw[i2]);
       }
       const normalizedKey = camelize(raw[i2]);
       if (validatePropName(normalizedKey)) {
@@ -5476,23 +4738,23 @@ function normalizePropsOptions(comp, appContext, asMixin = false) {
     }
   } else if (raw) {
     if (!isObject$1(raw)) {
-      warn$1(`invalid props options`, raw);
+      warn(`invalid props options`, raw);
     }
     for (const key in raw) {
       const normalizedKey = camelize(key);
       if (validatePropName(normalizedKey)) {
         const opt = raw[key];
-        const prop = normalized[normalizedKey] = isArray(opt) || isFunction(opt) ? { type: opt } : extend({}, opt);
+        const prop = normalized[normalizedKey] = isArray(opt) || isFunction(opt) ? { type: opt } : Object.assign({}, opt);
         if (prop) {
           const booleanIndex = getTypeIndex(Boolean, prop.type);
           const stringIndex = getTypeIndex(String, prop.type);
           prop[
             0
-            /* shouldCast */
+            /* BooleanFlags.shouldCast */
           ] = booleanIndex > -1;
           prop[
             1
-            /* shouldCastTrue */
+            /* BooleanFlags.shouldCastTrue */
           ] = stringIndex < 0 || booleanIndex < stringIndex;
           if (booleanIndex > -1 || hasOwn$1(prop, "default")) {
             needCastKeys.push(normalizedKey);
@@ -5508,24 +4770,16 @@ function normalizePropsOptions(comp, appContext, asMixin = false) {
   return res;
 }
 function validatePropName(key) {
-  if (key[0] !== "$" && !isReservedProp(key)) {
+  if (key[0] !== "$") {
     return true;
   } else {
-    warn$1(`Invalid prop name: "${key}" is a reserved property.`);
+    warn(`Invalid prop name: "${key}" is a reserved property.`);
   }
   return false;
 }
 function getType(ctor) {
-  if (ctor === null) {
-    return "null";
-  }
-  if (typeof ctor === "function") {
-    return ctor.name || "";
-  } else if (typeof ctor === "object") {
-    const name = ctor.constructor && ctor.constructor.name;
-    return name || "";
-  }
-  return "";
+  const match = ctor && ctor.toString().match(/^\s*(function|class) (\w+)/);
+  return match ? match[2] : ctor === null ? "null" : "";
 }
 function isSameType(a, b) {
   return getType(a) === getType(b);
@@ -5545,25 +4799,19 @@ function validateProps(rawProps, props, instance) {
     let opt = options[key];
     if (opt == null)
       continue;
-    validateProp(
-      key,
-      resolvedValues[key],
-      opt,
-      shallowReadonly(resolvedValues),
-      !hasOwn$1(rawProps, key) && !hasOwn$1(rawProps, hyphenate(key))
-    );
+    validateProp(key, resolvedValues[key], opt, !hasOwn$1(rawProps, key) && !hasOwn$1(rawProps, hyphenate(key)));
   }
 }
-function validateProp(name, value2, prop, props, isAbsent) {
-  const { type, required, validator, skipCheck } = prop;
+function validateProp(name, value2, prop, isAbsent) {
+  const { type, required, validator } = prop;
   if (required && isAbsent) {
-    warn$1('Missing required prop: "' + name + '"');
+    warn('Missing required prop: "' + name + '"');
     return;
   }
-  if (value2 == null && !required) {
+  if (value2 == null && !prop.required) {
     return;
   }
-  if (type != null && type !== true && !skipCheck) {
+  if (type != null && type !== true) {
     let isValid = false;
     const types = isArray(type) ? type : [type];
     const expectedTypes = [];
@@ -5573,17 +4821,15 @@ function validateProp(name, value2, prop, props, isAbsent) {
       isValid = valid;
     }
     if (!isValid) {
-      warn$1(getInvalidTypeMessage(name, value2, expectedTypes));
+      warn(getInvalidTypeMessage(name, value2, expectedTypes));
       return;
     }
   }
-  if (validator && !validator(value2, props)) {
-    warn$1('Invalid prop: custom validator check failed for prop "' + name + '".');
+  if (validator && !validator(value2)) {
+    warn('Invalid prop: custom validator check failed for prop "' + name + '".');
   }
 }
-const isSimpleType = /* @__PURE__ */ makeMap(
-  "String,Number,Boolean,Function,Symbol,BigInt"
-);
+const isSimpleType = /* @__PURE__ */ makeMap("String,Number,Boolean,Function,Symbol,BigInt");
 function assertType(value2, type) {
   let valid;
   const expectedType = getType(type);
@@ -5608,9 +4854,6 @@ function assertType(value2, type) {
   };
 }
 function getInvalidTypeMessage(name, value2, expectedTypes) {
-  if (expectedTypes.length === 0) {
-    return `Prop type [] for prop "${name}" won't match anything. Did you mean to use type Array instead?`;
-  }
   let message = `Invalid prop: type check failed for prop "${name}". Expected ${expectedTypes.map(capitalize).join(" | ")}`;
   const expectedType = expectedTypes[0];
   const receivedType = toRawType(value2);
@@ -5641,6 +4884,122 @@ function isExplicable(type) {
 function isBoolean(...args) {
   return args.some((elem2) => elem2.toLowerCase() === "boolean");
 }
+function createAppContext() {
+  return {
+    app: null,
+    config: {
+      isNativeTag: NO,
+      performance: false,
+      globalProperties: {},
+      optionMergeStrategies: {},
+      errorHandler: void 0,
+      warnHandler: void 0,
+      compilerOptions: {}
+    },
+    mixins: [],
+    components: {},
+    directives: {},
+    provides: /* @__PURE__ */ Object.create(null),
+    optionsCache: /* @__PURE__ */ new WeakMap(),
+    propsCache: /* @__PURE__ */ new WeakMap(),
+    emitsCache: /* @__PURE__ */ new WeakMap()
+  };
+}
+let uid$1 = 0;
+function createAppAPI(render, hydrate) {
+  return function createApp2(rootComponent, rootProps = null) {
+    if (!isFunction(rootComponent)) {
+      rootComponent = Object.assign({}, rootComponent);
+    }
+    if (rootProps != null && !isObject$1(rootProps)) {
+      warn(`root props passed to app.mount() must be an object.`);
+      rootProps = null;
+    }
+    const context = createAppContext();
+    const installedPlugins = /* @__PURE__ */ new Set();
+    const app = context.app = {
+      _uid: uid$1++,
+      _component: rootComponent,
+      _props: rootProps,
+      _container: null,
+      _context: context,
+      _instance: null,
+      version,
+      get config() {
+        return context.config;
+      },
+      set config(v) {
+        {
+          warn(`app.config cannot be replaced. Modify individual options instead.`);
+        }
+      },
+      use(plugin2, ...options) {
+        if (installedPlugins.has(plugin2)) {
+          warn(`Plugin has already been applied to target app.`);
+        } else if (plugin2 && isFunction(plugin2.install)) {
+          installedPlugins.add(plugin2);
+          plugin2.install(app, ...options);
+        } else if (isFunction(plugin2)) {
+          installedPlugins.add(plugin2);
+          plugin2(app, ...options);
+        } else {
+          warn(`A plugin must either be a function or an object with an "install" function.`);
+        }
+        return app;
+      },
+      mixin(mixin) {
+        {
+          if (!context.mixins.includes(mixin)) {
+            context.mixins.push(mixin);
+          } else {
+            warn("Mixin has already been applied to target app" + (mixin.name ? `: ${mixin.name}` : ""));
+          }
+        }
+        return app;
+      },
+      component(name, component) {
+        {
+          validateComponentName(name, context.config);
+        }
+        if (!component) {
+          return context.components[name];
+        }
+        if (context.components[name]) {
+          warn(`Component "${name}" has already been registered in target app.`);
+        }
+        context.components[name] = component;
+        return app;
+      },
+      directive(name, directive) {
+        {
+          validateDirectiveName(name);
+        }
+        if (!directive) {
+          return context.directives[name];
+        }
+        if (context.directives[name]) {
+          warn(`Directive "${name}" has already been registered in target app.`);
+        }
+        context.directives[name] = directive;
+        return app;
+      },
+      // fixed by xxxxxx
+      mount() {
+      },
+      // fixed by xxxxxx
+      unmount() {
+      },
+      provide(key, value2) {
+        if (key in context.provides) {
+          warn(`App already provides property with key "${String(key)}". It will be overwritten with the new value.`);
+        }
+        context.provides[key] = value2;
+        return app;
+      }
+    };
+    return app;
+  };
+}
 let supported;
 let perf;
 function startMeasure(instance, type) {
@@ -5656,11 +5015,7 @@ function endMeasure(instance, type) {
     const startTag = `vue-${type}-${instance.uid}`;
     const endTag = startTag + `:end`;
     perf.mark(endTag);
-    perf.measure(
-      `<${formatComponentName(instance, instance.type)}> ${type}`,
-      startTag,
-      endTag
-    );
+    perf.measure(`<${formatComponentName(instance, instance.type)}> ${type}`, startTag, endTag);
     perf.clearMarks(startTag);
     perf.clearMarks(endTag);
   }
@@ -5681,10 +5036,10 @@ function isSupported() {
   return supported;
 }
 const queuePostRenderEffect$1 = queuePostFlushCb;
-const Fragment = Symbol.for("v-fgt");
-const Text = Symbol.for("v-txt");
-const Comment = Symbol.for("v-cmt");
-const Static = Symbol.for("v-stc");
+const Fragment = Symbol("Fragment");
+const Text = Symbol("Text");
+const Comment = Symbol("Comment");
+const Static = Symbol("Static");
 function isVNode(value2) {
   return value2 ? value2.__v_isVNode === true : false;
 }
@@ -5706,13 +5061,10 @@ function createComponentInstance(vnode, parent2, suspense) {
     parent: parent2,
     appContext,
     root: null,
-    // to be immediately set
     next: null,
     subTree: null,
-    // will be set synchronously right after creation
     effect: null,
     update: null,
-    // will be set synchronously right after creation
     scope: new EffectScope(
       true
       /* detached */
@@ -5733,7 +5085,6 @@ function createComponentInstance(vnode, parent2, suspense) {
     emitsOptions: normalizeEmitsOptions(type, appContext),
     // emit
     emit: null,
-    // to be set immediately
     emitted: null,
     // props default value
     propsDefaults: EMPTY_OBJ,
@@ -5748,8 +5099,6 @@ function createComponentInstance(vnode, parent2, suspense) {
     refs: EMPTY_OBJ,
     setupState: EMPTY_OBJ,
     setupContext: null,
-    attrsProxy: null,
-    slotsProxy: null,
     // suspense related
     suspense,
     suspenseId: suspense ? suspense.pendingId : 0,
@@ -5787,35 +5136,19 @@ function createComponentInstance(vnode, parent2, suspense) {
 }
 let currentInstance = null;
 const getCurrentInstance = () => currentInstance || currentRenderingInstance;
-let internalSetCurrentInstance;
-let setInSSRSetupState;
-{
-  internalSetCurrentInstance = (i2) => {
-    currentInstance = i2;
-  };
-  setInSSRSetupState = (v) => {
-    isInSSRComponentSetup = v;
-  };
-}
 const setCurrentInstance = (instance) => {
-  const prev = currentInstance;
-  internalSetCurrentInstance(instance);
+  currentInstance = instance;
   instance.scope.on();
-  return () => {
-    instance.scope.off();
-    internalSetCurrentInstance(prev);
-  };
 };
 const unsetCurrentInstance = () => {
   currentInstance && currentInstance.scope.off();
-  internalSetCurrentInstance(null);
+  currentInstance = null;
 };
 const isBuiltInTag = /* @__PURE__ */ makeMap("slot,component");
-function validateComponentName(name, { isNativeTag }) {
-  if (isBuiltInTag(name) || isNativeTag(name)) {
-    warn$1(
-      "Do not use built-in or reserved HTML elements as component id: " + name
-    );
+function validateComponentName(name, config) {
+  const appIsNativeTag = config.isNativeTag || NO;
+  if (isBuiltInTag(name) || appIsNativeTag(name)) {
+    warn("Do not use built-in or reserved HTML elements as component id: " + name);
   }
 }
 function isStatefulComponent(instance) {
@@ -5823,7 +5156,7 @@ function isStatefulComponent(instance) {
 }
 let isInSSRComponentSetup = false;
 function setupComponent(instance, isSSR = false) {
-  isSSR && setInSSRSetupState(isSSR);
+  isInSSRComponentSetup = isSSR;
   const {
     props
     /*, children*/
@@ -5831,7 +5164,7 @@ function setupComponent(instance, isSSR = false) {
   const isStateful = isStatefulComponent(instance);
   initProps$1(instance, props, isStateful, isSSR);
   const setupResult = isStateful ? setupStatefulComponent(instance, isSSR) : void 0;
-  isSSR && setInSSRSetupState(false);
+  isInSSRComponentSetup = false;
   return setupResult;
 }
 function setupStatefulComponent(instance, isSSR) {
@@ -5853,9 +5186,7 @@ function setupStatefulComponent(instance, isSSR) {
       }
     }
     if (Component2.compilerOptions && isRuntimeOnly()) {
-      warn$1(
-        `"compilerOptions" is only supported when using a build of Vue that includes the runtime compiler. Since you are using a runtime-only build, the options should be passed via your build tool config instead.`
-      );
+      warn(`"compilerOptions" is only supported when using a build of Vue that includes the runtime compiler. Since you are using a runtime-only build, the options should be passed via your build tool config instead.`);
     }
   }
   instance.accessCache = /* @__PURE__ */ Object.create(null);
@@ -5866,25 +5197,15 @@ function setupStatefulComponent(instance, isSSR) {
   const { setup } = Component2;
   if (setup) {
     const setupContext = instance.setupContext = setup.length > 1 ? createSetupContext(instance) : null;
-    const reset = setCurrentInstance(instance);
+    setCurrentInstance(instance);
     pauseTracking();
-    const setupResult = callWithErrorHandling(
-      setup,
-      instance,
-      0,
-      [
-        shallowReadonly(instance.props),
-        setupContext
-      ]
-    );
+    const setupResult = callWithErrorHandling(setup, instance, 0, [shallowReadonly(instance.props), setupContext]);
     resetTracking();
-    reset();
+    unsetCurrentInstance();
     if (isPromise(setupResult)) {
       setupResult.then(unsetCurrentInstance, unsetCurrentInstance);
       {
-        warn$1(
-          `setup() returned a Promise, but the version of Vue you are using does not support it yet.`
-        );
+        warn(`setup() returned a Promise, but the version of Vue you are using does not support it yet.`);
       }
     } else {
       handleSetupResult(instance, setupResult, isSSR);
@@ -5900,9 +5221,7 @@ function handleSetupResult(instance, setupResult, isSSR) {
     }
   } else if (isObject$1(setupResult)) {
     if (isVNode(setupResult)) {
-      warn$1(
-        `setup() should not return VNodes directly - return a render function instead.`
-      );
+      warn(`setup() should not return VNodes directly - return a render function instead.`);
     }
     {
       instance.devtoolsRawSetupState = setupResult;
@@ -5912,9 +5231,7 @@ function handleSetupResult(instance, setupResult, isSSR) {
       exposeSetupStateOnRenderContext(instance);
     }
   } else if (setupResult !== void 0) {
-    warn$1(
-      `setup() should return an object. Received: ${setupResult === null ? "null" : typeof setupResult}`
-    );
+    warn(`setup() should return an object. Received: ${setupResult === null ? "null" : typeof setupResult}`);
   }
   finishComponentSetup(instance, isSSR);
 }
@@ -5926,27 +5243,25 @@ function finishComponentSetup(instance, isSSR, skipOptions) {
     instance.render = Component2.render || NOOP;
   }
   {
-    const reset = setCurrentInstance(instance);
+    setCurrentInstance(instance);
     pauseTracking();
-    try {
-      applyOptions$1(instance);
-    } finally {
-      resetTracking();
-      reset();
-    }
+    applyOptions$1(instance);
+    resetTracking();
+    unsetCurrentInstance();
   }
   if (!Component2.render && instance.render === NOOP && !isSSR) {
     if (Component2.template) {
-      warn$1(
+      warn(
         `Component provided template option but runtime compilation is not supported in this build of Vue. Configure your bundler to alias "vue" to "vue/dist/vue.esm-bundler.js".`
+        /* should not happen */
       );
     } else {
-      warn$1(`Component is missing template or render function.`);
+      warn(`Component is missing template or render function.`);
     }
   }
 }
-function getAttrsProxy(instance) {
-  return instance.attrsProxy || (instance.attrsProxy = new Proxy(
+function createAttrsProxy(instance) {
+  return new Proxy(
     instance.attrs,
     {
       get(target, key) {
@@ -5954,29 +5269,21 @@ function getAttrsProxy(instance) {
         return target[key];
       },
       set() {
-        warn$1(`setupContext.attrs is readonly.`);
+        warn(`setupContext.attrs is readonly.`);
         return false;
       },
       deleteProperty() {
-        warn$1(`setupContext.attrs is readonly.`);
+        warn(`setupContext.attrs is readonly.`);
         return false;
       }
     }
-  ));
-}
-function getSlotsProxy(instance) {
-  return instance.slotsProxy || (instance.slotsProxy = new Proxy(instance.slots, {
-    get(target, key) {
-      track(instance, "get", "$slots");
-      return target[key];
-    }
-  }));
+  );
 }
 function createSetupContext(instance) {
   const expose = (exposed) => {
     {
       if (instance.exposed) {
-        warn$1(`expose() should be called only once per setup().`);
+        warn(`expose() should be called only once per setup().`);
       }
       if (exposed != null) {
         let exposedType = typeof exposed;
@@ -5988,21 +5295,20 @@ function createSetupContext(instance) {
           }
         }
         if (exposedType !== "object") {
-          warn$1(
-            `expose() should be passed a plain object, received ${exposedType}.`
-          );
+          warn(`expose() should be passed a plain object, received ${exposedType}.`);
         }
       }
     }
     instance.exposed = exposed || {};
   };
+  let attrs;
   {
     return Object.freeze({
       get attrs() {
-        return getAttrsProxy(instance);
+        return attrs || (attrs = createAttrsProxy(instance));
       },
       get slots() {
-        return getSlotsProxy(instance);
+        return shallowReadonly(instance.slots);
       },
       get emit() {
         return (event, ...args) => instance.emit(event, ...args);
@@ -6027,7 +5333,7 @@ function getExposeProxy(instance) {
   }
 }
 const classifyRE = /(?:^|[-_])(\w)/g;
-const classify = (str) => str.replace(classifyRE, (c2) => c2.toUpperCase()).replace(/[-_]/g, "");
+const classify = (str) => str.replace(classifyRE, (c) => c.toUpperCase()).replace(/[-_]/g, "");
 function getComponentName(Component2, includeInferred = true) {
   return isFunction(Component2) ? Component2.displayName || Component2.name : Component2.name || includeInferred && Component2.__name;
 }
@@ -6047,24 +5353,14 @@ function formatComponentName(instance, Component2, isRoot = false) {
         }
       }
     };
-    name = inferFromRegistry(
-      instance.components || instance.parent.type.components
-    ) || inferFromRegistry(instance.appContext.components);
+    name = inferFromRegistry(instance.components || instance.parent.type.components) || inferFromRegistry(instance.appContext.components);
   }
   return name ? classify(name) : isRoot ? `App` : `Anonymous`;
 }
 const computed = (getterOrOptions, debugOptions) => {
-  const c2 = computed$1(getterOrOptions, debugOptions, isInSSRComponentSetup);
-  {
-    const i2 = getCurrentInstance();
-    if (i2 && i2.appContext.config.warnRecursiveComputed) {
-      c2._warnRecursive = true;
-    }
-  }
-  return c2;
+  return computed$1(getterOrOptions, debugOptions, isInSSRComponentSetup);
 };
-const version = "3.4.21";
-const warn = warn$1;
+const version = "3.2.47";
 function unwrapper(target) {
   return unref(target);
 }
@@ -6116,52 +5412,26 @@ function _diff(current, pre, path, result) {
         const preType = toTypeString(preValue);
         if (currentType != ARRAYTYPE && currentType != OBJECTTYPE) {
           if (currentValue != preValue) {
-            setResult(
-              result,
-              (path == "" ? "" : path + ".") + key,
-              currentValue
-            );
+            setResult(result, (path == "" ? "" : path + ".") + key, currentValue);
           }
         } else if (currentType == ARRAYTYPE) {
           if (preType != ARRAYTYPE) {
-            setResult(
-              result,
-              (path == "" ? "" : path + ".") + key,
-              currentValue
-            );
+            setResult(result, (path == "" ? "" : path + ".") + key, currentValue);
           } else {
             if (currentValue.length < preValue.length) {
-              setResult(
-                result,
-                (path == "" ? "" : path + ".") + key,
-                currentValue
-              );
+              setResult(result, (path == "" ? "" : path + ".") + key, currentValue);
             } else {
               currentValue.forEach((item, index2) => {
-                _diff(
-                  item,
-                  preValue[index2],
-                  (path == "" ? "" : path + ".") + key + "[" + index2 + "]",
-                  result
-                );
+                _diff(item, preValue[index2], (path == "" ? "" : path + ".") + key + "[" + index2 + "]", result);
               });
             }
           }
         } else if (currentType == OBJECTTYPE) {
           if (preType != OBJECTTYPE || Object.keys(currentValue).length < Object.keys(preValue).length) {
-            setResult(
-              result,
-              (path == "" ? "" : path + ".") + key,
-              currentValue
-            );
+            setResult(result, (path == "" ? "" : path + ".") + key, currentValue);
           } else {
             for (let subKey in currentValue) {
-              _diff(
-                currentValue[subKey],
-                preValue[subKey],
-                (path == "" ? "" : path + ".") + key + "." + subKey,
-                result
-              );
+              _diff(currentValue[subKey], preValue[subKey], (path == "" ? "" : path + ".") + key + "." + subKey, result);
             }
           }
         }
@@ -6215,6 +5485,7 @@ function nextTick(instance, fn) {
         fn.bind(instance.proxy),
         instance,
         14
+        /* ErrorCodes.SCHEDULER */
       );
     } else if (_resolve) {
       _resolve(instance.proxy);
@@ -6295,11 +5566,7 @@ function initAppConfig(appConfig) {
   };
 }
 function onApplyOptions(options, instance, publicThis) {
-  instance.appContext.config.globalProperties.$applyOptions(
-    options,
-    instance,
-    publicThis
-  );
+  instance.appContext.config.globalProperties.$applyOptions(options, instance, publicThis);
   const computedOptions = options.computed;
   if (computedOptions) {
     const keys = Object.keys(computedOptions);
@@ -6314,11 +5581,7 @@ function onApplyOptions(options, instance, publicThis) {
   delete instance.ctx.$onApplyOptions;
 }
 function setRef$1(instance, isUnmount = false) {
-  const {
-    setupState,
-    $templateRefs,
-    ctx: { $scope, $mpPlatform }
-  } = instance;
+  const { setupState, $templateRefs, ctx: { $scope, $mpPlatform } } = instance;
   if ($mpPlatform === "mp-alipay") {
     return;
   }
@@ -6326,18 +5589,14 @@ function setRef$1(instance, isUnmount = false) {
     return;
   }
   if (isUnmount) {
-    return $templateRefs.forEach(
-      (templateRef) => setTemplateRef(templateRef, null, setupState)
-    );
+    return $templateRefs.forEach((templateRef) => setTemplateRef(templateRef, null, setupState));
   }
   const check = $mpPlatform === "mp-baidu" || $mpPlatform === "mp-toutiao";
   const doSetByRefs = (refs) => {
     const mpComponents = (
       // 字节小程序 selectAllComponents 可能返回 null
       // https://github.com/dcloudio/uni-app/issues/3954
-      ($scope.selectAllComponents(".r") || []).concat(
-        $scope.selectAllComponents(".r-i-f") || []
-      )
+      ($scope.selectAllComponents(".r") || []).concat($scope.selectAllComponents(".r-i-f") || [])
     );
     return refs.filter((templateRef) => {
       const refValue = findComponentPublicInstance(mpComponents, templateRef.i);
@@ -6369,9 +5628,7 @@ function toSkip(value2) {
   return value2;
 }
 function findComponentPublicInstance(mpComponents, id) {
-  const mpInstance = mpComponents.find(
-    (com) => com && (com.properties || com.props).uI === id
-  );
+  const mpInstance = mpComponents.find((com) => com && (com.properties || com.props).uI === id);
   if (mpInstance) {
     const vm = mpInstance.$vm;
     if (vm) {
@@ -6381,21 +5638,21 @@ function findComponentPublicInstance(mpComponents, id) {
   }
   return null;
 }
-function setTemplateRef({ r: r2, f: f2 }, refValue, setupState) {
-  if (isFunction(r2)) {
-    r2(refValue, {});
+function setTemplateRef({ r, f: f2 }, refValue, setupState) {
+  if (isFunction(r)) {
+    r(refValue, {});
   } else {
-    const _isString = isString(r2);
-    const _isRef = isRef(r2);
+    const _isString = isString(r);
+    const _isRef = isRef(r);
     if (_isString || _isRef) {
       if (f2) {
         if (!_isRef) {
           return;
         }
-        if (!isArray(r2.value)) {
-          r2.value = [];
+        if (!isArray(r.value)) {
+          r.value = [];
         }
-        const existing = r2.value;
+        const existing = r.value;
         if (existing.indexOf(refValue) === -1) {
           existing.push(refValue);
           if (!refValue) {
@@ -6404,22 +5661,28 @@ function setTemplateRef({ r: r2, f: f2 }, refValue, setupState) {
           onBeforeUnmount(() => remove(existing, refValue), refValue.$);
         }
       } else if (_isString) {
-        if (hasOwn$1(setupState, r2)) {
-          setupState[r2] = refValue;
+        if (hasOwn$1(setupState, r)) {
+          setupState[r] = refValue;
         }
-      } else if (isRef(r2)) {
-        r2.value = refValue;
+      } else if (isRef(r)) {
+        r.value = refValue;
       } else {
-        warnRef(r2);
+        warnRef(r);
       }
     } else {
-      warnRef(r2);
+      warnRef(r);
     }
   }
 }
 function warnRef(ref2) {
   warn("Invalid template ref type:", ref2, `(${typeof ref2})`);
 }
+var MPType;
+(function(MPType2) {
+  MPType2["APP"] = "app";
+  MPType2["PAGE"] = "page";
+  MPType2["COMPONENT"] = "component";
+})(MPType || (MPType = {}));
 const queuePostRenderEffect = queuePostFlushCb;
 function mountComponent(initialVNode, options) {
   const instance = initialVNode.component = createComponentInstance(initialVNode, options.parentComponent, null);
@@ -6466,31 +5729,7 @@ const getFunctionalFallthrough = (attrs) => {
   return res;
 };
 function renderComponentRoot(instance) {
-  const {
-    type: Component2,
-    vnode,
-    proxy,
-    withProxy,
-    props,
-    propsOptions: [propsOptions],
-    slots,
-    attrs,
-    emit: emit2,
-    render,
-    renderCache,
-    data: data2,
-    setupState,
-    ctx,
-    uid: uid2,
-    appContext: {
-      app: {
-        config: {
-          globalProperties: { pruneComponentPropsCache: pruneComponentPropsCache2 }
-        }
-      }
-    },
-    inheritAttrs
-  } = instance;
+  const { type: Component2, vnode, proxy, withProxy, props, propsOptions: [propsOptions], slots, attrs, emit: emit2, render, renderCache, data: data2, setupState, ctx, uid: uid2, appContext: { app: { config: { globalProperties: { pruneComponentPropsCache: pruneComponentPropsCache2 } } } }, inheritAttrs } = instance;
   instance.$templateRefs = [];
   instance.$ei = 0;
   pruneComponentPropsCache2(uid2);
@@ -6501,22 +5740,9 @@ function renderComponentRoot(instance) {
     if (vnode.shapeFlag & 4) {
       fallthroughAttrs(inheritAttrs, props, propsOptions, attrs);
       const proxyToUse = withProxy || proxy;
-      result = render.call(
-        proxyToUse,
-        proxyToUse,
-        renderCache,
-        props,
-        setupState,
-        data2,
-        ctx
-      );
+      result = render.call(proxyToUse, proxyToUse, renderCache, props, setupState, data2, ctx);
     } else {
-      fallthroughAttrs(
-        inheritAttrs,
-        props,
-        propsOptions,
-        Component2.props ? attrs : getFunctionalFallthrough(attrs)
-      );
+      fallthroughAttrs(inheritAttrs, props, propsOptions, Component2.props ? attrs : getFunctionalFallthrough(attrs));
       const render2 = Component2;
       result = render2.length > 1 ? render2(props, { attrs, slots, emit: emit2 }) : render2(
         props,
@@ -6525,7 +5751,12 @@ function renderComponentRoot(instance) {
       );
     }
   } catch (err) {
-    handleError(err, instance, 1);
+    handleError(
+      err,
+      instance,
+      1
+      /* ErrorCodes.RENDER_FUNCTION */
+    );
     result = false;
   }
   setRef$1(instance);
@@ -6534,9 +5765,7 @@ function renderComponentRoot(instance) {
 }
 function fallthroughAttrs(inheritAttrs, props, propsOptions, fallthroughAttrs2) {
   if (props && fallthroughAttrs2 && inheritAttrs !== false) {
-    const keys = Object.keys(fallthroughAttrs2).filter(
-      (key) => key !== "class" && key !== "style"
-    );
+    const keys = Object.keys(fallthroughAttrs2).filter((key) => key !== "class" && key !== "style");
     if (!keys.length) {
       return;
     }
@@ -6570,10 +5799,7 @@ function componentUpdateScopedSlotsFn() {
     if (typeof oldScopedSlotData === "undefined" || typeof oldScopedSlotData[index2] === "undefined") {
       diffData[diffPath] = data2;
     } else {
-      const diffScopedSlotData = diff(
-        data2,
-        oldScopedSlotData[index2]
-      );
+      const diffScopedSlotData = diff(data2, oldScopedSlotData[index2]);
       Object.keys(diffScopedSlotData).forEach((name) => {
         diffData[diffPath + "." + name] = diffScopedSlotData[name];
       });
@@ -6588,9 +5814,7 @@ function toggleRecurse({ effect: effect2, update }, allowed) {
   effect2.allowRecurse = update.allowRecurse = allowed;
 }
 function setupRenderEffect(instance) {
-  const updateScopedSlots = componentUpdateScopedSlotsFn.bind(
-    instance
-  );
+  const updateScopedSlots = componentUpdateScopedSlotsFn.bind(instance);
   instance.$updateScopedSlots = () => nextTick$1(() => queueJob(updateScopedSlots));
   const componentUpdateFn = () => {
     if (!instance.isMounted) {
@@ -6636,18 +5860,13 @@ function setupRenderEffect(instance) {
       }
     }
   };
-  const effect2 = instance.effect = new ReactiveEffect2(
+  const effect2 = instance.effect = new ReactiveEffect(
     componentUpdateFn,
-    NOOP,
-    () => queueJob(update),
+    () => queueJob(instance.update),
     instance.scope
     // track it in component's effect scope
   );
-  const update = instance.update = () => {
-    if (effect2.dirty) {
-      effect2.run();
-    }
-  };
+  const update = instance.update = effect2.run.bind(effect2);
   update.id = instance.uid;
   toggleRecurse(instance, true);
   {
@@ -6700,29 +5919,26 @@ function createVueApp(rootComponent, rootProps = null) {
   const app = oldCreateApp(rootComponent, rootProps);
   const appContext = app._context;
   initAppConfig(appContext.config);
-  const createVNode2 = (initialVNode) => {
+  const createVNode = (initialVNode) => {
     initialVNode.appContext = appContext;
     initialVNode.shapeFlag = 6;
     return initialVNode;
   };
-  const createComponent2 = function createComponent22(initialVNode, options) {
-    return mountComponent(createVNode2(initialVNode), options);
+  const createComponent2 = function createComponent3(initialVNode, options) {
+    return mountComponent(createVNode(initialVNode), options);
   };
   const destroyComponent = function destroyComponent2(component) {
     return component && unmountComponent(component.$);
   };
   app.mount = function mount() {
     rootComponent.render = NOOP;
-    const instance = mountComponent(
-      createVNode2({ type: rootComponent }),
-      {
-        mpType: "app",
-        mpInstance: null,
-        parentComponent: null,
-        slots: [],
-        props: null
-      }
-    );
+    const instance = mountComponent(createVNode({ type: rootComponent }), {
+      mpType: MPType.APP,
+      mpInstance: null,
+      parentComponent: null,
+      slots: [],
+      props: null
+    });
     app._instance = instance.$;
     {
       devtoolsInitApp(app, version);
@@ -6820,8 +6036,8 @@ if (typeof atob !== "function") {
   realAtob = atob;
 }
 function b64DecodeUnicode(str) {
-  return decodeURIComponent(realAtob(str).split("").map(function(c2) {
-    return "%" + ("00" + c2.charCodeAt(0).toString(16)).slice(-2);
+  return decodeURIComponent(realAtob(str).split("").map(function(c) {
+    return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
   }).join(""));
 }
 function getCurrentUserInfo() {
@@ -6926,7 +6142,7 @@ function getCreateApp() {
 function vOn(value2, key) {
   const instance = getCurrentInstance();
   const ctx = instance.ctx;
-  const extraKey = typeof key !== "undefined" && (ctx.$mpPlatform === "mp-weixin" || ctx.$mpPlatform === "mp-qq" || ctx.$mpPlatform === "mp-xhs") && (isString(key) || typeof key === "number") ? "_" + key : "";
+  const extraKey = typeof key !== "undefined" && (ctx.$mpPlatform === "mp-weixin" || ctx.$mpPlatform === "mp-qq") && (isString(key) || typeof key === "number") ? "_" + key : "";
   const name = "e" + instance.$ei++ + extraKey;
   const mpInstance = ctx.$scope;
   if (!value2) {
@@ -7247,7 +6463,6 @@ function parseApp(instance, parseAppOptions) {
   const appOptions = {
     globalData: instance.$options && instance.$options.globalData || {},
     $vm: instance,
-    // mp-alipay 组件 data 初始化比 onLaunch 早，提前挂载
     onLaunch(options) {
       this.$vm = instance;
       const ctx = internalInstance.ctx;
@@ -7467,7 +6682,7 @@ function initDefaultProps(options, isBehavior = false) {
     };
   }
   if (options.behaviors) {
-    if (options.behaviors.includes("__GLOBAL__://form-field")) {
+    if (options.behaviors.includes("wx://form-field")) {
       if (!options.properties || !options.properties.name) {
         properties.name = {
           type: null,
@@ -7638,7 +6853,7 @@ function initBehaviors(vueOptions) {
   const behaviors = [];
   if (isArray(vueBehaviors)) {
     vueBehaviors.forEach((behavior) => {
-      behaviors.push(behavior.replace("uni://", "__GLOBAL__://"));
+      behaviors.push(behavior.replace("uni://", "wx://"));
       if (behavior === "uni://form-field") {
         if (isArray(vueProps)) {
           vueProps.push("name");
@@ -7831,7 +7046,6 @@ function initLifetimes({ mocks: mocks2, isPage: isPage2, initRelation: initRelat
         mpType: isMiniProgramPage ? "page" : "component",
         mpInstance,
         slots: properties.uS || {},
-        // vueSlots
         parentComponent: relationOptions.parent && relationOptions.parent.$,
         onBeforeSetup(instance, options) {
           initRefs(instance, mpInstance);
@@ -7930,9 +7144,9 @@ var miniprogram_dist = {};
       var i2 = /* @__PURE__ */ Object.create(null);
       if (r.r(i2), Object.defineProperty(i2, "default", { enumerable: true, value: t3 }), 2 & e3 && "string" != typeof t3)
         for (var s2 in t3)
-          r.d(i2, s2, (function(e4) {
+          r.d(i2, s2, function(e4) {
             return t3[e4];
-          }).bind(null, s2));
+          }.bind(null, s2));
       return i2;
     }, r.n = function(t3) {
       var e3 = t3 && t3.__esModule ? function() {
@@ -8077,7 +7291,7 @@ var miniprogram_dist = {};
       t3.requestAnimationFrame = P._requestAnimationFrame, t3.cancelAnimationFrame = P._cancelAnimationFrame, e3.body = P._body, e3.createElement = P._createElement;
     };
   }, function(module, __webpack_exports__, __webpack_require__) {
-    __webpack_require__.r(__webpack_exports__), (function(module) {
+    __webpack_require__.r(__webpack_exports__), function(module) {
       __webpack_require__.d(__webpack_exports__, "loadAnimation", function() {
         return loadAnimation;
       }), __webpack_require__.d(__webpack_exports__, "freeze", function() {
@@ -8107,9 +7321,9 @@ var miniprogram_dist = {};
           throw new Error("Parameter 'rendererSettings.context' should be a CanvasRenderingContext2D.");
         t2.renderer = "canvas";
         var e2 = window.lottie.loadAnimation(t2), r = e2.destroy.bind(e2);
-        return e2.destroy = (function() {
+        return e2.destroy = function() {
           Object(_adapter__WEBPACK_IMPORTED_MODULE_0__.b)(), e2.renderer && !e2.renderer.destroyed && (e2.renderer.renderConfig.clearCanvas = false), r();
-        }).bind(e2), e2;
+        }.bind(e2), e2;
       }
       void 0 !== navigator && function(t2, e2) {
         "object" === _typeof(module) && module.exports ? module.exports = e2(t2) : (t2.lottie = e2(t2), t2.bodymovin = t2.lottie);
@@ -8219,9 +7433,9 @@ var miniprogram_dist = {};
             for (var r = this._cbs[t2].length, i2 = 0; i2 < r; i2++)
               this._cbs[t2][i2](e2);
         }, addEventListener: function(t2, e2) {
-          return this._cbs[t2] || (this._cbs[t2] = []), this._cbs[t2].push(e2), (function() {
+          return this._cbs[t2] || (this._cbs[t2] = []), this._cbs[t2].push(e2), function() {
             this.removeEventListener(t2, e2);
-          }).bind(this);
+          }.bind(this);
         }, removeEventListener: function(t2, e2) {
           if (e2) {
             if (this._cbs[t2]) {
@@ -8268,7 +7482,7 @@ var miniprogram_dist = {};
         } };
         var getBlendMode = (blendModeEnums = { 0: "source-over", 1: "multiply", 2: "screen", 3: "overlay", 4: "darken", 5: "lighten", 6: "color-dodge", 7: "color-burn", 8: "hard-light", 9: "soft-light", 10: "difference", 11: "exclusion", 12: "hue", 13: "saturation", 14: "color", 15: "luminosity" }, function(t2) {
           return blendModeEnums[t2] || "";
-        }), blendModeEnums, Matrix = /* @__PURE__ */ function() {
+        }), blendModeEnums, Matrix = function() {
           var t2 = Math.cos, e2 = Math.sin, r = Math.tan, i2 = Math.round;
           function s2() {
             return this.props[0] = 1, this.props[1] = 0, this.props[2] = 0, this.props[3] = 0, this.props[4] = 0, this.props[5] = 1, this.props[6] = 0, this.props[7] = 0, this.props[8] = 0, this.props[9] = 0, this.props[10] = 1, this.props[11] = 0, this.props[12] = 0, this.props[13] = 0, this.props[14] = 0, this.props[15] = 1, this;
@@ -8651,7 +7865,7 @@ var miniprogram_dist = {};
             var r2 = e3 ? e3.split(".") : [100, 100, 100];
             return t3[0] > r2[0] || !(r2[0] > t3[0]) && (t3[1] > r2[1] || !(r2[1] > t3[1]) && (t3[2] > r2[2] || !(r2[2] > t3[2]) && void 0));
           }
-          var s2, a = /* @__PURE__ */ function() {
+          var s2, a = function() {
             var t3 = [4, 4, 14];
             function e3(t4) {
               var e4, r2, i3, s3 = t4.length;
@@ -8673,7 +7887,7 @@ var miniprogram_dist = {};
                   for (n3 = (h2 = t3.chars[e3].data.shapes[0].it).length, a2 = 0; a2 < n3; a2 += 1)
                     (o3 = h2[a2].ks.k).__converted || (r(h2[a2].ks.k), o3.__converted = true);
             }
-          }), o2 = /* @__PURE__ */ function() {
+          }), o2 = function() {
             var t3 = [4, 1, 9];
             function e3(t4) {
               var r3, i3, s3, a2 = t4.length;
@@ -8699,7 +7913,7 @@ var miniprogram_dist = {};
                   e4.assets[s3].layers && r2(e4.assets[s3].layers);
               }
             };
-          }(), h = /* @__PURE__ */ function() {
+          }(), h = function() {
             var t3 = [4, 4, 18];
             function e3(t4) {
               var r3, i3, s3;
@@ -8856,13 +8070,13 @@ var miniprogram_dist = {};
             var t3, e3, r2, i3 = this.fonts.length, s3 = i3;
             for (t3 = 0; t3 < i3; t3 += 1)
               this.fonts[t3].loaded ? s3 -= 1 : "n" === this.fonts[t3].fOrigin || 0 === this.fonts[t3].origin ? this.fonts[t3].loaded = true : (e3 = this.fonts[t3].monoCase.node, r2 = this.fonts[t3].monoCase.w, e3.offsetWidth !== r2 ? (s3 -= 1, this.fonts[t3].loaded = true) : (e3 = this.fonts[t3].sansCase.node, r2 = this.fonts[t3].sansCase.w, e3.offsetWidth !== r2 && (s3 -= 1, this.fonts[t3].loaded = true)), this.fonts[t3].loaded && (this.fonts[t3].sansCase.parent.parentNode.removeChild(this.fonts[t3].sansCase.parent), this.fonts[t3].monoCase.parent.parentNode.removeChild(this.fonts[t3].monoCase.parent)));
-            0 !== s3 && Date.now() - this.initTime < 5e3 ? setTimeout(this.checkLoadedFonts.bind(this), 20) : setTimeout((function() {
+            0 !== s3 && Date.now() - this.initTime < 5e3 ? setTimeout(this.checkLoadedFonts.bind(this), 20) : setTimeout(function() {
               this.isLoaded = true;
-            }).bind(this), 0);
+            }.bind(this), 0);
           }, s2.prototype.loaded = function() {
             return this.isLoaded;
           }, s2;
-        }(), PropertyFactory = /* @__PURE__ */ function() {
+        }(), PropertyFactory = function() {
           var t2 = initialDefaultFrame, e2 = Math.abs;
           function r(t3, e3) {
             var r2, s3 = this.offsetTime;
@@ -9532,9 +8746,9 @@ var miniprogram_dist = {};
                 i4 = r3, i4 += t3.u ? t3.u : "", i4 += t3.p;
               return i4;
             }(e3, this.assetsPath, this.path), i3 = createTag("img");
-            i3.crossOrigin = "anonymous", i3.addEventListener("load", this._imageLoaded.bind(this), false), i3.addEventListener("error", (function() {
+            i3.crossOrigin = "anonymous", i3.addEventListener("load", this._imageLoaded.bind(this), false), i3.addEventListener("error", function() {
               s3.img = t2, this._imageLoaded();
-            }).bind(this), false), i3.src = r2;
+            }.bind(this), false), i3.src = r2;
             var s3 = { img: i3, assetData: e3 };
             return s3;
           }
@@ -9578,7 +8792,7 @@ var miniprogram_dist = {};
             var t3 = createNS("feColorMatrix");
             return t3.setAttribute("type", "matrix"), t3.setAttribute("color-interpolation-filters", "sRGB"), t3.setAttribute("values", "0 0 0 1 0  0 0 0 1 0  0 0 0 1 0  0 0 0 1 1"), t3;
           }, t2;
-        }(), assetLoader = /* @__PURE__ */ function() {
+        }(), assetLoader = function() {
           function t2(t3) {
             return t3.response && "object" === _typeof(t3.response) ? t3.response : t3.response && "string" == typeof t3.response ? JSON.parse(t3.response) : t3.responseText ? JSON.parse(t3.responseText) : void 0;
           }
@@ -11011,9 +10225,9 @@ var miniprogram_dist = {};
             default:
               this.renderer = new HybridRenderer(this, t2.rendererSettings);
           }
-          this.renderer.setProjectInterface(this.projectInterface), this.animType = e2, "" === t2.loop || null === t2.loop || (false === t2.loop ? this.loop = false : true === t2.loop ? this.loop = true : this.loop = parseInt(t2.loop)), this.autoplay = !("autoplay" in t2) || t2.autoplay, this.name = t2.name ? t2.name : "", this.autoloadSegments = !t2.hasOwnProperty("autoloadSegments") || t2.autoloadSegments, this.assetsPath = t2.assetsPath, t2.animationData ? this.configAnimation(t2.animationData) : t2.path && ("json" != t2.path.substr(-4) && ("/" != t2.path.substr(-1, 1) && (t2.path += "/"), t2.path += "data.json"), -1 != t2.path.lastIndexOf("\\") ? this.path = t2.path.substr(0, t2.path.lastIndexOf("\\") + 1) : this.path = t2.path.substr(0, t2.path.lastIndexOf("/") + 1), this.fileName = t2.path.substr(t2.path.lastIndexOf("/") + 1), this.fileName = this.fileName.substr(0, this.fileName.lastIndexOf(".json")), assetLoader.load(t2.path, this.configAnimation.bind(this), (function() {
+          this.renderer.setProjectInterface(this.projectInterface), this.animType = e2, "" === t2.loop || null === t2.loop || (false === t2.loop ? this.loop = false : true === t2.loop ? this.loop = true : this.loop = parseInt(t2.loop)), this.autoplay = !("autoplay" in t2) || t2.autoplay, this.name = t2.name ? t2.name : "", this.autoloadSegments = !t2.hasOwnProperty("autoloadSegments") || t2.autoloadSegments, this.assetsPath = t2.assetsPath, t2.animationData ? this.configAnimation(t2.animationData) : t2.path && ("json" != t2.path.substr(-4) && ("/" != t2.path.substr(-1, 1) && (t2.path += "/"), t2.path += "data.json"), -1 != t2.path.lastIndexOf("\\") ? this.path = t2.path.substr(0, t2.path.lastIndexOf("\\") + 1) : this.path = t2.path.substr(0, t2.path.lastIndexOf("/") + 1), this.fileName = t2.path.substr(t2.path.lastIndexOf("/") + 1), this.fileName = this.fileName.substr(0, this.fileName.lastIndexOf(".json")), assetLoader.load(t2.path, this.configAnimation.bind(this), function() {
             this.trigger("data_failed");
-          }).bind(this)));
+          }.bind(this)));
         }, AnimationItem.prototype.setData = function(t2, e2) {
           var r = { wrapper: t2, animationData: e2 ? "object" === _typeof(e2) ? e2 : JSON.parse(e2) : null }, i2 = t2.attributes;
           r.path = i2.getNamedItem("data-animation-path") ? i2.getNamedItem("data-animation-path").value : i2.getNamedItem("data-bm-path") ? i2.getNamedItem("data-bm-path").value : i2.getNamedItem("bm-path") ? i2.getNamedItem("bm-path").value : "", r.animType = i2.getNamedItem("data-anim-type") ? i2.getNamedItem("data-anim-type").value : i2.getNamedItem("data-bm-type") ? i2.getNamedItem("data-bm-type").value : i2.getNamedItem("bm-type") ? i2.getNamedItem("bm-type").value : i2.getNamedItem("data-bm-renderer") ? i2.getNamedItem("data-bm-renderer").value : i2.getNamedItem("bm-renderer") ? i2.getNamedItem("bm-renderer").value : "canvas";
@@ -11043,9 +10257,9 @@ var miniprogram_dist = {};
           var e2 = t2.shift();
           this.timeCompleted = e2.time * this.frameRate;
           var r = this.path + this.fileName + "_" + this.segmentPos + ".json";
-          this.segmentPos += 1, assetLoader.load(r, this.includeLayers.bind(this), (function() {
+          this.segmentPos += 1, assetLoader.load(r, this.includeLayers.bind(this), function() {
             this.trigger("data_failed");
-          }).bind(this));
+          }.bind(this));
         }, AnimationItem.prototype.loadSegments = function() {
           this.animationData.segments || (this.timeCompleted = this.totalFrames), this.loadNextSegment();
         }, AnimationItem.prototype.imagesLoaded = function() {
@@ -11057,9 +10271,9 @@ var miniprogram_dist = {};
         }, AnimationItem.prototype.waitForFontsLoaded = function() {
           this.renderer && (this.renderer.globalData.fontManager.loaded() ? this.checkLoaded() : setTimeout(this.waitForFontsLoaded.bind(this), 20));
         }, AnimationItem.prototype.checkLoaded = function() {
-          this.isLoaded || !this.renderer.globalData.fontManager.loaded() || !this.imagePreloader.loaded() && "canvas" === this.renderer.rendererType || (this.isLoaded = true, dataManager.completeData(this.animationData, this.renderer.globalData.fontManager), expressionsPlugin && expressionsPlugin.initExpressions(this), this.renderer.initItems(), setTimeout((function() {
+          this.isLoaded || !this.renderer.globalData.fontManager.loaded() || !this.imagePreloader.loaded() && "canvas" === this.renderer.rendererType || (this.isLoaded = true, dataManager.completeData(this.animationData, this.renderer.globalData.fontManager), expressionsPlugin && expressionsPlugin.initExpressions(this), this.renderer.initItems(), setTimeout(function() {
             this.trigger("DOMLoaded");
-          }).bind(this), 0), this.gotoFrame(), this.autoplay && this.play());
+          }.bind(this), 0), this.gotoFrame(), this.autoplay && this.play());
         }, AnimationItem.prototype.resize = function() {
           this.renderer.updateContainerSize();
         }, AnimationItem.prototype.setSubframe = function(t2) {
@@ -11427,7 +10641,7 @@ var miniprogram_dist = {};
           if (this.data.d.x)
             return this.calculateExpression = ExpressionManager.initiateExpression.bind(this)(this.elem, this.data.d, this), this.addEffect(this.getExpressionValue.bind(this)), true;
         };
-        var ShapeExpressionInterface = /* @__PURE__ */ function() {
+        var ShapeExpressionInterface = function() {
           function t2(t3, f2, m) {
             var c, d = [], u = t3 ? t3.length : 0;
             for (c = 0; c < u; c += 1)
@@ -11597,7 +10811,7 @@ var miniprogram_dist = {};
             var r2 = t2.textProperty.currentData.t;
             return void 0 !== r2 && (t2.textProperty.currentData.t = void 0, (e2 = new String(r2)).value = r2 || new String(r2)), e2;
           } }), r;
-        }, LayerExpressionInterface = /* @__PURE__ */ function() {
+        }, LayerExpressionInterface = function() {
           function t2(t3, e3) {
             var r2 = new Matrix();
             if (r2.reset(), this._elem.finalTransform.mProp.applyToMatrix(r2), this._elem.hierarchy && this._elem.hierarchy.length) {
@@ -11724,7 +10938,7 @@ var miniprogram_dist = {};
           return Object.defineProperty(e2, "position", { get: function() {
             return t2.p ? r() : [t2.px.v, t2.py.v, t2.pz ? t2.pz.v : 0];
           } }), Object.defineProperty(e2, "xPosition", { get: ExpressionPropertyInterface(t2.px) }), Object.defineProperty(e2, "yPosition", { get: ExpressionPropertyInterface(t2.py) }), Object.defineProperty(e2, "zPosition", { get: ExpressionPropertyInterface(t2.pz) }), Object.defineProperty(e2, "anchorPoint", { get: ExpressionPropertyInterface(t2.a) }), Object.defineProperty(e2, "opacity", { get: ExpressionPropertyInterface(t2.o) }), Object.defineProperty(e2, "skew", { get: ExpressionPropertyInterface(t2.sk) }), Object.defineProperty(e2, "skewAxis", { get: ExpressionPropertyInterface(t2.sa) }), Object.defineProperty(e2, "orientation", { get: ExpressionPropertyInterface(t2.or) }), e2;
-        }, ProjectInterface = /* @__PURE__ */ function() {
+        }, ProjectInterface = function() {
           function t2(t3) {
             this.compositions.push(t3);
           }
@@ -11738,7 +10952,7 @@ var miniprogram_dist = {};
             }
             return e2.compositions = [], e2.currentFrame = 0, e2.registerComposition = t2, e2;
           };
-        }(), EffectsExpressionInterface = /* @__PURE__ */ function() {
+        }(), EffectsExpressionInterface = function() {
           function t2(r, i2, s2, a) {
             var n2, o2 = [], h = r.ef.length;
             for (n2 = 0; n2 < h; n2 += 1)
@@ -11801,7 +11015,7 @@ var miniprogram_dist = {};
               }
             };
           };
-        }(), ExpressionPropertyInterface = /* @__PURE__ */ function() {
+        }(), ExpressionPropertyInterface = function() {
           var t2 = { pv: 0, v: 0, mult: 1 }, e2 = { pv: [0, 0, 0], v: [0, 0, 0], mult: 1 };
           function r(t3, e3, r2) {
             Object.defineProperty(t3, "velocity", { get: function() {
@@ -11874,7 +11088,7 @@ var miniprogram_dist = {};
         function GroupEffect(t2, e2) {
           this.init(t2, e2);
         }
-        TextExpressionSelectorProp = /* @__PURE__ */ function() {
+        TextExpressionSelectorProp = function() {
           function t2(t3, e2) {
             return this.textIndex = t3 + 1, this.textTotal = e2, this.v = this.getValue() * this.mult, this.v;
           }
@@ -11971,7 +11185,7 @@ var miniprogram_dist = {};
         return lottiejs;
       });
       var _window$lottie = window.lottie, freeze = _window$lottie.freeze, unfreeze = _window$lottie.unfreeze;
-    }).call(this, __webpack_require__(2)(module));
+    }.call(this, __webpack_require__(2)(module));
   }, function(t2, e2) {
     t2.exports = function(t3) {
       if (!t3.webpackPolyfill) {

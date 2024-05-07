@@ -17,6 +17,19 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         url: `/pages/index/registration/list-doctor/index?query=` + encodeURIComponent(JSON.stringify({ name }))
       });
     }
+    function showModal() {
+      common_vendor.index.showModal({
+        title: "预约须知",
+        content: "预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容预约须知内容",
+        showCancel: false,
+        confirmText: "知道了",
+        success: function(res) {
+          if (res.confirm) {
+            console.log("用户点击确定");
+          }
+        }
+      });
+    }
     const deptList = [
       {
         id: 1,
@@ -101,7 +114,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     ];
     return (_ctx, _cache) => {
       return {
-        a: common_vendor.f(deptList, (dept, k0, i0) => {
+        a: common_vendor.o(showModal),
+        b: common_vendor.f(deptList, (dept, k0, i0) => {
           return {
             a: dept.id,
             b: common_vendor.o(handleClick, dept.id),
@@ -116,5 +130,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-ce922264"], ["__file", "C:/Users/16045/Desktop/code/my-project/miniPrograms/qcs-mp/pages/index/registration/dept-select/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-ce922264"], ["__file", "C:/Users/vanweiping/Desktop/code/myproject/hbuilderx/qcs-mp/pages/index/registration/dept-select/index.vue"]]);
 wx.createPage(MiniProgramPage);

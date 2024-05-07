@@ -6,7 +6,7 @@
 				:value="searchText" @confirm="confirmInput" @input="changeInput" />
 			<uni-icons v-if="showClearIcon" type="close" size="22" color="#333" @click="changeInput"></uni-icons>
 		</view>
-		<button class="right-btn" size="mini">预约须知</button>
+		<button class="right-btn" size="mini" @click="$emit('toast')">预约须知</button>
 	</view>
 
 </template>
