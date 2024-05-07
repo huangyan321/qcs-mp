@@ -18,7 +18,7 @@
     }
   },
   "compileType": "miniprogram",
-  "libVersion": "3.4.3",
+  "libVersion": "",
   "appid": "wx67deac120e0f649e",
   "projectname": "qcs-mp",
   "condition": {},
