@@ -71,8 +71,6 @@
 		}
 	])
 
-
-
 	// 底部弹框
 	function popupChange(e : any) {
 		show.value = e.show
@@ -83,7 +81,7 @@
 	}
 	function confirm() {
 		uni.navigateTo({
-			url: '/pages/index/registration/result/index?query=' + encodeURIComponent(JSON.stringify({ status: '1' }))
+			url: '/pages/index/registration/detail/index?query=' + encodeURIComponent(JSON.stringify({ status: '1' }))
 		})
 	}
 	// 加载上个页面传入的数据

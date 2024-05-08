@@ -1,6 +1,24 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/index/check-in/index",
+			"style": {
+				"navigationBarTitleText": "在线签到"
+			}
+		},
+		{
+			"path": "pages/index/check-in/result",
+			"style": {
+				"navigationBarTitleText": "在线签到"
+			}
+		},
+		{
+			"path": "pages/index/registration/detail/index",
+			"style": {
+				"navigationBarTitleText": "预约详情"
+			}
+		},
+		{
 			"path": "pages/index/registration/result/index",
 			"style": {
 				"navigationBarTitleText": "预约详情"

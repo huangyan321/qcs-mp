@@ -47,7 +47,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     }
     function confirm() {
       common_vendor.index.navigateTo({
-        url: "/pages/index/registration/result/index?query=" + encodeURIComponent(JSON.stringify({ status: "1" }))
+        url: "/pages/index/registration/detail/index?query=" + encodeURIComponent(JSON.stringify({ status: "1" }))
       });
     }
     async function load(queryStr) {

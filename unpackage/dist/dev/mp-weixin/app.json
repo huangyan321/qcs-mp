@@ -1,5 +1,8 @@
 {
   "pages": [
+    "pages/index/check-in/index",
+    "pages/index/check-in/result",
+    "pages/index/registration/detail/index",
     "pages/index/registration/result/index",
     "pages/index/registration/list-doctor/index",
     "pages/index/index",

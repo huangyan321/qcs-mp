@@ -5,32 +5,19 @@
 			</image>
 			<image v-else class="result-title-icon" src="/static/images/result/fail.png" mode="aspectFit"></image>
 			<view class="result-title-text">
-				<text>{{isSuccess ? '预约成功' : '取消预约成功'}}</text>
+				<text>{{isSuccess ? '签到成功！' : '签到失败！'}}</text>
 			</view>
 		</view>
 		<view class="mark">
 			<template v-if="isSuccess">
-				<view class="mark-text">1、请在就诊当日携带有效证件前往科室就诊。</view>
-				<view class="mark-text">2、您可以在就诊当日通过小程序进行取号、签到、查看候诊队列。</view>
+				<view class="mark-text">请耐心等待医生叫号</view>
 			</template>
 			<template v-else>
-				<view class="mark-text">预约已取消，你可以返回首页重新预约。</view>
+				<view class="mark-text">请重新签到</view>
 			</template>
 		</view>
-		<view class="info-list">
-			<uni-list v-for="(sublist , index) in ucenterList" :key="index">
-				<uni-list-item v-for="(item,i) in sublist" :title="item.title" :key="i" :clickable="true" :to="item.to"
-					:show-extra-icon="false">
-					<template v-slot:footer>
-						<view class="item-footer">
-							<text class="item-footer-text">{{item.rightText}}</text>
-						</view>
-					</template>
-				</uni-list-item>
-			</uni-list>
-		</view>
 		<view class="operate-btn">
-			<button class="btn-cancel" v-if="isSuccess" @click="cancel">取消预约</button>
+			<button class="btn-rediret" v-if="isSuccess" @click="queryQueue">队列查询</button>
 			<button class="btn-back-home" plain @click="goHome">返回首页</button>
 		</view>
 	</view>
@@ -40,47 +27,9 @@
 <script setup lang="ts">
 	import { onLoad } from '@dcloudio/uni-app'
 	import { ref, computed } from 'vue'
-	const ucenterList = [
-		[
-			{
-				"title": '就诊人',
-				rightText: '肖浚鑫'
-			},
-			{
-				"title": '科室',
-				rightText: '普通内科'
-			},
-			{
-				"title": '医生',
-				rightText: '刘医生'
-			},
-			{
-				"title": '科室位置',
-				rightText: '门诊1号楼三楼'
-			},
-			{
-				"title": '就诊日期',
-				rightText: '2023-02-11'
-			},
-			{
-				"title": '提交时间',
-				rightText: '2024-02-11 15:09:33'
-			}
-		],
-	]
 
+	async function queryQueue() {
 
-
-	async function cancel() {
-		const res = await uni.showModal({
-			title: '提示',
-			content: '确定取消预约？',
-		})
-		if (res.confirm) {
-			uni.redirectTo({
-				url: '/pages/index/registration/result/index?query=' + encodeURIComponent(JSON.stringify({ status: '0' }))
-			})
-		}
 	}
 	function goHome() {
 		uni.switchTab({
@@ -88,10 +37,10 @@
 		})
 	}
 	const resultInfo = ref({
-		status: '1', // 1： 预约成功 0： 预约失败
+		status: '1', // 1： 签到成功 0：签到失败
 	})
 	const isSuccess = computed(() => {
-		return resultInfo.value.status === '1'
+		return resultInfo.value.status === '0'
 	})
 	// 加载上个页面传入的数据
 	async function load(queryStr : string) {
@@ -145,16 +94,10 @@
 				font-size: 30rpx;
 				color: #6B7C93;
 				line-height: 40rpx;
-				text-align: left;
+				text-align: center;
 				font-style: normal;
 				text-transform: none;
 			}
-		}
-
-		.info-list {
-			border-radius: 16rpx;
-			overflow: hidden;
-			margin-top: 40rpx;
 		}
 
 		.operate-btn {
@@ -174,7 +117,7 @@
 
 			}
 
-			.btn-cancel {
+			.btn-rediret {
 				&:active {
 					background-color: #36a9c5;
 				}
