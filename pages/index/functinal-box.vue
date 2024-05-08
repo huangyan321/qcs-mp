@@ -13,7 +13,7 @@
 				uid="doctor" :animation-data="animationData">
 			</LottieAnimation>
 		</view>
-		<view class="sign">
+		<view class="sign" @click="handleClick('checkIn')">
 			<!-- 在线签到 -->
 			<view class="sign-title-wrap">
 				<view class="sign-title">
@@ -25,14 +25,14 @@
 			</view>
 			<image class="sign-icon" mode="aspectFit" src="/static/images/sign.png"></image>
 		</view>
-		<view class="queue">
+		<view class="queue" @click="handleClick('queue')">
 			<!-- 队列查询 -->
 			<image class="queue-icon" mode="aspectFit" src="/static/images/queue.png"></image>
 			<view class="queue-title">
 				<text>队列查询</text>
 			</view>
 		</view>
-		<view class="report">
+		<view class="report" @click="handleClick('report')">
 			<!-- 报告查询 -->
 			<image class="report-icon" mode="aspectFit" src="/static/images/report.png"></image>
 			<view class="report-title">
@@ -62,6 +62,12 @@
 		switch (type) {
 			case 'regist':
 				return emit('navigate', '/pages/index/registration/dept-select/index')
+			case 'checkIn':
+				return emit('navigate', '/pages/index/check-in/index')
+			case 'queue':
+				return emit('navigate', '/pages/index/queue/index')
+			case 'report':
+				return emit('navigate', '/pages/index/report/index')
 			default: return
 
 		}

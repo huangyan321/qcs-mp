@@ -23,11 +23,16 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.detail.data-v-280f375f {
-  padding: 20rpx 32rpx;
+.queue.data-v-290144be {
+  box-sizing: border-box;
+  padding: 32rpx;
+  width: 100%;
 }
-.detail .confirm-btn.data-v-280f375f {
-  margin-top: 40rpx;
+.queue-item.data-v-290144be {
+  margin-bottom: 40rpx;
+}
+.queue .confirm-btn.data-v-290144be {
+  margin-top: 20rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,11 +42,12 @@
   box-sizing: border-box;
   padding: 0 30rpx;
   flex: 1;
-  background: #3DBEDF;
+  background-color: #eef9fc;
+  color: #09244B;
   border-radius: 8rpx;
-  color: #FFFFFF;
   font-size: 32rpx;
 }
-.detail .confirm-btn.data-v-280f375f:active {
-  background-color: #36a9c5;
+.queue .count.data-v-290144be {
+  margin-left: 0.5em;
+  color: #FF3A2E;
 }

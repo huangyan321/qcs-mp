@@ -16764,6 +16764,12 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       switch (type) {
         case "regist":
           return emit("navigate", "/pages/index/registration/dept-select/index");
+        case "checkIn":
+          return emit("navigate", "/pages/index/check-in/index");
+        case "queue":
+          return emit("navigate", "/pages/index/queue/index");
+        case "report":
+          return emit("navigate", "/pages/index/report/index");
         default:
           return;
       }
@@ -16776,7 +16782,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           height: 220,
           uid: "doctor",
           ["animation-data"]: common_vendor.unref(animationData)
-        })
+        }),
+        c: common_vendor.o(($event) => handleClick("checkIn")),
+        d: common_vendor.o(($event) => handleClick("queue")),
+        e: common_vendor.o(($event) => handleClick("report"))
       };
     };
   }

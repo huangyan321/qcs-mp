@@ -25,6 +25,5 @@
 		@include flex(flex-start, column);
 		box-sizing: border-box;
 		padding: 0 32rpx;
-		background: linear-gradient(180deg, #D3F2FF 0%, #F7FAFB 45%);
 	}
 </style>

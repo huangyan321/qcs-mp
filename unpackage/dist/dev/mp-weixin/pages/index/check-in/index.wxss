@@ -26,45 +26,6 @@
 .check-in.data-v-ceb5243d {
   padding: 20rpx 32rpx;
 }
-.check-in .header-card.data-v-ceb5243d {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: nowrap;
-  flex-direction: row;
-  background-color: #3DBEDF;
-  border-radius: 16rpx;
-  margin-bottom: 32rpx;
-  position: relative;
-  padding: 12px 10px;
-  font-weight: normal;
-}
-.check-in .header-card .content.data-v-ceb5243d {
-  margin-left: 20rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: nowrap;
-  flex-direction: column;
-  align-items: flex-start;
-  flex: 1;
-  color: #fff !important;
-  font-size: 34rpx !important;
-}
-.check-in .header-card .right-icon.data-v-ceb5243d {
-  font-size: 14px;
-}
-.check-in .header.data-v-ceb5243d {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: nowrap;
-  flex-direction: row;
-}
-.check-in .avatar.data-v-ceb5243d {
-  width: 72rpx;
-  height: 72rpx;
-}
 .check-in .appoint-item.data-v-ceb5243d {
   margin-bottom: 20rpx;
 }

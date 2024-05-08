@@ -1,0 +1,60 @@
+"use strict";
+const common_vendor = require("../../common/vendor.js");
+if (!Array) {
+  const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
+  const _easycom_uni_popup2 = common_vendor.resolveComponent("uni-popup");
+  (_easycom_uni_icons2 + _easycom_uni_popup2)();
+}
+const _easycom_uni_icons = () => "../../uni_modules/uni-icons/components/uni-icons/uni-icons.js";
+const _easycom_uni_popup = () => "../../uni_modules/uni-popup/components/uni-popup/uni-popup.js";
+if (!Math) {
+  (_easycom_uni_icons + _easycom_uni_popup)();
+}
+const __default__ = {
+  options: {
+    styleIsolation: "shared",
+    virtualHost: true
+  }
+};
+const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
+  ...__default__,
+  __name: "SwitchUser",
+  emits: ["cancel"],
+  setup(__props, { expose: __expose }) {
+    const show = common_vendor.ref(false);
+    const popup = common_vendor.ref();
+    function popupChange(e) {
+      show.value = e.show;
+    }
+    function toggle() {
+      popup.value.open("bottom");
+    }
+    function cancel() {
+      popup.value.close();
+    }
+    __expose({
+      toggle
+    });
+    return (_ctx, _cache) => {
+      return {
+        a: common_vendor.p({
+          type: "right",
+          size: "22",
+          color: "#ffffff"
+        }),
+        b: common_vendor.o(toggle),
+        c: common_vendor.o(cancel),
+        d: common_vendor.sr(popup, "02b969f8-1", {
+          "k": "popup"
+        }),
+        e: common_vendor.o(popupChange),
+        f: common_vendor.p({
+          ["border-radius"]: "10px 10px 0 0",
+          ["background-color"]: "#fff"
+        })
+      };
+    };
+  }
+});
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-02b969f8"], ["__file", "C:/Users/16045/Desktop/code/my-project/miniPrograms/qcs-mp/components/SwitchUser/SwitchUser.vue"]]);
+wx.createComponent(Component);

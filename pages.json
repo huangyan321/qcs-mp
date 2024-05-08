@@ -1,6 +1,44 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/index/news/detail/index",
+			"style": {
+				"navigationBarTitleText": "健康资讯详情"
+			}
+		},
+		{
+			"path": "pages/index/news/index",
+			"style": {
+				"navigationBarTitleText": "健康资讯"
+			}
+		},
+
+		{
+			"path": "pages/index/report/detail",
+			"style": {
+				"navigationBarTitleText": "报告明细"
+			}
+		},
+		{
+			"path": "pages/index/report/index",
+			"style": {
+				"navigationBarTitleText": "报告查询"
+			}
+		},
+		{
+			"path": "pages/index/queue/index",
+			"style": {
+				"navigationBarTitleText": "队列查询"
+			}
+		},
+		{
 			"path": "pages/index/check-in/index",
 			"style": {
 				"navigationBarTitleText": "在线签到"
@@ -30,13 +68,7 @@
 				"navigationBarTitleText": "加载中"
 			}
 		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "首页",
-				"navigationStyle": "custom"
-			}
-		},
+
 		{
 			"path": "pages/index/registration/dept-select/index",
 			"style": {

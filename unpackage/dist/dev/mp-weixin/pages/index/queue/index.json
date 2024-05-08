@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "在线签到",
+  "navigationBarTitleText": "队列查询",
   "usingComponents": {
     "switch-user": "../../../components/SwitchUser/SwitchUser",
     "uni-list-item": "../../../uni_modules/uni-list/components/uni-list-item/uni-list-item",

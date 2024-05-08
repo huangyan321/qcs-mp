@@ -2,12 +2,17 @@
 Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
 const common_vendor = require("./common/vendor.js");
 if (!Math) {
+  "./pages/index/index.js";
+  "./pages/index/news/detail/index.js";
+  "./pages/index/news/index.js";
+  "./pages/index/report/detail.js";
+  "./pages/index/report/index.js";
+  "./pages/index/queue/index.js";
   "./pages/index/check-in/index.js";
   "./pages/index/check-in/result.js";
   "./pages/index/registration/detail/index.js";
   "./pages/index/registration/result/index.js";
   "./pages/index/registration/list-doctor/index.js";
-  "./pages/index/index.js";
   "./pages/index/registration/dept-select/index.js";
   "./pages/message/index.js";
   "./pages/profile/index.js";

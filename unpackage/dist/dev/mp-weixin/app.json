@@ -1,11 +1,16 @@
 {
   "pages": [
+    "pages/index/index",
+    "pages/index/news/detail/index",
+    "pages/index/news/index",
+    "pages/index/report/detail",
+    "pages/index/report/index",
+    "pages/index/queue/index",
     "pages/index/check-in/index",
     "pages/index/check-in/result",
     "pages/index/registration/detail/index",
     "pages/index/registration/result/index",
     "pages/index/registration/list-doctor/index",
-    "pages/index/index",
     "pages/index/registration/dept-select/index",
     "pages/message/index",
     "pages/profile/index"

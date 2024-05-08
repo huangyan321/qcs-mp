@@ -2,8 +2,10 @@
 	<div class="health-news">
 		<uni-section style="width: 100%;box-sizing: border-box;border-radius: 16rpx;" class="mb-10" title="健康咨询">
 			<template v-slot:right>
-				<text>更多</text>
-				<uni-icons style="margin-left: 10rpx;" type="right" size="16"></uni-icons>
+				<view @click="goDetail">
+					<text>更多</text>
+					<uni-icons style="margin-left: 10rpx;" type="right" size="16"></uni-icons>
+				</view>
 			</template>
 			<template>
 				<view class="news-item" v-for="item in 10">
@@ -37,7 +39,12 @@
 	</div>
 </template>
 
-<script>
+<script setup lang="ts">
+	function goDetail() {
+		uni.navigateTo({
+			url: '/pages/index/news/index'
+		})
+	}
 </script>
 
 <style lang="scss" scoped>

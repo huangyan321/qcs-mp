@@ -23,25 +23,6 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.detail.data-v-280f375f {
-  padding: 20rpx 32rpx;
-}
-.detail .confirm-btn.data-v-280f375f {
-  margin-top: 40rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: nowrap;
-  flex-direction: row;
-  height: 80rpx;
-  box-sizing: border-box;
-  padding: 0 30rpx;
-  flex: 1;
-  background: #3DBEDF;
-  border-radius: 8rpx;
-  color: #FFFFFF;
-  font-size: 32rpx;
-}
-.detail .confirm-btn.data-v-280f375f:active {
-  background-color: #36a9c5;
+.report-detail.data-v-2fca6e58 {
+  padding: 32rpx;
 }

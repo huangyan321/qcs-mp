@@ -1,14 +1,6 @@
 <template>
 	<view class="check-in">
-		<view class="header-card" @click="gotoPatientInfo">
-			<image class="avatar" src="/static/images/head_icon.png" mode="aspectFit"></image>
-			<view class="content">
-				肖浚鑫
-			</view>
-			<view class="right-icon">
-				<uni-icons type="right" size="22" color="#ffffff"></uni-icons>
-			</view>
-		</view>
+		<SwitchUser></SwitchUser>
 		<view class="appoint-item">
 			<uni-section title="预约信息" type="line">
 				<uni-list>
@@ -44,7 +36,6 @@
 <script setup lang="ts">
 	import { onLoad } from '@dcloudio/uni-app'
 	import { ref } from 'vue'
-	function gotoPatientInfo() { }
 	async function checkIn() {
 		const res = await uni.showModal({
 			title: '提示',
@@ -88,37 +79,7 @@
 	.check-in {
 		padding: 20rpx 32rpx;
 
-		.header-card {
-			@include flex(flex-start, row);
-			background-color: #3DBEDF;
-			border-radius: 16rpx;
-			margin-bottom: 32rpx;
-			position: relative;
-			padding: 12px 10px;
-			font-weight: normal;
 
-			.content {
-				margin-left: 20rpx;
-				@include flex(center, column);
-				align-items: flex-start;
-				flex: 1;
-				color: #fff !important;
-				font-size: 34rpx !important;
-			}
-
-			.right-icon {
-				font-size: 14px;
-			}
-		}
-
-		.header {
-			@include flex(flex-start)
-		}
-
-		.avatar {
-			width: 72rpx;
-			height: 72rpx;
-		}
 
 		.appoint-item {
 			margin-bottom: 20rpx;
