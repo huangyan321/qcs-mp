@@ -16,7 +16,6 @@
 		name: 'DeptSelect'
 	})
 	function handleClick(name : string) {
-		console.log('name', '/pages/index/registration/list-doctor/index?query=' + encodeURIComponent(JSON.stringify({ name })));
 		uni.navigateTo({
 			url: `/pages/index/registration/list-doctor/index?query=` + encodeURIComponent(JSON.stringify({ name }))
 		})

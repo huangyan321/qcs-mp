@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/index/registration/result/index",
     "pages/index/registration/list-doctor/index",
     "pages/index/index",
     "pages/index/registration/dept-select/index",

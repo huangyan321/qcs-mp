@@ -1,15 +1,14 @@
 "use strict";
 const common_vendor = require("../../../../common/vendor.js");
 if (!Array) {
-  const _easycom_uni_list_item2 = common_vendor.resolveComponent("uni-list-item");
-  const _easycom_uni_list2 = common_vendor.resolveComponent("uni-list");
-  (_easycom_uni_list_item2 + _easycom_uni_list2)();
+  const _easycom_uni_popup2 = common_vendor.resolveComponent("uni-popup");
+  _easycom_uni_popup2();
 }
-const _easycom_uni_list_item = () => "../../../../uni_modules/uni-list/components/uni-list-item/uni-list-item.js";
-const _easycom_uni_list = () => "../../../../uni_modules/uni-list/components/uni-list/uni-list.js";
+const _easycom_uni_popup = () => "../../../../uni_modules/uni-popup/components/uni-popup/uni-popup.js";
 if (!Math) {
-  (common_vendor.unref(DatePicker) + _easycom_uni_list_item + _easycom_uni_list)();
+  (common_vendor.unref(DatePicker) + DoctorList + _easycom_uni_popup)();
 }
+const DoctorList = () => "./list.js";
 const DatePicker = () => "./date-picker.js";
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   ...{
@@ -17,20 +16,39 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   },
   __name: "index",
   setup(__props) {
+    const show = common_vendor.ref(false);
+    const popup = common_vendor.ref();
     const banner = common_vendor.ref();
     common_vendor.ref();
-    function popCheck() {
-      common_vendor.index.showActionSheet({
-        itemList: ["A", "B", "C"],
-        success: function(res) {
-          console.log("选中了第" + (res.tapIndex + 1) + "个按钮");
-        },
-        fail: function(res) {
-          console.log(res.errMsg);
-        }
-      });
-    }
     function filterList() {
+    }
+    const listData = common_vendor.ref([
+      {
+        id: 1,
+        name: "杨亦为",
+        professional: "副主任医师",
+        profile: "医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介简介医生简介医生简介医生简介医生简介",
+        restCount: 23
+      },
+      {
+        id: 2,
+        name: "杨亦为",
+        professional: "副主任医师",
+        profile: "医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介医生简介简介医生简介医生简介医生简介医生简介",
+        restCount: 0
+      }
+    ]);
+    function popupChange(e) {
+      show.value = e.show;
+    }
+    function toggle() {
+      console.log("toggle");
+      popup.value.open("bottom");
+    }
+    function confirm() {
+      common_vendor.index.navigateTo({
+        url: "/pages/index/registration/result/index?query=" + encodeURIComponent(JSON.stringify({ status: "1" }))
+      });
     }
     async function load(queryStr) {
       var p = decodeURIComponent(queryStr);
@@ -54,24 +72,24 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     });
     return (_ctx, _cache) => {
       return {
-        a: common_vendor.o(filterList),
-        b: common_vendor.f(10, (i, k0, i0) => {
-          return {
-            a: "81f8c34c-2-" + i0 + ",81f8c34c-1"
-          };
-        }),
-        c: common_vendor.o(popCheck),
+        a: "overflow:" + (show.value ? "hidden" : "visible"),
+        b: common_vendor.o(filterList),
+        c: common_vendor.o(toggle),
         d: common_vendor.p({
-          thumb: "https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png",
-          ["thumb-size"]: "lg"
+          ["list-data"]: listData.value
         }),
-        e: common_vendor.p({
-          thumb: "https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png",
-          ["thumb-size"]: "lg"
+        e: common_vendor.o(confirm),
+        f: common_vendor.sr(popup, "81f8c34c-2", {
+          "k": "popup"
+        }),
+        g: common_vendor.o(popupChange),
+        h: common_vendor.p({
+          ["border-radius"]: "10px 10px 0 0",
+          ["background-color"]: "#fff"
         })
       };
     };
   }
 });
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-81f8c34c"], ["__file", "C:/Users/vanweiping/Desktop/code/myproject/hbuilderx/qcs-mp/pages/index/registration/list-doctor/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-81f8c34c"], ["__file", "C:/Users/16045/Desktop/code/my-project/miniPrograms/qcs-mp/pages/index/registration/list-doctor/index.vue"]]);
 wx.createPage(MiniProgramPage);

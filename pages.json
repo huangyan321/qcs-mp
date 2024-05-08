@@ -1,6 +1,12 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/index/registration/result/index",
+			"style": {
+				"navigationBarTitleText": "预约详情"
+			}
+		},
+		{
 			"path": "pages/index/registration/list-doctor/index",
 			"style": {
 				"navigationBarTitleText": "加载中"
