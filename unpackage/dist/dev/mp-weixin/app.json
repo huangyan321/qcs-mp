@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/profile/user-manage/index",
     "pages/index/index",
     "pages/index/news/detail/index",
     "pages/index/news/index",

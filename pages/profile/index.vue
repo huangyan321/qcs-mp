@@ -4,7 +4,6 @@
 			<view class="defaultAvatarUrl">
 				<uni-icons color="#ffffff" size="40" type="person-filled" />
 			</view>
-
 			<view class="user-box">
 				<view class="logo-title">
 					<text class="uer-name"
