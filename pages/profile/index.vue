@@ -23,7 +23,7 @@
 		</uni-grid>
 		<uni-list class="center-list" v-for="(sublist , index) in ucenterList" :key="index">
 			<uni-list-item v-for="(item,i) in sublist" :title="item.title" link :rightText="item.rightText" :key="i"
-				:clickable="true" :to="item.to" @click="ucenterListClick(item)" :show-extra-icon="true"
+				:clickable="true" :to="item.to" @tap.native="ucenterListClick(item)" :show-extra-icon="true"
 				:extraIcon="{type:item.icon,color:'#999'}">
 				<template v-slot:footer>
 					<view v-if="item.showBadge" class="item-footer">
@@ -59,17 +59,17 @@
 		[
 			{
 				"title": '我的收藏',
-				"to": '/pages/ucenter/favorite/index',
+				"to": '/pages/profile/favorite/index',
 				"icon": "star"
 			},
 			{
 				"title": '满意度调查',
-				"to": '/pages/ucenter/survey/index',
+				"to": '/pages/profile/survey/index',
 				"icon": "flag"
 			},
 			{
 				"title": '意见反馈',
-				"to": '/pages/ucenter/feedback/index',
+				"to": '/pages/profile/feedback/index',
 				"icon": "email"
 			}
 		],
@@ -106,7 +106,7 @@
 		}
 	}
 	function ucenterListClick(item : any) {
-
+	console.log('123123');
 		uni.navigateTo({
 			url: item.to
 		})

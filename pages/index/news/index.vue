@@ -1,6 +1,5 @@
 <template>
 	<div class="health-news">
-
 		<view class="news-item" v-for="item in 10" :key="item" @click="goDetail">
 			<image class="news-cover" src="/static/images/queue.png" mode="aspectFit"></image>
 			<view class="item-detail">

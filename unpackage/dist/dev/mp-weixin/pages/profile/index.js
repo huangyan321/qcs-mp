@@ -38,17 +38,17 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       [
         {
           "title": "我的收藏",
-          "to": "/pages/ucenter/favorite/index",
+          "to": "/pages/profile/favorite/index",
           "icon": "star"
         },
         {
           "title": "满意度调查",
-          "to": "/pages/ucenter/survey/index",
+          "to": "/pages/profile/survey/index",
           "icon": "flag"
         },
         {
           "title": "意见反馈",
-          "to": "/pages/ucenter/feedback/index",
+          "to": "/pages/profile/feedback/index",
           "icon": "email"
         }
       ]
@@ -81,6 +81,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       }
     }
     function ucenterListClick(item) {
+      console.log("123123");
       common_vendor.index.navigateTo({
         url: item.to
       });

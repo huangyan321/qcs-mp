@@ -14,9 +14,14 @@ if (!Math) {
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "news",
   setup(__props) {
-    function goDetail() {
+    function goMore() {
       common_vendor.index.navigateTo({
         url: "/pages/index/news/index"
+      });
+    }
+    function goDetail() {
+      common_vendor.index.navigateTo({
+        url: "/pages/index/news/detail/index"
       });
     }
     return (_ctx, _cache) => {
@@ -25,7 +30,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           type: "right",
           size: "16"
         }),
-        b: common_vendor.o(goDetail),
+        b: common_vendor.o(goMore),
         c: common_vendor.f(10, (item, k0, i0) => {
           return {
             a: "d298a916-2-" + i0 + ",d298a916-0"
@@ -35,7 +40,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           type: "eye",
           size: "16"
         }),
-        e: common_vendor.p({
+        e: common_vendor.o(goDetail),
+        f: common_vendor.p({
           title: "健康咨询"
         })
       };
