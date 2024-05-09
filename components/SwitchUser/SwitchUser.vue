@@ -1,6 +1,6 @@
 <template>
 	<!-- <page-meta :page-style="'overflow:'+(show?'hidden':'visible')"></page-meta> -->
-	<view class="header-card" @click="toggle">
+	<view v-if="!hideCard" class="header-card" @click="toggle">
 		<image class="avatar" src="/static/images/head_icon.png" mode="aspectFit"></image>
 		<view class="content">
 			肖浚鑫
@@ -37,6 +37,11 @@
 <script lang="ts" setup>
 	import { ref } from 'vue'
 	defineEmits(['cancel'])
+	withDefaults(defineProps<{
+		hideCard : boolean
+	}>(), {
+		hideCard: true
+	})
 	const show = ref(false)
 	const popup = ref()
 	// 底部弹框
@@ -82,6 +87,7 @@
 			font-size: 14px;
 		}
 	}
+
 	.avatar {
 		width: 72rpx;
 		height: 72rpx;

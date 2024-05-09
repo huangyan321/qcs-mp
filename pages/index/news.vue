@@ -9,10 +9,10 @@
 			</template>
 			<template>
 				<view class="news-item" v-for="item in 10" @click="goDetail">
-					<image class="news-cover" src="/static/images/queue.png" mode="aspectFit"></image>
+					<image class="news-cover" src="/static/images/news/cover.jpg" mode="aspectFit"></image>
 					<view class="item-detail">
 						<view class="news-title">
-							健康咨询
+							健康资讯
 						</view>
 						<view class="news-keyword">
 							<text class="news-keyword-item">
@@ -38,7 +38,14 @@
 
 	</div>
 </template>
-
+<script lang="ts">
+	export default {
+		options: {
+			styleIsolation: 'shared',
+			virtualHost: true
+		},
+	}
+</script>
 <script setup lang="ts">
 	function goMore() {
 		uni.navigateTo({
@@ -57,6 +64,11 @@
 		width: 100%;
 		margin: 10rpx 0;
 
+		& :deep(.uni-section__content-title) {
+			font-weight: 600 !important;
+			font-size: 32rpx !important;
+		}
+
 		.news-item {
 			@include flex(center, row);
 			padding: 0 10px;
@@ -69,6 +81,7 @@
 
 			.item-detail {
 				flex: 1;
+				padding: 0 20rpx;
 
 				.news-title {
 					font-weight: 500;
@@ -80,7 +93,7 @@
 				.news-keyword {
 					margin-top: 10rpx;
 
-					min-height: 100rpx;
+					min-height: 80rpx;
 					font-size: 24rpx;
 
 					&-item {
@@ -92,8 +105,22 @@
 					}
 
 					.news-date {
-						color: #6B7C93
+						font-weight: 400;
+						font-size: 28rpx;
+						color: #6B7C93;
+						text-align: center;
+						font-style: normal;
+						text-transform: none;
 					}
+				}
+
+				.news-views {
+					font-weight: 400;
+					font-size: 28rpx;
+					color: #6B7C93;
+					text-align: center;
+					font-style: normal;
+					text-transform: none;
 				}
 
 				.news-footer {

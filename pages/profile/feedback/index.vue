@@ -60,7 +60,7 @@
 			uni.showToast({
 				title: `校验通过`
 			})
-			uni.navigateTo({
+			uni.redirectTo({
 				url: '/pages/profile/feedback/result'
 			})
 		}).catch(err => {

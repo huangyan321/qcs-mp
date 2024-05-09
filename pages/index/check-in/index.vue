@@ -95,7 +95,9 @@
 				border-radius: 8rpx;
 				color: #FFFFFF;
 				font-size: 32rpx;
-
+				&::after {
+					border: none !important;
+				}
 				&:active:not(.disabled) {
 					background-color: #36a9c5;
 				}

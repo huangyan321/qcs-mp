@@ -45,6 +45,9 @@
   color: #FFFFFF;
   font-size: 32rpx;
 }
+.check-in .appoint-item .confirm-btn.data-v-ceb5243d::after {
+  border: none !important;
+}
 .check-in .appoint-item .confirm-btn.data-v-ceb5243d:active:not(.disabled) {
   background-color: #36a9c5;
 }

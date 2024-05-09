@@ -1,7 +1,7 @@
 <template>
 	<div class="health-news">
 		<view class="news-item" v-for="item in 10" :key="item" @click="goDetail">
-			<image class="news-cover" src="/static/images/queue.png" mode="aspectFit"></image>
+			<image class="news-cover" src="/static/images/news/cover.jpg" mode="aspectFill"></image>
 			<view class="item-detail">
 				<view class="news-title">
 					健康咨询
@@ -42,7 +42,7 @@
 		width: 100%;
 		padding: 24rpx;
 		box-sizing: border-box;
-
+		
 		.news-item {
 			box-sizing: border-box;
 			@include flex(center, row);
@@ -54,13 +54,15 @@
 
 			.news-cover {
 				width: 240rpx;
-				height: 142rpx;
+				height: 172rpx;
 			}
 
 			.item-detail {
 				flex: 1;
+				padding: 0 20rpx;
 
 				.news-title {
+					font-weight: 500;
 					font-size: 32rpx;
 					color: #09244B;
 					font-weight: 600;
@@ -81,9 +83,15 @@
 					}
 
 					.news-date {
-						color: #6B7C93
+						font-weight: 400;
+						font-size: 28rpx;
+						color: #6B7C93;
+						text-align: center;
+						font-style: normal;
+						text-transform: none;
 					}
 				}
+
 
 				.news-footer {
 					@include flex();

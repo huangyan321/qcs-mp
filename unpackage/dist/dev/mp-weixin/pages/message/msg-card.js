@@ -1,14 +1,12 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 if (!Array) {
-  const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
   const _easycom_uni_card2 = common_vendor.resolveComponent("uni-card");
-  (_easycom_uni_icons2 + _easycom_uni_card2)();
+  _easycom_uni_card2();
 }
-const _easycom_uni_icons = () => "../../uni_modules/uni-icons/components/uni-icons/uni-icons.js";
 const _easycom_uni_card = () => "../../uni_modules/uni-card/components/uni-card/uni-card.js";
 if (!Math) {
-  (_easycom_uni_icons + _easycom_uni_card)();
+  _easycom_uni_card();
 }
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "msg-card",
@@ -17,13 +15,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   },
   setup(__props) {
     return (_ctx, _cache) => {
-      return {
+      return common_vendor.e({
         a: common_vendor.t(_ctx.data.date),
-        b: common_vendor.p({
-          type: "clear",
-          size: "20",
-          color: _ctx.data.type === "success" ? "#33D853" : "#FF5656"
-        }),
+        b: _ctx.data.type === "success"
+      }, _ctx.data.type === "success" ? {} : {}, {
         c: common_vendor.t(_ctx.data.title),
         d: _ctx.data.type === "success" ? "#33D853" : "#FF5656",
         e: common_vendor.t(_ctx.data.message),
@@ -33,7 +28,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             b: common_vendor.t(info.value)
           };
         })
-      };
+      });
     };
   }
 });

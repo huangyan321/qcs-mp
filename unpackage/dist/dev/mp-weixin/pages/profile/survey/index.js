@@ -62,7 +62,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     function radioChange() {
     }
     function submit() {
-      common_vendor.index.navigateTo({
+      common_vendor.index.redirectTo({
         url: "/pages/profile/survey/result"
       });
     }

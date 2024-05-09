@@ -9,8 +9,10 @@
 					<view class="card-header-content">
 						<view :style="{color: data.type === 'success' ? '#33D853' : '#FF5656'}"
 							class="card-header-content--title uni-ellipsis">
-							<uni-icons type="clear" size="20"
-								:color=" data.type === 'success' ? '#33D853' : '#FF5656'"></uni-icons>
+							<image style="width: 30rpx;height: 30rpx;" v-if="data.type === 'success'"
+								src="/static/images/message/success_mini.png" mode="aspectFit"></image>
+							<image style="width: 30rpx;height: 30rpx;" v-else src="/static/images/message/error_mini.png"
+								mode="aspectFit"></image>
 							<text style="margin-left: 10rpx;">{{data.title}}</text>
 						</view>
 					</view>

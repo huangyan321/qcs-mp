@@ -48,7 +48,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         common_vendor.index.showToast({
           title: `校验通过`
         });
-        common_vendor.index.navigateTo({
+        common_vendor.index.redirectTo({
           url: "/pages/profile/feedback/result"
         });
       }).catch((err) => {

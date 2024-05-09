@@ -19,6 +19,9 @@ const __default__ = {
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   ...__default__,
   __name: "SwitchUser",
+  props: {
+    hideCard: { type: Boolean, default: true }
+  },
   emits: ["cancel"],
   setup(__props, { expose: __expose }) {
     const show = common_vendor.ref(false);
@@ -36,23 +39,26 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       toggle
     });
     return (_ctx, _cache) => {
-      return {
-        a: common_vendor.p({
+      return common_vendor.e({
+        a: !_ctx.hideCard
+      }, !_ctx.hideCard ? {
+        b: common_vendor.p({
           type: "right",
           size: "22",
           color: "#ffffff"
         }),
-        b: common_vendor.o(toggle),
-        c: common_vendor.o(cancel),
-        d: common_vendor.sr(popup, "02b969f8-1", {
+        c: common_vendor.o(toggle)
+      } : {}, {
+        d: common_vendor.o(cancel),
+        e: common_vendor.sr(popup, "02b969f8-1", {
           "k": "popup"
         }),
-        e: common_vendor.o(popupChange),
-        f: common_vendor.p({
+        f: common_vendor.o(popupChange),
+        g: common_vendor.p({
           ["border-radius"]: "10px 10px 0 0",
           ["background-color"]: "#fff"
         })
-      };
+      });
     };
   }
 });

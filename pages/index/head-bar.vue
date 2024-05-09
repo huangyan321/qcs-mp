@@ -14,7 +14,6 @@
 <script lang="ts" setup>
 	import { onLoad } from '@dcloudio/uni-app'
 	import { ref } from 'vue'
-
 	const statusHeight = ref(40)
 	const menuButtonHeight = ref(40)
 	const marginRight = ref(0)

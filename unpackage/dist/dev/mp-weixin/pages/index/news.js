@@ -11,7 +11,14 @@ const _easycom_uni_section = () => "../../uni_modules/uni-section/components/uni
 if (!Math) {
   (_easycom_uni_icons + _easycom_uni_section)();
 }
+const __default__ = {
+  options: {
+    styleIsolation: "shared",
+    virtualHost: true
+  }
+};
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
+  ...__default__,
   __name: "news",
   setup(__props) {
     function goMore() {

@@ -81,7 +81,7 @@
 	function radioChange() { }
 	function submit() {
 		
-		uni.navigateTo({
+		uni.redirectTo({
 			url: '/pages/profile/survey/result'
 		})
 	}

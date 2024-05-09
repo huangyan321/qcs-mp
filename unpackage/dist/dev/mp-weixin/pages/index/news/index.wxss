@@ -43,12 +43,14 @@
 }
 .health-news .news-item .news-cover.data-v-a74ddb1e {
   width: 240rpx;
-  height: 142rpx;
+  height: 172rpx;
 }
 .health-news .news-item .item-detail.data-v-a74ddb1e {
   flex: 1;
+  padding: 0 20rpx;
 }
 .health-news .news-item .item-detail .news-title.data-v-a74ddb1e {
+  font-weight: 500;
   font-size: 32rpx;
   color: #09244B;
   font-weight: 600;
@@ -66,7 +68,12 @@
   margin: 0 10rpx 0 0;
 }
 .health-news .news-item .item-detail .news-keyword .news-date.data-v-a74ddb1e {
+  font-weight: 400;
+  font-size: 28rpx;
   color: #6B7C93;
+  text-align: center;
+  font-style: normal;
+  text-transform: none;
 }
 .health-news .news-item .item-detail .news-footer.data-v-a74ddb1e {
   display: flex;

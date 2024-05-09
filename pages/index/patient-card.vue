@@ -1,4 +1,5 @@
 <template>
+	<SwitchUser ref="switcher" :hide-card="true"></SwitchUser>
 	<view class="patient-card">
 		<view class="patient-avator">
 			<image class="patient-avator-image" src="/static/images/head_icon.png" mode="aspectFit"></image>
@@ -8,7 +9,7 @@
 				<view class="patient-name">
 					<text>肖浚鑫</text>
 				</view>
-				<view class="change-account">
+				<view class="change-account" @click="changeUser">
 					<text>切换</text>
 					<uni-icons style="margin-left: 10rpx;" type="loop" size="16" color="#fff"></uni-icons>
 				</view>
@@ -18,16 +19,45 @@
 			</view>
 		</view>
 
-		<view class="patient-qrcode">
+		<view class="patient-qrcode" @click="showQR">
 			<image class="patient-qrcode-image" src="/static/images/qrcode.png" mode="aspectFit"></image>
 		</view>
+		<!-- 普通弹窗 -->
+		<uni-popup ref="popup">
+			<view class="popup-content"> <image class="popup-image" src="/static/images/qrcode.png"></image>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
-<script>
+<script setup lang="ts">
+	import { ref } from 'vue'
+	const switcher = ref()
+	const popup = ref()
+	function changeUser() {
+		switcher.value.toggle()
+	}
+	function showQR() {
+		popup.value.open('center')
+	}
 </script>
 
 <style scoped lang="scss">
+	.popup-content {
+		@include flex(center);
+		padding: 15px;
+		height: 300rpx;
+		width: 300rpx;
+		border-radius: 16rpx !important;
+		background-color: #fff;
+	}
+
+	.popup-image {
+		border-radius: 16rpx !important;
+		width: 100%;
+		height: 100%;
+	}
+
 	.patient {
 
 		&-card {
