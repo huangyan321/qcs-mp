@@ -17,10 +17,10 @@ if (!Math) {
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "add-card",
   setup(__props) {
-    const valiFormData = {
+    const valiFormData = common_vendor.ref({
       name: "",
       age: ""
-    };
+    });
     const valiForm = common_vendor.ref();
     const rules = {
       idNumber: {
@@ -63,28 +63,28 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     }
     return (_ctx, _cache) => {
       return {
-        a: common_vendor.o(($event) => valiFormData.idNumber = $event),
+        a: common_vendor.o(($event) => valiFormData.value.idNumber = $event),
         b: common_vendor.p({
           placeholder: "请输入身份证号",
-          modelValue: valiFormData.idNumber
+          modelValue: valiFormData.value.idNumber
         }),
         c: common_vendor.p({
           required: true,
           name: "idNumber"
         }),
-        d: common_vendor.o(($event) => valiFormData.cardNumber = $event),
+        d: common_vendor.o(($event) => valiFormData.value.cardNumber = $event),
         e: common_vendor.p({
           placeholder: "请输入就诊卡号",
-          modelValue: valiFormData.cardNumber
+          modelValue: valiFormData.value.cardNumber
         }),
         f: common_vendor.p({
           required: true,
           name: "cardNumber"
         }),
-        g: common_vendor.o(($event) => valiFormData.telNumber = $event),
+        g: common_vendor.o(($event) => valiFormData.value.telNumber = $event),
         h: common_vendor.p({
           placeholder: "请输入联系电话",
-          modelValue: valiFormData.telNumber
+          modelValue: valiFormData.value.telNumber
         }),
         i: common_vendor.p({
           name: "telNumber"
@@ -94,7 +94,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         }),
         k: common_vendor.p({
           rules,
-          modelValue: valiFormData
+          modelValue: valiFormData.value
         }),
         l: common_vendor.p({
           title: "请填写就诊人身份信息"

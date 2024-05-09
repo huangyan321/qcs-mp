@@ -3,10 +3,10 @@ Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
 const common_vendor = require("./common/vendor.js");
 if (!Math) {
   "./pages/index/index.js";
+  "./pages/profile/feedback/index.js";
+  "./pages/profile/feedback/result.js";
   "./pages/profile/survey/result.js";
   "./pages/profile/survey/index.js";
-  "./pages/profile/feedback/result.js";
-  "./pages/profile/feedback/index.js";
   "./pages/profile/favorite/index.js";
   "./pages/profile/outpatient-record/index.js";
   "./pages/profile/appointment/index.js";
@@ -26,17 +26,29 @@ if (!Math) {
   "./pages/message/index.js";
   "./pages/profile/index.js";
 }
-const _sfc_main = {
-  onLaunch: function() {
-    console.log("App Launch");
-  },
-  onShow: function() {
-    console.log("App Show");
-  },
-  onHide: function() {
-    console.log("App Hide");
+const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
+  __name: "App",
+  setup(__props) {
+    common_vendor.onLaunch(function() {
+      console.log("App Launch");
+    });
+    common_vendor.onShow(function() {
+      console.log("App Show");
+    });
+    common_vendor.onHide(function() {
+      console.log("App Hide");
+    });
+    common_vendor.index.loadFontFace({
+      family: "Bitstream Vera Serif Bold",
+      source: 'url("https://sungd.github.io/Pacifico.ttf")',
+      success() {
+        console.log("success");
+      }
+    });
+    return () => {
+    };
   }
-};
+});
 const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/16045/Desktop/code/my-project/miniPrograms/qcs-mp/App.vue"]]);
 function createApp() {
   const app = common_vendor.createSSRApp(App);

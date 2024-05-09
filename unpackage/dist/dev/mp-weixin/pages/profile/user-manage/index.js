@@ -17,9 +17,22 @@ if (!Math) {
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "index",
   setup(__props) {
-    common_vendor.ref(true);
-    function setDefault(e) {
-      e.detail.value;
+    async function setDefault(data) {
+      const res = await common_vendor.index.showModal({
+        title: "确认修改" + data.name + "为默认就诊人吗？"
+      });
+      if (res.confirm) {
+        common_vendor.index.showLoading({
+          title: "请稍后"
+        });
+        setTimeout(() => {
+          mockData.value.forEach((item) => {
+            item.isDefault = false;
+          });
+          data.isDefault = true;
+          common_vendor.index.hideLoading();
+        }, 500);
+      }
     }
     const mockData = common_vendor.ref([
       {
@@ -75,10 +88,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             }),
             h: data.isDefault
           }, data.isDefault ? {
-            i: data.id
+            i: data.name
           } : {
-            j: data.id,
-            k: common_vendor.o(setDefault, data.id)
+            j: data.name,
+            k: common_vendor.o(($event) => setDefault(data), data.id)
           }, {
             l: common_vendor.o(unbound, data.id),
             m: "efb33a1f-5-" + i0 + "," + ("efb33a1f-1-" + i0),

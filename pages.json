@@ -8,6 +8,19 @@
 			}
 		},
 		{
+			"path": "pages/profile/feedback/index",
+			"style": {
+				"navigationBarTitleText": "意见反馈"
+			}
+		},
+		{
+			"path": "pages/profile/feedback/result",
+			"style": {
+				"navigationBarTitleText": "意见反馈"
+			}
+		},
+
+		{
 			"path": "pages/profile/survey/result",
 			"style": {
 				"navigationBarTitleText": "满意度调查"
@@ -19,18 +32,10 @@
 				"navigationBarTitleText": "满意度调查"
 			}
 		},
-		{
-			"path": "pages/profile/feedback/result",
-			"style": {
-				"navigationBarTitleText": "意见反馈"
-			}
-		},
-		{
-			"path": "pages/profile/feedback/index",
-			"style": {
-				"navigationBarTitleText": "意见反馈"
-			}
-		},
+
+
+
+
 		{
 			"path": "pages/profile/favorite/index",
 			"style": {

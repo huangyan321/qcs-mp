@@ -33,10 +33,10 @@
 
 <script setup lang="ts">
 	import { ref } from 'vue'
-	const valiFormData = {
+	const valiFormData = ref({
 		name: '',
 		age: ''
-	}
+	})
 	const valiForm = ref()
 	const rules = {
 		idNumber: {
@@ -90,9 +90,11 @@
 			height: 40rpx;
 			margin-right: 20rpx;
 		}
+
 		& :deep(.uni-forms-item) {
 			@include flex(flex-start);
 		}
+
 		.submit {
 			@include flex(center);
 			width: 100%;

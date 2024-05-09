@@ -1,1 +1,1 @@
-<view class="survey-result data-v-2d7d43d8"> 提交成功 </view>
+<view class="survey-result data-v-2d7d43d8"><view class="icon data-v-2d7d43d8"><image class="icon-src data-v-2d7d43d8" src="/static/images/result/success.png" mode="aspectFit"/></view><view class="text data-v-2d7d43d8"> 提交成功 </view></view>

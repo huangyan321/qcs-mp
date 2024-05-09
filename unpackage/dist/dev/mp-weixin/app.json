@@ -1,10 +1,10 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/profile/feedback/index",
+    "pages/profile/feedback/result",
     "pages/profile/survey/result",
     "pages/profile/survey/index",
-    "pages/profile/feedback/result",
-    "pages/profile/feedback/index",
     "pages/profile/favorite/index",
     "pages/profile/outpatient-record/index",
     "pages/profile/appointment/index",

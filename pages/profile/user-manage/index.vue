@@ -14,13 +14,12 @@
 							<view class="operate-box">
 								<view class="check-box">
 									<label v-if="data.isDefault" class="radio">
-										<radio :value="data.id" checked="true" style="transform:scale(0.7)"
+										<radio :value="data.name" checked="true" style="transform:scale(0.7)"
 											color="#3DBEDF" />
 										<text>默认就诊人</text>
 									</label>
-									<label v-else>
-										<radio :value="data.id" style="transform:scale(0.7)" color="#3DBEDF"
-											@change="setDefault" />
+									<label v-else @click.capture.stop="setDefault(data)">
+										<radio :value="data.name" style="transform:scale(0.7)" color="#3DBEDF" />
 										<text>设为默认</text>
 									</label>
 								</view>
@@ -40,10 +39,22 @@
 
 <script setup lang="ts">
 	import { ref } from 'vue'
-	const isDefault = ref(true)
-	function setDefault(e : any) {
-		const value = e.detail.value
-		// 选中默认 逻辑
+	async function setDefault(data : any) {
+		// const value = e.detail.value
+		const res = await uni.showModal({
+			title: '确认修改' + data.name + '为默认就诊人吗？',
+		})
+		if (res.confirm) {
+			// 选中默认 逻辑
+			uni.showLoading({
+				title: '请稍后'
+			})
+			setTimeout(() => {
+				mockData.value.forEach((item) => { item.isDefault = false })
+				data.isDefault = true
+				uni.hideLoading()
+			}, 500)
+		}
 	}
 	const mockData = ref([
 		{
