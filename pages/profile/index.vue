@@ -16,7 +16,7 @@
 			</view>
 		</view>
 		<uni-grid class="grid" :column="3" :showBorder="false" :square="true">
-			<uni-grid-item class="item" v-for="(item,index) in gridList" @click.native="tapGrid(index)" :key="index">
+			<uni-grid-item class="item" v-for="(item,index) in gridList" @tap.native="tapGrid(index)" :key="index">
 				<image class="icon" :src="item.icon" mode="aspectFit"></image>
 				<text class="text">{{item.text}}</text>
 			</uni-grid-item>
@@ -33,7 +33,7 @@
 				</template>
 			</uni-list-item>
 		</uni-list>
-		<button class="sign-out">退出登录</button>
+		<button class="sign-out" @click="signOut">退出登录</button>
 	</view>
 </template>
 
@@ -59,24 +59,58 @@
 		[
 			{
 				"title": '我的收藏',
-				"event": 'signIn',
+				"to": '/pages/ucenter/favorite/index',
 				"icon": "star"
 			},
 			{
 				"title": '满意度调查',
-				"to": '/pages/ucenter/read-news-log/read-news-log',
+				"to": '/pages/ucenter/survey/index',
 				"icon": "flag"
 			},
 			{
 				"title": '意见反馈',
-				"to": '',
-				"event": 'getScore',
+				"to": '/pages/ucenter/feedback/index',
 				"icon": "email"
 			}
 		],
 	]
+	function tapGrid(index : number) {
+		console.log(index);
+		if (index === 0) {
+			// 就诊人管理
+			uni.navigateTo({
+				url: '/pages/profile/user-manage/index'
+			})
+		} else if (index === 1) {
+			// 预约记录
+			uni.navigateTo({
+				url: '/pages/profile/appointment/index'
+			})
+		} else if (index === 2) {
+			// 就诊记录
+			uni.navigateTo({
+				url: '/pages/profile/outpatient-record/index'
+			})
+		}
 
-	function ucenterListClick() { }
+	}
+	async function signOut() {
+		const res = await uni.showModal({
+			title: '提示',
+			content: '确定退出登陆吗?'
+		})
+		if (res.confirm) {
+			uni.showToast({
+				title: '退出登录'
+			})
+		}
+	}
+	function ucenterListClick(item : any) {
+
+		uni.navigateTo({
+			url: item.to
+		})
+	}
 </script>
 <style>
 	page {
@@ -199,6 +233,7 @@
 			&:active {
 				background-color: #dcf2fd;
 			}
+
 			&::after {
 				border: none;
 			}

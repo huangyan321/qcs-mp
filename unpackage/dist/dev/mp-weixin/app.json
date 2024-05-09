@@ -1,7 +1,15 @@
 {
   "pages": [
-    "pages/profile/user-manage/index",
     "pages/index/index",
+    "pages/profile/survey/result",
+    "pages/profile/survey/index",
+    "pages/profile/feedback/result",
+    "pages/profile/feedback/index",
+    "pages/profile/favorite/index",
+    "pages/profile/outpatient-record/index",
+    "pages/profile/appointment/index",
+    "pages/profile/user-manage/add-card",
+    "pages/profile/user-manage/index",
     "pages/index/news/detail/index",
     "pages/index/news/index",
     "pages/index/report/detail",

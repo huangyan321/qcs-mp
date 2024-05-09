@@ -2,8 +2,16 @@
 Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
 const common_vendor = require("./common/vendor.js");
 if (!Math) {
-  "./pages/profile/user-manage/index.js";
   "./pages/index/index.js";
+  "./pages/profile/survey/result.js";
+  "./pages/profile/survey/index.js";
+  "./pages/profile/feedback/result.js";
+  "./pages/profile/feedback/index.js";
+  "./pages/profile/favorite/index.js";
+  "./pages/profile/outpatient-record/index.js";
+  "./pages/profile/appointment/index.js";
+  "./pages/profile/user-manage/add-card.js";
+  "./pages/profile/user-manage/index.js";
   "./pages/index/news/detail/index.js";
   "./pages/index/news/index.js";
   "./pages/index/report/detail.js";

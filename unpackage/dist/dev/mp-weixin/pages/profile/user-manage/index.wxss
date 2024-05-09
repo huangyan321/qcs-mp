@@ -28,6 +28,44 @@
   padding: 32rpx;
   box-sizing: border-box;
 }
+.user-manage .add-card.data-v-efb33a1f {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  width: 100%;
+  margin: 20rpx 0;
+  background-color: #3DBEDF;
+  color: #FFFFFF;
+  font-size: 32rpx;
+  height: 86rpx;
+  box-sizing: border-box;
+}
+.user-manage .add-card.data-v-efb33a1f:active {
+  background-color: #34a3be;
+}
+.user-manage .add-card.data-v-efb33a1f::after {
+  border: none;
+}
+.user-manage .card.data-v-efb33a1f {
+  position: relative;
+  margin-bottom: 20rpx;
+}
+.user-manage .card .is-default.data-v-efb33a1f {
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  background: #3DBEDF;
+  border-radius: 0rpx 16rpx 0rpx 16rpx;
+  font-weight: 400;
+  font-size: 24rpx;
+  color: #FFFFFF;
+  text-align: left;
+  font-style: normal;
+  text-transform: none;
+  padding: 8rpx 30rpx;
+}
 .user-manage .card .section.data-v-efb33a1f .uni-section {
   border-radius: 16rpx;
 }
@@ -35,12 +73,20 @@
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: flex-between;
+  justify-content: space-between;
   flex-wrap: nowrap;
   flex-direction: row;
 }
+.user-manage .check-box.data-v-efb33a1f {
+  font-weight: 400;
+  font-size: 30rpx;
+  color: #09244B;
+  line-height: 35rpx;
+  text-align: left;
+  font-style: normal;
+  text-transform: none;
+}
 .user-manage .unbound.data-v-efb33a1f {
-  margin-top: 40rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -49,9 +95,14 @@
   background: #FF4D4D;
   border-radius: 60rpx;
   box-sizing: border-box;
-  flex: 1;
   color: #FFFFFF;
-  font-size: 32rpx;
   width: 156rpx;
   height: 60rpx;
+  margin: 0;
+  font-weight: 400;
+  font-size: 30rpx;
+  color: #FFFFFF;
+  text-align: left;
+  font-style: normal;
+  text-transform: none;
 }
