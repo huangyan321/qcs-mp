@@ -1,0 +1,22 @@
+// 功能卡片
+.functional-card {
+  margin-top: 8px;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 8px 8px 8px 8px;
+  padding: 8px;
+
+  @include flex(space-between, column, wrap);
+
+  .top {
+    // 上栏 预约挂号/在线签到/队列查询/报告查询
+    margin-bottom: 8px;
+    width: 100%;
+    @include flex();
+
+    .functional-box {
+      width: calc((100% - 8px) / 2);
+      @include flex(space-between, row, wrap);
+    }
+  }
+}

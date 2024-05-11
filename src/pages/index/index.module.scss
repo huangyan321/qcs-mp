@@ -1,0 +1,6 @@
+.content {
+  @include flex(flex-start, column);
+  padding: 0 16px;
+}
+
+

@@ -1,0 +1,34 @@
+.online-check-in {
+  width: 100%;
+  height: 78px;
+  background: #d3ffeb;
+  border-radius: 8px 8px 8px 8px;
+  margin-bottom: 8px;
+  @include flex();
+  padding: 0 10px;
+  padding-right: 6px;
+  .text-box {
+    @include flex(flex-start, column);
+    align-items: flex-start;
+    > text {
+      text-align: left;
+      font-style: normal;
+      text-transform: none;
+    }
+    .text {
+      font-weight: bold;
+      font-size: 16px;
+      color: #05c46d;
+      margin-bottom: 2px;
+    }
+    .tips {
+      font-weight: 400;
+      font-size: 14px;
+      color: #09244b;
+    }
+  }
+  .icon {
+    width: 36px;
+    height: 36px;
+  }
+}

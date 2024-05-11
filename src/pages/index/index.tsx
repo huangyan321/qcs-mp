@@ -1,17 +1,18 @@
-import React from 'react';
 import { View } from '@tarojs/components';
-import { Button } from '@nutui/nutui-react-taro';
-import './index.scss';
+import styles from './index.module.scss';
+import { Navbar } from './components/Navbar';
+import { PatientCard } from './components/PatientCard';
+import { FunctionalCard } from './components/FunctionalCard';
 
 function Index() {
   return (
-    <View className='nutui-react-demo'>
-      <View className='index'>欢迎使用 NutUI React 开发 Taro 多端项目。</View>
-      <View className='index'>
-        <Button type='primary' className='btn'>
-          NutUI React Button
-        </Button>
-      </View>
+    <View className={styles['content']}>
+      {/* 标题栏 */}
+      <Navbar />
+      {/* 患者信息卡片 */}
+      <PatientCard />
+      {/* 功能性按钮卡片 */}
+      <FunctionalCard />
     </View>
   );
 }
