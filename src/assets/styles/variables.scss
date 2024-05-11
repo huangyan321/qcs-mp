@@ -1,0 +1,11 @@
+* {
+  box-sizing: border-box;
+}
+
+@mixin flex($level_style: space-between, $vertical_style: row, $is_wrap: nowrap) {
+  display: flex;
+  align-items: center;
+  justify-content: $level_style;
+  flex-wrap: $is_wrap;
+  flex-direction: $vertical_style;
+}
