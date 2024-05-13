@@ -3,6 +3,7 @@ import styles from './index.module.scss';
 import { Navbar } from './components/Navbar';
 import { PatientCard } from './components/PatientCard';
 import { FunctionalCard } from './components/FunctionalCard';
+import { HealthyInformation } from './components/HealthyInformation';
 
 function Index() {
   return (
@@ -13,6 +14,8 @@ function Index() {
       <PatientCard />
       {/* 功能性按钮卡片 */}
       <FunctionalCard />
+      {/* 健康资讯 */}
+      <HealthyInformation />
     </View>
   );
 }
