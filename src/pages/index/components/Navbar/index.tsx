@@ -32,7 +32,7 @@ export const Navbar = () => {
         </View>
       </View>
       {/* 垫片 (解决 navbar fixed后，下面的元素顶到最上面的问题) */}
-      <View style={{ height: statusBarHeight + navBarHeight + 'px' }}></View>
+      {/* <View style={{ height: statusBarHeight + navBarHeight + 'px' }}></View> */}
     </>
   );
 };
