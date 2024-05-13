@@ -17,7 +17,7 @@ export const PatientCard = () => {
         <Text className={styles['patient-cardNo']}>25023240852858</Text>
       </View>
       <View className={styles['qrcode']}>
-        <Image src={qrcodeIcon} />
+        <Image src={qrcodeIcon} className={styles['icon']} />
       </View>
     </View>
   );
