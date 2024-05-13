@@ -1,4 +1,4 @@
-import { View, Text, Image, ViewProps } from '@tarojs/components';
+import { View, Text, Image, ViewProps, ScrollView } from '@tarojs/components';
 import informationPic from '@/assets/images/informationPic.png';
 import viewIcon from '@/assets/icons/view.png';
 import classnames from 'classnames';
@@ -14,13 +14,13 @@ export const InformationCard = (props: Props) => {
       <Image src={informationPic} className={styles['main-picture']} />
       <View className={styles['main-info-wrapper']}>
         <Text className={styles['title']}>健康资讯</Text>
-        <View className={styles['keyword']}>
+        <ScrollView className={styles['keyword']} enableFlex scrollX showScrollbar={false} enhanced>
           {Array.from({ length: 6 }).map((_, index) => (
             <View className={styles['keyword-item']} key={index}>
               <Text>关键词{index + 1}</Text>
             </View>
           ))}
-        </View>
+        </ScrollView>
         <View className={styles['date-and-view']}>
           <Text className={styles['date']}>2024-03-09</Text>
           <View className={styles['view']}>

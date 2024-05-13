@@ -32,10 +32,9 @@
     .keyword {
       margin-top: 4px;
       width: 100%;
-      overflow: auto;
-      padding-bottom: 8px;
 
       @include flex(flex-start, row);
+      align-items: baseline;
 
       &-item {
         background: rgba(61, 190, 223, 0.1);
