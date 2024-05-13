@@ -1,10 +1,17 @@
-import { useState, useEffect } from 'react';
-import { getSystemInfoSync, getMenuButtonBoundingClientRect } from '@tarojs/taro';
-import LogoPng from '@/assets/icons/logo.png';
-import { View, Image, Text } from '@tarojs/components';
+import { useState, useEffect, ReactNode } from 'react';
+import { getSystemInfoSync, getMenuButtonBoundingClientRect, navigateBack } from '@tarojs/taro';
+import { View, Image } from '@tarojs/components';
+import backIcon from '@/assets/icons/back.png';
 import styles from './index.module.scss';
 
-export const Navbar = () => {
+export interface Props {
+  title?: ReactNode;
+  position?: 'static' | 'fixed';
+  back?: boolean;
+}
+
+export const Navbar = (props: Props) => {
+  const { title = '', position = 'static', back = false } = props;
   const [statusBarHeight, setStatusBarHeight] = useState(20);
   const [navBarHeight, setNavBarHeight] = useState(40);
   const initStatusBarHeight = () => {
@@ -17,22 +24,30 @@ export const Navbar = () => {
       setNavBarHeight((menuButtonInfo.top - (systemInfo.statusBarHeight ?? 20)) * 2 + menuButtonInfo.height);
     }
   };
+
   useEffect(() => {
     initStatusBarHeight();
   }, []);
+
+  // 点击返回按钮
+  const handleClickBack = () => {
+    navigateBack();
+  };
   return (
     <>
-      <View className={styles['navbar']}>
+      <View className={styles['navbar']} style={{ position }}>
         {/* 占位 */}
         <View style={{ height: statusBarHeight + 'px' }}></View>
         {/* 实际标题栏 */}
         <View className={styles['navbar-title']} style={{ height: navBarHeight + 'px' }}>
-          <Image className={styles['logo']} src={LogoPng} />
-          <Text>狄耐克互联网医院</Text>
+          {back && <Image src={backIcon} className={styles['back-icon']} onClick={handleClickBack} />}
+          <View>{title}</View>
+          {/* 为了让title居中显示 */}
+          <View className={styles['back-icon']}></View>
         </View>
       </View>
       {/* 垫片 (解决 navbar fixed后，下面的元素顶到最上面的问题) */}
-      {/* <View style={{ height: statusBarHeight + navBarHeight + 'px' }}></View> */}
+      {position === 'fixed' && <View style={{ height: statusBarHeight + navBarHeight + 'px' }}></View>}
     </>
   );
 };

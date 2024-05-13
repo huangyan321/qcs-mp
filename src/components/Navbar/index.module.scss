@@ -1,22 +1,19 @@
 .navbar {
-  padding: 0 16px;
   width: 100%;
   // position: fixed;
   top: 0;
   left: 0;
-  box-sizing: border-box;
   &-title {
-    @include flex(flex-start);
     font-weight: 500;
     font-size: 18px;
     color: #09244b;
-    text-align: left;
     font-style: normal;
     text-transform: none;
-    .logo {
-      width: 18px;
-      height: 18px;
-      margin-right: 6px;
+    @include flex();
+    .back-icon {
+      margin-left: 16px;
+      width: 24px;
+      height: 24px;
     }
   }
 }

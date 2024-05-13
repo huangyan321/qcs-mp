@@ -1,6 +1,15 @@
 .content {
   @include flex(flex-start, column);
   padding: 0 16px;
+
+  .title {
+    height: 100%;
+    @include flex(flex-start);
+    text-align: left;
+    .logo {
+      width: 18px;
+      height: 18px;
+      margin-right: 6px;
+    }
+  }
 }
-
-
