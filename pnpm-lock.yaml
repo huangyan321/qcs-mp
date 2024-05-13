@@ -56,6 +56,9 @@ dependencies:
   '@tarojs/taro':
     specifier: 3.6.28
     version: 3.6.28(@tarojs/helper@3.6.28)(@tarojs/runtime@3.6.28)(@types/react@18.3.1)(postcss@8.4.38)
+  classnames:
+    specifier: ^2.5.1
+    version: 2.5.1
   react:
     specifier: ^18.0.0
     version: 18.3.1
