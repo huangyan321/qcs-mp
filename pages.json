@@ -1,6 +1,12 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/index/smart-ask/index",
+			"style": {
+				"navigationBarTitleText": "智能预问诊"
+			}
+		},
+		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页",
@@ -160,32 +166,32 @@
 	},
 	"uniIdRouter": {},
 	"tabBar": {
-		"color": "#7A7E83",
-		"selectedColor": "#333333",
+		"color": "#09244B",
+		"selectedColor": "#3DBEDF",
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
 		"height": "50px",
-		"fontSize": "10px",
+		"fontSize": "16px",
 		"iconWidth": "18px",
 		"spacing": "3px",
 		// "iconfontSrc": "static/iconfont.ttf", // app tabbar 字体.ttf文件路径 app 3.4.4+
 		"list": [{
 				"text": "首页",
 				"pagePath": "pages/index/index",
-				"iconPath": "static/tabbar/MaterialSymbolsFamilyHomeOutline.png",
-				"selectedIconPath": "static/tabbar/MaterialSymbolsFamilyHome.png"
+				"iconPath": "static/tabbar/home-inactive.png",
+				"selectedIconPath": "static/tabbar/home-active.png"
 			},
 			{
 				"text": "消息",
 				"pagePath": "pages/message/index",
-				"iconPath": "static/tabbar/MaterialSymbolsAndroidMessagesOutline.png",
-				"selectedIconPath": "static/tabbar/MaterialSymbolsAndroidMessages.png"
+				"iconPath": "static/tabbar/message-inactive.png",
+				"selectedIconPath": "static/tabbar/message-active.png"
 			},
 			{
 				"text": "我的",
 				"pagePath": "pages/profile/index",
-				"iconPath": "static/tabbar/MaterialSymbolsDeployedCodeAccountOutline.png",
-				"selectedIconPath": "static/tabbar/MaterialSymbolsDeployedCodeAccount.png"
+				"iconPath": "static/tabbar/profile-inactive.png",
+				"selectedIconPath": "static/tabbar/profile-active.png"
 			}
 		]
 	}

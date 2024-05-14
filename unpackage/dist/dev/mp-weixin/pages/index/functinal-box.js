@@ -16770,6 +16770,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           return emit("navigate", "/pages/index/queue/index");
         case "report":
           return emit("navigate", "/pages/index/report/index");
+        case "ask":
+          return emit("navigate", "/pages/index/smart-ask/index");
         default:
           return;
       }
@@ -16785,7 +16787,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         }),
         c: common_vendor.o(($event) => handleClick("checkIn")),
         d: common_vendor.o(($event) => handleClick("queue")),
-        e: common_vendor.o(($event) => handleClick("report"))
+        e: common_vendor.o(($event) => handleClick("report")),
+        f: common_vendor.o(($event) => handleClick("ask"))
       };
     };
   }

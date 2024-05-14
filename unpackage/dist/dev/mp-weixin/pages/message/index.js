@@ -14,6 +14,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   setup(__props) {
     const mockList = common_vendor.ref([]);
     const loading = common_vendor.ref(true);
+    common_vendor.ref("fade");
+    common_vendor.ref(true);
     common_vendor.onLoad(() => {
       setTimeout(() => {
         mockList.value = [
@@ -77,19 +79,19 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       }, mockList.value.length && !loading.value ? {
         b: common_vendor.f(mockList.value, (data, k0, i0) => {
           return {
-            a: "780fc0ad-0-" + i0,
-            b: common_vendor.p({
+            a: data.id,
+            b: "780fc0ad-0-" + i0,
+            c: common_vendor.p({
               data
             })
           };
-        }),
-        c: _ctx.id
+        })
       } : loading.value ? {
-        e: common_vendor.p({
+        d: common_vendor.p({
           status: "loading"
         })
       } : {}, {
-        d: loading.value
+        c: loading.value
       });
     };
   }

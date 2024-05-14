@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
 const common_vendor = require("./common/vendor.js");
+require("./polyfill.js");
 if (!Math) {
+  "./pages/index/smart-ask/index.js";
   "./pages/index/index.js";
   "./pages/profile/feedback/index.js";
   "./pages/profile/feedback/result.js";
@@ -37,13 +39,6 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     });
     common_vendor.onHide(function() {
       console.log("App Hide");
-    });
-    common_vendor.index.loadFontFace({
-      family: "Bitstream Vera Serif Bold",
-      source: 'url("https://sungd.github.io/Pacifico.ttf")',
-      success() {
-        console.log("success");
-      }
     });
     return () => {
     };

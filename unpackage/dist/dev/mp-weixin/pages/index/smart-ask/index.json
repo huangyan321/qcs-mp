@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "智能预问诊",
+  "usingComponents": {
+    "guidance": "./guidance"
+  }
+}

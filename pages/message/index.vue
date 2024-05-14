@@ -1,6 +1,7 @@
 <template>
 	<view class="content">
-		<MessageCard v-if="mockList.length && !loading" :data="data" v-for="data in mockList" :key="id"></MessageCard>
+		<MessageCard v-if="mockList.length && !loading" :data="data" v-for="data in mockList" :key="data.id">
+		</MessageCard>
 		<uni-load-more v-else-if="loading" status="loading"></uni-load-more>
 		<view v-else class="no-data">暂时没有消息</view>
 	</view>
@@ -12,6 +13,23 @@
 	import { onLoad } from '@dcloudio/uni-app'
 	const mockList = ref([])
 	const loading = ref(true)
+	const modeClass = ref('fade')
+	const show = ref(true)
+	function handle(type) {
+		show.value = !show.value
+		modeClass.value = type
+	}
+	const styles = {
+		justifyContent: 'center',
+		alignItems: 'center',
+		width: '100px',
+		height: '100px',
+		borderRadius: '5px',
+		textAlign: 'center',
+		backgroundColor: '#4cd964',
+		boxShadow: '0 0 5px 1px rgba(0,0,0,0.2)'
+	}
+
 	onLoad(() => {
 		// 模拟网络请求
 		setTimeout(() => {
@@ -75,6 +93,23 @@
 </script>
 
 <style lang="scss" scoped>
+	/* 下面我们会解释这些 class 是做什么的 */
+	.v-enter-active,
+	.v-leave-active {
+		transition: opacity 0.5s ease;
+	}
+
+	.v-enter-from,
+	.v-leave-to {
+		opacity: 0;
+	}
+
+
+	.text {
+		font-size: 14px;
+		color: #fff;
+	}
+
 	.content {
 		.no-data {
 			height: 400rpx;

@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/index/smart-ask/index",
     "pages/index/index",
     "pages/profile/feedback/index",
     "pages/profile/feedback/result",
@@ -31,28 +32,28 @@
     "backgroundColor": "#F8F8F8"
   },
   "tabBar": {
-    "color": "#7A7E83",
-    "selectedColor": "#333333",
+    "color": "#09244B",
+    "selectedColor": "#3DBEDF",
     "borderStyle": "black",
     "backgroundColor": "#ffffff",
     "list": [
       {
         "text": "首页",
         "pagePath": "pages/index/index",
-        "iconPath": "static/tabbar/MaterialSymbolsFamilyHomeOutline.png",
-        "selectedIconPath": "static/tabbar/MaterialSymbolsFamilyHome.png"
+        "iconPath": "static/tabbar/home-inactive.png",
+        "selectedIconPath": "static/tabbar/home-active.png"
       },
       {
         "text": "消息",
         "pagePath": "pages/message/index",
-        "iconPath": "static/tabbar/MaterialSymbolsAndroidMessagesOutline.png",
-        "selectedIconPath": "static/tabbar/MaterialSymbolsAndroidMessages.png"
+        "iconPath": "static/tabbar/message-inactive.png",
+        "selectedIconPath": "static/tabbar/message-active.png"
       },
       {
         "text": "我的",
         "pagePath": "pages/profile/index",
-        "iconPath": "static/tabbar/MaterialSymbolsDeployedCodeAccountOutline.png",
-        "selectedIconPath": "static/tabbar/MaterialSymbolsDeployedCodeAccount.png"
+        "iconPath": "static/tabbar/profile-inactive.png",
+        "selectedIconPath": "static/tabbar/profile-active.png"
       }
     ]
   },

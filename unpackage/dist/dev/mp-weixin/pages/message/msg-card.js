@@ -8,7 +8,14 @@ const _easycom_uni_card = () => "../../uni_modules/uni-card/components/uni-card/
 if (!Math) {
   _easycom_uni_card();
 }
+const __default__ = {
+  options: {
+    styleIsolation: "shared",
+    virtualHost: true
+  }
+};
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
+  ...__default__,
   __name: "msg-card",
   props: {
     data: {}
@@ -27,6 +34,9 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             a: common_vendor.t(info.label),
             b: common_vendor.t(info.value)
           };
+        }),
+        g: common_vendor.p({
+          ["is-shadow"]: false
         })
       });
     };

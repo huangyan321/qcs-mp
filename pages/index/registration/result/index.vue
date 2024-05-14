@@ -68,9 +68,6 @@
 			}
 		],
 	]
-
-
-
 	async function cancel() {
 		const res = await uni.showModal({
 			title: '提示',

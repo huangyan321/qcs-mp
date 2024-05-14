@@ -9,13 +9,6 @@
 	onHide(function () {
 		console.log('App Hide')
 	})
-	uni.loadFontFace({
-		family: 'Bitstream Vera Serif Bold',
-		source: 'url("https://sungd.github.io/Pacifico.ttf")',
-		success() {
-			console.log('success')
-		}
-	})
 </script>
 
 <style>

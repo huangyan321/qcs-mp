@@ -3,6 +3,7 @@
 		font-family: Source Han Sans CN;
 		width: 100%;
 		background: linear-gradient(180deg, #D3F2FF 0%, #F7FAFB 45%);
+		
 		background-attachment: fixed;
 	}
 	.uni-ellipsis-2 {
@@ -15,4 +16,16 @@
 	
 	.mb-10 {
 		margin-bottom: 10px;
+	}
+	@font-face {
+		font-family: 'iconfont';
+		src: url('static/icon-font/iconfont.ttf?t=1715413658872') format('truetype');
+	}
+	
+	.iconfont {
+		font-family: "iconfont" !important;
+		font-size: 16px;
+		font-style: normal;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
 	}

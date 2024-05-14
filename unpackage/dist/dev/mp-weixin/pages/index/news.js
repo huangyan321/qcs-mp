@@ -2,9 +2,8 @@
 const common_vendor = require("../../common/vendor.js");
 if (!Array) {
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
-  const _component_template = common_vendor.resolveComponent("template");
   const _easycom_uni_section2 = common_vendor.resolveComponent("uni-section");
-  (_easycom_uni_icons2 + _component_template + _easycom_uni_section2)();
+  (_easycom_uni_icons2 + _easycom_uni_section2)();
 }
 const _easycom_uni_icons = () => "../../uni_modules/uni-icons/components/uni-icons/uni-icons.js";
 const _easycom_uni_section = () => "../../uni_modules/uni-section/components/uni-section/uni-section.js";

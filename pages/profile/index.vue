@@ -10,7 +10,7 @@
 						v-if="hasLogin">{{userInfo.nickname||userInfo.username||userInfo.mobile}}</text>
 					<text class="uer-name" v-else>未登录</text>
 				</view>
-				<view class="user-id">
+				<view v-if="hasLogin" class="user-id">
 					<text>ID:22369874</text>
 				</view>
 			</view>
@@ -106,7 +106,6 @@
 		}
 	}
 	function ucenterListClick(item : any) {
-	console.log('123123');
 		uni.navigateTo({
 			url: item.to
 		})

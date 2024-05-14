@@ -81,7 +81,6 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       }
     }
     function ucenterListClick(item) {
-      console.log("123123");
       common_vendor.index.navigateTo({
         url: item.to
       });
@@ -97,11 +96,13 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       }, hasLogin.value ? {
         c: common_vendor.t(_ctx.userInfo.nickname || _ctx.userInfo.username || _ctx.userInfo.mobile)
       } : {}, {
-        d: common_vendor.o(
+        d: hasLogin.value
+      }, hasLogin.value ? {} : {}, {
+        e: common_vendor.o(
           //@ts-ignore
           (...args) => _ctx.toUserInfo && _ctx.toUserInfo(...args)
         ),
-        e: common_vendor.f(gridList, (item, index, i0) => {
+        f: common_vendor.f(gridList, (item, index, i0) => {
           return {
             a: item.icon,
             b: common_vendor.t(item.text),
@@ -110,12 +111,12 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             e: "201c0da5-2-" + i0 + ",201c0da5-1"
           };
         }),
-        f: common_vendor.p({
+        g: common_vendor.p({
           column: 3,
           showBorder: false,
           square: true
         }),
-        g: common_vendor.f(ucenterList, (sublist, index, i0) => {
+        h: common_vendor.f(ucenterList, (sublist, index, i0) => {
           return {
             a: common_vendor.f(sublist, (item, i, i1) => {
               return common_vendor.e({
@@ -144,7 +145,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
             c: "201c0da5-3-" + i0
           };
         }),
-        h: common_vendor.o(signOut)
+        i: common_vendor.o(signOut)
       });
     };
   }

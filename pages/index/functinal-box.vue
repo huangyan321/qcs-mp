@@ -9,9 +9,11 @@
 				<text>在家轻松挂号</text>
 			</view>
 			<button class="regi-btn" type="default" size="mini" @click="handleClick('regist')">去挂号</button>
+			<!-- #ifdef MP-WEIXIN -->
 			<LottieAnimation style="position: absolute; bottom: -30rpx;right: -10rpx;" :width="220" :height="220"
 				uid="doctor" :animation-data="animationData">
 			</LottieAnimation>
+			<!-- #endif -->
 		</view>
 		<view class="sign" @click="handleClick('checkIn')">
 			<!-- 在线签到 -->
@@ -39,7 +41,7 @@
 				<text>报告查询</text>
 			</view>
 		</view>
-		<view class="consultation">
+		<view class="consultation" @click="handleClick('ask')">
 			<!-- 智能预问诊 -->
 			<image class="report-icon" mode="aspectFit" src="/static/images/nani.png"></image>
 			<view class="consultation-desc">
@@ -68,6 +70,8 @@
 				return emit('navigate', '/pages/index/queue/index')
 			case 'report':
 				return emit('navigate', '/pages/index/report/index')
+			case 'ask':
+				return emit('navigate', '/pages/index/smart-ask/index')
 			default: return
 
 		}

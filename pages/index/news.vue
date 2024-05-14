@@ -7,33 +7,31 @@
 					<uni-icons style="margin-left: 10rpx;" type="right" size="16"></uni-icons>
 				</view>
 			</template>
-			<template>
-				<view class="news-item" v-for="item in 10" @click="goDetail">
-					<image class="news-cover" src="/static/images/news/cover.jpg" mode="aspectFit"></image>
-					<view class="item-detail">
-						<view class="news-title">
-							健康资讯
+			<view class="news-item" v-for="item in 10" @click="goDetail">
+				<image class="news-cover" src="/static/images/news/cover.jpg" mode="aspectFit"></image>
+				<view class="item-detail">
+					<view class="news-title">
+						健康资讯
+					</view>
+					<view class="news-keyword">
+						<text class="news-keyword-item">
+							关键词1
+						</text>
+						<text class="news-keyword-item">
+							关键词2
+						</text>
+					</view>
+					<view class="news-footer">
+						<view class="news-date">
+							<text>2024-03-09</text>
 						</view>
-						<view class="news-keyword">
-							<text class="news-keyword-item">
-								关键词1
-							</text>
-							<text class="news-keyword-item">
-								关键词2
-							</text>
-						</view>
-						<view class="news-footer">
-							<view class="news-date">
-								<text>2024-03-09</text>
-							</view>
-							<view class="news-views">
-								<uni-icons style="margin-right: 10rpx;" type="eye" size="16"></uni-icons>
-								<text>103</text>
-							</view>
+						<view class="news-views">
+							<uni-icons style="margin-right: 10rpx;" type="eye" size="16"></uni-icons>
+							<text>103</text>
 						</view>
 					</view>
 				</view>
-			</template>
+			</view>
 		</uni-section>
 
 	</div>

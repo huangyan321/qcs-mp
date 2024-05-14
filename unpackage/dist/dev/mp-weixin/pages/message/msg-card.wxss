@@ -23,6 +23,12 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.outpatient.data-v-6e4d7138 {
+  width: 100%;
+}
+.outpatient.data-v-6e4d7138 .uni-card {
+  border-radius: 16rpx;
+}
 .outpatient-date.data-v-6e4d7138 {
   width: 100%;
   display: flex;
@@ -55,6 +61,12 @@
   justify-content: center;
   flex: 1;
   overflow: hidden;
+  font-weight: 500;
+  font-size: 32rpx;
+  color: #FF5656;
+  text-align: center;
+  font-style: normal;
+  text-transform: none;
 }
 .card-header-content--title.data-v-6e4d7138 {
   font-size: 15px;

@@ -31,14 +31,15 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         b: common_vendor.p({
           ["hide-card"]: true
         }),
-        c: common_vendor.p({
-          type: "loop",
-          size: "16",
-          color: "#fff"
+        c: common_vendor.t(""),
+        d: common_vendor.p({
+          size: "14",
+          color: "#fff",
+          fontFamily: "iconfont"
         }),
-        d: common_vendor.o(changeUser),
-        e: common_vendor.o(showQR),
-        f: common_vendor.sr(popup, "010d5ad0-2", {
+        e: common_vendor.o(changeUser),
+        f: common_vendor.o(showQR),
+        g: common_vendor.sr(popup, "010d5ad0-2", {
           "k": "popup"
         })
       };

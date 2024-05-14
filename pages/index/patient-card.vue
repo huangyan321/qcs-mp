@@ -11,7 +11,7 @@
 				</view>
 				<view class="change-account" @click="changeUser">
 					<text>切换</text>
-					<uni-icons style="margin-left: 10rpx;" type="loop" size="16" color="#fff"></uni-icons>
+					<uni-icons style="margin-left: 10rpx;" size="14" color="#fff" fontFamily="iconfont">{{'&#xe647;'}}</uni-icons>
 				</view>
 			</view>
 			<view class="patient-hosnums">

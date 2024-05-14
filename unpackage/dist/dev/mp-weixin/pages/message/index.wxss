@@ -23,6 +23,19 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+/* 下面我们会解释这些 class 是做什么的 */
+.v-enter-active.data-v-780fc0ad,
+.v-leave-active.data-v-780fc0ad {
+  transition: opacity 0.5s ease;
+}
+.v-enter-from.data-v-780fc0ad,
+.v-leave-to.data-v-780fc0ad {
+  opacity: 0;
+}
+.text.data-v-780fc0ad {
+  font-size: 14px;
+  color: #fff;
+}
 .content .no-data.data-v-780fc0ad {
   height: 400rpx;
   width: 100%;
