@@ -62,5 +62,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-02b969f8"], ["__file", "C:/Users/16045/Desktop/code/my-project/miniPrograms/qcs-mp/components/SwitchUser/SwitchUser.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-02b969f8"], ["__file", "C:/Users/vanweiping/Desktop/code/myproject/hbuilderx/qcs-mp/components/SwitchUser/SwitchUser.vue"]]);
 wx.createComponent(Component);

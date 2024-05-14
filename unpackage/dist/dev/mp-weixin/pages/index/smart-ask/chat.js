@@ -1,9 +1,10 @@
 "use strict";
+const pages_index_smartAsk_markdown_text = require("./markdown_text.js");
 const common_vendor = require("../../../common/vendor.js");
 const utils_uuid = require("../../../utils/uuid.js");
 const BOT_HELLO = createMessage({
   role: "assistant",
-  content: "有什么可以帮你的吗"
+  content: pages_index_smartAsk_markdown_text.markdownText
 });
 function getMessageTextContent(message) {
   if (typeof message.content === "string") {
@@ -65,7 +66,7 @@ function useSession() {
     function delay() {
       return new Promise((r) => {
         setTimeout(() => {
-          r("你好呀你好呀");
+          r(pages_index_smartAsk_markdown_text.markdownText);
         }, 2e3);
       });
     }

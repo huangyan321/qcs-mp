@@ -2,9 +2,10 @@
 const common_vendor = require("../../../common/vendor.js");
 const pages_index_smartAsk_chat = require("./chat.js");
 if (!Math) {
-  Guidance();
+  (Guidance + common_vendor.unref(AIMsg))();
 }
 const Guidance = () => "./guidance.js";
+const AIMsg = () => "./ai-msg.js";
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "index",
   setup(__props) {
@@ -41,23 +42,20 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       });
       setUserInput("");
     }
-    function isUser(message) {
-      return message.role === "user";
-    }
     return (_ctx, _cache) => {
       return {
         a: common_vendor.f(messages.value, (message, index, i0) => {
-          return common_vendor.e({
-            a: !isUser(message)
-          }, !isUser(message) ? {} : {}, {
-            b: (message.preview || message.streaming) && message.content.length === 0 && !isUser(message)
-          }, (message.preview || message.streaming) && message.content.length === 0 && !isUser(message) ? {} : {
-            c: common_vendor.t(common_vendor.unref(pages_index_smartAsk_chat.getMessageTextContent)(message))
-          }, {
-            d: common_vendor.t(index < context.value.length ? "预设提示词" : message.date.toLocaleString()),
-            e: message.id,
-            f: common_vendor.n(isUser(message) ? "chat-message-user" : "chat-message")
-          });
+          return {
+            a: message.id,
+            b: message.id,
+            c: "53671299-1-" + i0,
+            d: common_vendor.p({
+              id: message.id,
+              message,
+              ["action-date"]: index < context.value.length ? "预设提示词" : message.date.toLocaleString(),
+              ["show-cursor"]: true
+            })
+          };
         }),
         b: toView.value,
         c: userInput.value,
@@ -68,5 +66,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-53671299"], ["__file", "C:/Users/16045/Desktop/code/my-project/miniPrograms/qcs-mp/pages/index/smart-ask/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-53671299"], ["__file", "C:/Users/vanweiping/Desktop/code/myproject/hbuilderx/qcs-mp/pages/index/smart-ask/index.vue"]]);
 wx.createPage(MiniProgramPage);

@@ -1,5 +1,6 @@
 
 // 首先要建立一个会话模型，首先这个模型可以维护一段聊天
+import { markdownText } from './markdown_text';
 import { ref, reactive } from 'vue'
 import { DEFAULT_MODELS, } from './Models'
 import { uuid } from '@/utils/uuid';
@@ -7,7 +8,7 @@ import { uuid } from '@/utils/uuid';
 export const ROLES = ["system", "user", "assistant"] as const;
 export type MessageRole = (typeof ROLES)[number];
 export type ModelType = (typeof DEFAULT_MODELS)[number]['name'];
-
+export type RenderMessage = ChatMessage & { preview ?: boolean }
 export interface MultimodalContent {
 	type : "text" | "image_url";
 	text ?: string;
@@ -39,7 +40,7 @@ export interface ChatSession {
 }
 export const BOT_HELLO : ChatMessage = createMessage({
 	role: "assistant",
-	content: '有什么可以帮你的吗',
+	content: markdownText,
 })
 export function getMessageTextContent(message : RequestMessage) {
 	if (typeof message.content === "string") {
@@ -111,7 +112,7 @@ export function useSession() {
 		function delay() : Promise<string> {
 			return new Promise(r => {
 				setTimeout(() => {
-					r('你好呀你好呀')
+					r(markdownText)
 				}, 2000)
 			})
 		}

@@ -66,91 +66,16 @@ page {
   box-sizing: border-box;
 }
 .chat .chat-body.data-v-53671299 {
+  height: 0;
   flex: 1;
   width: 100%;
   box-sizing: border-box;
   position: relative;
 }
-.chat .chat-body-container.data-v-53671299 {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
 .chat .chat-body-inner.data-v-53671299 {
   width: 100%;
   box-sizing: border-box;
   padding: 40rpx 32rpx 20rpx;
-}
-.chat .chat-message.data-v-53671299 {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-  flex-direction: row;
-}
-.chat .chat-message-container.data-v-53671299 {
-  max-width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: nowrap;
-  flex-direction: column;
-  align-items: flex-start;
-}
-.chat .chat-message-header.data-v-53671299 {
-  margin-top: 20rpx;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: nowrap;
-  flex-direction: row;
-}
-.chat .chat-message-header .chat-message-avatar.data-v-53671299 {
-  width: 84rpx;
-  height: 84rpx;
-}
-.chat .chat-message-item.data-v-53671299 {
-  box-sizing: border-box;
-  max-width: 100%;
-  margin-top: 10px;
-  border-radius: 10px;
-  background-color: #ffffff;
-  padding: 10px;
-  font-size: 14px;
-  -webkit-user-select: text;
-          user-select: text;
-  word-break: break-word;
-  position: relative;
-  transition: all ease 0.3s;
-}
-.chat .chat-message-action-date.data-v-53671299 {
-  font-size: 12px;
-  opacity: 0.2;
-  white-space: nowrap;
-  transition: all ease 0.6s;
-  color: #303030;
-  text-align: right;
-  width: 100%;
-  box-sizing: border-box;
-  padding-right: 10px;
-  pointer-events: none;
-  z-index: 1;
-}
-.chat .chat-message-user.data-v-53671299 {
-  display: flex;
-  flex-direction: row-reverse;
-}
-.chat .chat-message-user .chat-message-container.data-v-53671299 {
-  align-items: flex-end;
-}
-.chat .chat-message-user .chat-message-header.data-v-53671299 {
-  flex-direction: row-reverse;
-}
-.chat .chat-message-user .chat-message-item.data-v-53671299 {
-  background-color: #3DBEDF;
-  color: #FFFFFF;
 }
 .chat .chat-input-panel.data-v-53671299 {
   position: relative;

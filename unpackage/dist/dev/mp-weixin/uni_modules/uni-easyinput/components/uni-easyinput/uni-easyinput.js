@@ -463,5 +463,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     ad: common_vendor.s($options.boxStyle)
   });
 }
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/16045/Desktop/code/my-project/miniPrograms/qcs-mp/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/vanweiping/Desktop/code/myproject/hbuilderx/qcs-mp/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.vue"]]);
 wx.createComponent(Component);
