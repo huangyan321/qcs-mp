@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "智能预问诊",
-  "usingComponents": {
-    "guidance": "./guidance",
-    "a-i-msg": "./ai-msg"
-  }
-}

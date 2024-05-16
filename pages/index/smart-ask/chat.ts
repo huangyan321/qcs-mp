@@ -23,7 +23,7 @@ export interface RequestMessage {
 }
 export type ChatMessage = RequestMessage & {
 	date : string;
-	streaming ?: boolean;
+	stream ?: boolean;
 	isError ?: boolean;
 	id : string;
 	model ?: ModelType;
@@ -76,7 +76,23 @@ export function createMessage(override : Partial<ChatMessage>) : ChatMessage {
 		...override,
 	};
 }
+const AK = import.meta.env.VITE_AK
+const SK = import.meta.env.VITE_SK
+console.log(AK);
+console.log(SK);
+let access_token = ''
+getAccessToken()
+/**
+ * 使用 AK，SK 生成鉴权签名（Access Token）
+ * @return string 鉴权签名信息（Access Token）
+ */
+async function getAccessToken() {
 
+	const res = await uni.request({
+		url: 'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=' + AK + '&client_secret=' + SK
+	})
+	access_token = (res.data as any).access_token
+}
 export function useSession() {
 	// 当前对话上下文
 	const session = ref<ChatSession>(createEmptySession())
@@ -91,11 +107,12 @@ export function useSession() {
 		let userMessage : ChatMessage = reactive(createMessage({
 			role: "user",
 			content: mContent,
+			stream: true
 		}));
 
 		const botMessage : ChatMessage = reactive(createMessage({
 			role: "assistant",
-			streaming: true,
+			stream: true,
 			model: "gpt-3.5-turbo",
 		}));
 
@@ -105,18 +122,32 @@ export function useSession() {
 			userMessage.content = mContent;
 			session.messages = session.messages.concat([
 				userMessage,
-				botMessage,
+				botMessage
 			]);
 		})
-		console.log(session.value.messages);
-		function delay() : Promise<string> {
-			return new Promise(r => {
-				setTimeout(() => {
-					r(markdownText)
-				}, 2000)
+		async function chat() : Promise<any> {
+			const msg = session.value.messages.slice(0, session.value.messages.length - 1)
+			const res = await uni.request({
+				url: 'https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions_pro?access_token=' + access_token,
+				method: 'POST',
+				header: {
+					'Content-Type': 'application/json'
+				},
+
+				data: {
+					messages: msg,
+					"temperature": 0.95,
+					"top_p": 0.8,
+					"penalty_score": 1,
+					"disable_search": false,
+					"enable_citation": false
+				}
 			})
+			console.log(res.data);
+			return res.data.result
 		}
-		const res = await delay()
+
+		const res = await chat()
 		botMessage.content = res
 		return botMessage
 	}

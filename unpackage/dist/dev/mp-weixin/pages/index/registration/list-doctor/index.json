@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "加载中",
-  "usingComponents": {
-    "uni-popup": "../../../../uni_modules/uni-popup/components/uni-popup/uni-popup",
-    "doctor-list": "./list",
-    "date-picker": "./date-picker"
-  }
-}

@@ -119,7 +119,7 @@
 				return message.role === 'user'
 			}
 			function isShowTyping(message : RenderMessage) {
-				return message.preview || message.streaming
+				return message.preview || message.stream
 			}
 			return {
 				isUser,
@@ -141,7 +141,7 @@
 						mode="aspectFit">
 					</image>
 				</view>
-				<view v-if="(message.preview || message.streaming) &&
+				<view v-if="(message.preview || message.stream) &&
 				            message.content.length === 0 &&
 				            !isUser(message)" class="chat-message-item">
 					<image class="loading-icon" src="/static/icons/three-dots.svg" mode="aspectFit"></image>

@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "选择科室",
-  "usingComponents": {
-    "search-bar": "./search-bar",
-    "dept-item": "./dept-item"
-  }
-}
