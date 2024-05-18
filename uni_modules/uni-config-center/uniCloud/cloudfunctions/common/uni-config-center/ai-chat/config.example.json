@@ -1,0 +1,16 @@
+{
+	"contentSecurity": false,
+	"spentScore": 0,
+	"earnedScore": {
+		"ad": 3,
+		"price": 3
+	},
+	"llm": {
+		"provider": "baidu",
+		"appId": "",
+		"apiKey": "",
+		"secretkey": "",
+		"accessToken": ""
+	},
+	"chatCompletionOptions": {}
+}

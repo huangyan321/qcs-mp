@@ -1,18 +1,19 @@
 <template>
 	<view class="chat">
-		<scroll-view :scroll-into-view="toView" scroll-with-animation :scroll="false" :scroll-y="true"
+		<scroll-view :scroll-into-view="scrollIntoView" scroll-with-animation :scroll="false" :scroll-y="true"
 			class="chat-body">
 			<view class="chat-body-inner">
 				<Guidance></Guidance>
 				<AIMsg :id="message.id" v-for="(message,index) in messages" :key="message.id" :message="message"
-					:action-date=" index < context.length ? '预设提示词' : message.date.toLocaleString()" show-cursor />
+					:action-date="message.role === 'system' ? '预设提示词' : message.date.toLocaleString()" show-cursor />
 			</view>
+			<view id="last-msg-item" style="height: 1px;"></view>
 		</scroll-view>
 		<view class="chat-input-panel">
 			<label class="chat-input-panel-inner" for="chat-input">
-				<textarea :value="userInput" class="chat-input" auto-height :maxlength="-1"
-					placeholder-class="chat-input-placeholder" placeholder="请输入你要问诊的内容" name="chat-input"
-					id="chat-input" cols="30" rows="2" confirm-type="发送" @input="onInput"></textarea>
+				<textarea :value="userInput" class="chat-input" :cursor-spacing="15" :disable-default-padding="false"
+					auto-height :maxlength="-1" placeholder-class="chat-input-placeholder" placeholder="请输入你要问诊的内容"
+					name="chat-input" id="chat-input" cols="30" rows="2" confirm-type="发送" @input="onInput"></textarea>
 				<button :class="['send-btn']" :disabled="false" @click="doSubmit(userInput)">
 					<image class="send-icon" src="/static/images/smart-ask/send.png" mode="aspectFit"></image>
 				</button>
@@ -24,28 +25,15 @@
 
 <script setup lang="ts">
 	import Guidance from './guidance.vue'
-	import { ref, computed, nextTick } from 'vue'
-	import { useSession, BOT_HELLO, RenderMessage } from './chat';
+	import { ref, } from 'vue'
+	import { useChat, } from './chat';
 	import AIMsg from './ai-msg'
-	const { session, onUserInput } = useSession()
-	const userInput = ref()
-	const toView = ref()
+	const { messages, onUserInput, scrollIntoView } = useChat({})
+	// 输入框的消息内容
+	const userInput = ref('')
 	function setUserInput(text : string) {
 		userInput.value = text
 	}
-	const isLoading = ref(false)
-	const context = ref<RenderMessage[]>([])
-	if (
-		context.value.length === 0 &&
-		session.value.messages.at(0)?.content !== BOT_HELLO.content
-	) {
-		const copiedHello = Object.assign({}, BOT_HELLO);
-
-		context.value.push(copiedHello);
-	}
-	const messages = computed(() => {
-		return context.value.concat(session.value.messages as RenderMessage[])
-	})
 	function onInput(e : any) {
 		// 可以处理一些提示词命中策略
 		const value = e.detail.value
@@ -54,15 +42,8 @@
 	function doSubmit(userInput : string) {
 		// 可以处理一些提示词命中策略
 		if (userInput.trim() === "") return;
-		// 会话处理
-		isLoading.value = true
 
-		onUserInput(userInput).then((botMessage) => {
-			isLoading.value = false
-		})
-		nextTick(() => {
-			toView.value = messages.value[messages.value.length - 1].id
-			console.log(toView.value);
+		onUserInput(userInput).then(() => {
 		})
 		setUserInput('')
 	}
